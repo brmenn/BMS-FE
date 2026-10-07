@@ -17,7 +17,7 @@ export function BrandPanel() {
           </h1>
         </div>
 
-        <p className="max-w-md text-sm font-medium leading-[22.8px] text-[#03224b]">
+        <p className="max-w-[448px] text-center text-sm font-medium leading-[22.8px] text-[#03224b]">
           Sistem Informasi Tabungan &amp; Keuangan Sekolah. Satu gerbang akses mandiri untuk Siswa, Guru, dan
           Karyawan.
         </p>

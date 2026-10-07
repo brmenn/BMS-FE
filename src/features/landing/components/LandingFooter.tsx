@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 import { Mail, MapPin, Phone } from 'lucide-react'
-import { SchoolLogo } from '@/features/auth/components/SchoolLogo'
 
 const INFO_LINKS = [
   { label: 'Tentang BMS', href: '#tentang' },
@@ -36,7 +35,11 @@ export function LandingFooter() {
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-10 px-4 py-10 sm:px-6 md:flex-row md:gap-12 md:px-[60px]">
         <div className="flex w-full flex-col items-start gap-4 md:w-[200px] md:shrink-0">
           <span className="flex h-[72px] w-40 items-center justify-center overflow-hidden rounded-2xl bg-white">
-            <SchoolLogo className="h-9 w-auto object-contain" />
+            <img
+              alt="Logo Bank Mini Sekolah"
+              className="h-9 w-auto object-contain"
+              src="/logoKet.png"
+            />
           </span>
           <p className="text-[13px] leading-5 text-white/80">
             Bersama membangun kebiasaan menabung untuk masa depan yang lebih baik.

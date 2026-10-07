@@ -4,8 +4,9 @@ import { cn } from '@/lib/utils'
 
 const LABEL_CLASS = 'text-xs font-medium leading-4 tracking-[0.24px] text-[#121c2a]'
 const CONTROL_CLASS =
-  'flex h-12 w-full items-center rounded-xl border border-slate-200 bg-white text-sm text-[#121c2a] transition-colors outline-none focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100'
+  'relative flex h-12 w-full items-center rounded-xl border border-slate-200 bg-white text-sm text-[#121c2a] transition-colors outline-none focus-within:border-[#2563eb] focus-within:ring-2 focus-within:ring-blue-100'
 const INPUT_CLASS = 'w-full border-none bg-transparent p-0 text-sm outline-none placeholder:text-[#737686]'
+const ICON_CLASS = 'pointer-events-none absolute left-3.5 text-[#737686] [&_svg]:h-4 [&_svg]:w-4'
 
 export function FieldLabel({
   label,
@@ -74,11 +75,7 @@ interface InputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, '
 export function Input({ icon, invalid, ...props }: InputProps) {
   return (
     <div className={cn(CONTROL_CLASS, invalid && 'border-red-300', 'px-4', icon && 'pl-10')}>
-      {icon ? (
-        <span className="pointer-events-none absolute left-3.5 text-[#737686] [&_svg]:h-4 [&_svg]:w-4">
-          {icon}
-        </span>
-      ) : null}
+      {icon ? <span className={ICON_CLASS}>{icon}</span> : null}
       <input className={INPUT_CLASS} {...props} />
     </div>
   )
@@ -90,7 +87,7 @@ export function PasswordInput({
   ...props
 }: InputProps & { show: boolean; toggle: () => void }) {
   return (
-    <div className={cn(CONTROL_CLASS, 'relative pl-10 pr-11')}>
+    <div className={cn(CONTROL_CLASS, 'pl-10 pr-11')}>
       <span className="pointer-events-none absolute left-3.5 text-[#737686]">
         <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.8">
           <rect height="11" rx="2" width="16" x="4" y="11" />
@@ -125,10 +122,16 @@ export function PasswordInput({
 export function Select({
   options,
   placeholder,
+  icon,
   ...props
-}: React.SelectHTMLAttributes<HTMLSelectElement> & { options: string[]; placeholder: string }) {
+}: React.SelectHTMLAttributes<HTMLSelectElement> & {
+  options: string[]
+  placeholder: string
+  icon?: ReactNode
+}) {
   return (
-    <div className={cn(CONTROL_CLASS, 'relative pl-4 pr-10')}>
+    <div className={cn(CONTROL_CLASS, 'pr-10', icon ? 'pl-10' : 'pl-4')}>
+      {icon ? <span className={ICON_CLASS}>{icon}</span> : null}
       <select className={cn(INPUT_CLASS, 'appearance-none cursor-pointer')} {...props}>
         <option value="">{placeholder}</option>
         {options.map((option) => (

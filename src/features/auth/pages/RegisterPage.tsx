@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import { ArrowRight, BadgeCheck, CreditCard, IdCard, Mail, Phone, User } from 'lucide-react'
+import { ArrowRight, BadgeCheck, CreditCard, GraduationCap, IdCard, Mail, Phone, User } from 'lucide-react'
 import { authApi, type RegisterPayload } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
 import { BrandPanel } from '../components/BrandPanel'
@@ -20,6 +20,8 @@ type UserType = 'SISWA' | 'GURU_KARYAWAN'
 
 const CLASS_OPTIONS = ['X-A', 'X-B', 'XI-A', 'XI-B', 'XII-A', 'XII-B']
 const ACADEMIC_YEAR = '2026/2027'
+
+const FOOTER_LINKS = ['Kebijakan Privasi', 'Ketentuan Layanan', 'Pusat Bantuan']
 
 type FieldErrors = Record<string, string>
 
@@ -91,14 +93,16 @@ export function RegisterPage() {
   }
 
   return (
-    <main className="flex min-h-screen w-full bg-[#f8f9ff]">
-      <BrandPanel />
+    <main className="flex min-h-screen w-full items-center justify-center bg-[#f8f9ff] p-4 sm:p-6">
+      <div className="flex w-full max-w-[1280px] flex-col overflow-hidden rounded-[20px] shadow-[4px_6px_4px_#00000040] lg:flex-row">
+        <BrandPanel />
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex w-full justify-center px-5 py-8 sm:px-10 lg:px-12">
-          <div className="flex w-full max-w-[672px] flex-col gap-8">
+        <section className="flex min-w-0 flex-1 flex-col bg-white px-5 pt-[30px] sm:px-8 lg:px-12">
+          <div className="flex w-full max-w-[672px] flex-1 flex-col gap-8 self-center">
             <header className="flex flex-col gap-1">
-              <h1 className="text-2xl font-bold leading-8 tracking-[-0.6px] text-[#121c2a]">Daftar Akun Baru</h1>
+              <h1 className="text-2xl font-bold leading-8 tracking-[-0.6px] text-[#121c2a]">
+                Daftar Akun Baru
+              </h1>
               <p className="text-sm leading-5 text-[#434655]">
                 Pilih jenis pengguna untuk menyesuaikan data identitas akun Anda.
               </p>
@@ -107,11 +111,15 @@ export function RegisterPage() {
             <form className="flex w-full flex-col gap-6" noValidate onSubmit={handleSubmit}>
               <fieldset className="flex w-full flex-col gap-2.5">
                 <legend className="mb-1 text-sm font-semibold leading-5">
-                  <span className="text-[#121c2a]">Jenis Pengguna</span>
+                  <span className="text-[#121c2a]">Jenis Pengguna </span>
                   <span className="text-[#ba1a1a]"> *</span>
                 </legend>
 
-                <div className="flex w-full flex-col gap-3 sm:flex-row">
+                <div
+                  aria-label="Jenis pengguna"
+                  className="flex w-full flex-col gap-4 sm:flex-row"
+                  role="radiogroup"
+                >
                   <UserTypeOption
                     active={isStudent}
                     description="NISN & Kelas"
@@ -127,7 +135,7 @@ export function RegisterPage() {
                 </div>
               </fieldset>
 
-              <section className="flex flex-col gap-4 rounded-2xl border border-slate-200 bg-[#eff4ff]/80 p-5">
+              <section className="flex flex-col gap-3.5 rounded-2xl border border-[#e2e8f0] bg-[#eff4ff]/80 p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-2">
                     {isStudent ? (
@@ -135,11 +143,11 @@ export function RegisterPage() {
                     ) : (
                       <IdCard className="h-4 w-4 text-[#004ac6]" aria-hidden="true" />
                     )}
-                    <span className="text-base font-semibold leading-6 text-[#121c2a]">
+                    <h2 className="text-base font-semibold leading-6 text-[#121c2a]">
                       {isStudent ? 'Data Identitas Siswa' : 'Data Identitas Guru / Pendidik'}
-                    </span>
+                    </h2>
                   </div>
-                  <span className="rounded-full bg-[#004ac6]/10 px-2 py-0.5 text-[11px] font-medium tracking-[0.44px] text-[#004ac6]">
+                  <span className="rounded-full bg-[#004ac6]/10 px-2 py-0.5 text-[11px] font-medium leading-[14px] tracking-[0.44px] text-[#004ac6]">
                     {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi GTK / NUPTK'}
                   </span>
                 </div>
@@ -167,6 +175,7 @@ export function RegisterPage() {
                     <Field error={errors.class} hint="Tingkat kelas dan jurusan berjalan" label="Kelas" required>
                       <Select
                         aria-label="Kelas"
+                        icon={<GraduationCap className="h-4 w-4" />}
                         onChange={(event) => setClassName(event.target.value)}
                         options={CLASS_OPTIONS}
                         placeholder="Pilih Kelas"
@@ -268,7 +277,9 @@ export function RegisterPage() {
               <div className="flex items-start gap-3 pt-2">
                 <input
                   checked={agreed}
-                  className="mt-0.5 h-5 w-5 shrink-0 rounded-md border border-slate-200 accent-blue-600"
+                  className="mt-1 h-5 w-5 shrink-0 rounded-md border border-[#e2e8f0] bg-white accent-[#004ac6]"
+                  id="terms"
+                  name="terms"
                   onChange={(event) => setAgreed(event.target.checked)}
                   type="checkbox"
                 />
@@ -295,12 +306,12 @@ export function RegisterPage() {
                 {!register.isPending ? (
                   <ArrowRight className="h-[12.3px] w-[15px] text-white" aria-hidden="true" />
                 ) : null}
-                <span className="text-sm font-medium text-white">
+                <span className="text-sm font-medium leading-5 text-white">
                   {register.isPending ? 'Mendaftarkan...' : 'Daftar Akun Sekarang'}
                 </span>
               </button>
 
-              <p className="pt-2 text-center text-sm">
+              <p className="pt-2 text-center text-sm leading-5">
                 <span className="text-[#434655]">Sudah memiliki akun terdaftar? </span>
                 <Link className="font-semibold text-[#004ac6] hover:underline" to="/login">
                   Masuk di sini
@@ -308,22 +319,30 @@ export function RegisterPage() {
               </p>
             </form>
           </div>
-        </div>
 
-        <footer className="mt-auto w-full border-t border-slate-200 px-5 py-6 sm:px-10 lg:px-12">
-          <div className="mx-auto flex w-full max-w-[672px] flex-col gap-2.5">
-            <div className="flex flex-wrap items-center gap-4">
-              <span className="text-xs font-semibold tracking-[0.24px] text-[#434655]">Kebijakan Privasi</span>
-              <span className="text-xs font-semibold text-[#434655]">•</span>
-              <span className="text-xs font-semibold tracking-[0.24px] text-[#434655]">Ketentuan Layanan</span>
-              <span className="text-xs font-semibold text-[#434655]">•</span>
-              <span className="text-xs font-semibold tracking-[0.24px] text-[#434655]">Pusat Bantuan</span>
+          <footer className="w-full max-w-[672px] self-center border-t border-[#e2e8f0] pb-6 pt-5">
+            <div className="flex w-full flex-col items-center gap-2.5">
+              <nav aria-label="Tautan bantuan" className="flex flex-wrap items-center justify-center gap-4">
+                {FOOTER_LINKS.map((link, index) => (
+                  <span className="flex items-center gap-4" key={link}>
+                    {index > 0 ? (
+                      <span aria-hidden="true" className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#434655]">
+                        •
+                      </span>
+                    ) : null}
+                    <span className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#434655]">
+                      {link}
+                    </span>
+                  </span>
+                ))}
+              </nav>
+
+              <p className="text-center text-xs leading-[18px] text-[#737686]">
+                © 2026 BMS SMKS Muhammadiyah 1 Genteng. Hak cipta dilindungi.
+              </p>
             </div>
-            <p className="text-xs leading-[18px] text-[#737686]">
-              © 2026 BMS SMKS Muhammadiyah 1 Genteng. Hak cipta dilindungi.
-            </p>
-          </div>
-        </footer>
+          </footer>
+        </section>
       </div>
     </main>
   )
@@ -345,8 +364,8 @@ function UserTypeOption({
       aria-pressed={active}
       className={`flex flex-1 flex-col items-center justify-center gap-0.5 rounded-xl border-2 px-4 py-3.5 transition-colors ${
         active
-          ? 'border-[#004ac6] bg-[#dbe1ff]/20 shadow-[0px_0px_0px_2px_#004ac633]'
-          : 'border-slate-200 bg-white hover:border-slate-300'
+          ? 'border-[#004ac6] bg-[#dbe1ff]/20 shadow-[0px_1px_2px_#0000000d,0px_0px_0px_2px_#004ac633]'
+          : 'border-[#e2e8f0] bg-white hover:border-slate-300'
       }`}
       onClick={onClick}
       type="button"
