@@ -1,7 +1,7 @@
 import axios, { AxiosError, type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import { apiUrl, env } from '@/lib/env'
 import { ApiError } from './errors'
-import { clearToken, getToken } from './token'
+import { getToken } from './token'
 import type { ApiErrorBody, ApiErrorPayload, ApiMeta } from './types'
 
 export interface RequestOptions extends AxiosRequestConfig {
@@ -38,11 +38,6 @@ http.interceptors.response.use(
     const status = error.response?.status ?? 0
     const body = error.response?.data
     const requestId = body?.request_id ?? (error.response?.headers?.['x-request-id'] as string | undefined) ?? null
-
-    if (status === 401) {
-      clearToken()
-      listeners.forEach((listener) => listener())
-    }
 
     const payload: ApiErrorPayload = body?.error ?? {
       code: error.code === 'ECONNABORTED' ? 'TIMEOUT' : 'NETWORK_ERROR',

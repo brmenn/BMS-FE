@@ -1,0 +1,53 @@
+{
+  "student": {
+    "name": "Adinda",
+    "accountNo": "8820-019-332"
+  },
+  "balance": {
+    "amount": 1250000,
+    "currency": "IDR",
+    "syncNote": "Saldo saat ini telah sinkron dengan kasir sekolah"
+  },
+  "stats": {
+    "totalDeposit": {
+      "amount": 1500000,
+      "trend": "+12%",
+      "trendNote": "Akumulasi setoran berhasil"
+    },
+    "totalWithdrawal": {
+      "amount": 250000,
+      "pendingCount": 1,
+      "note": "Total penarikan selesai"
+    }
+  },
+  "recentTransactions": [
+    {
+      "id": "TRX-20260928-001",
+      "type": "SETORAN",
+      "title": "+ Setoran Tabungan",
+      "status": "BERHASIL",
+      "date": "28 September 2026, 10:32 WIB",
+      "amount": 100000,
+      "source": "Kasir Bank Mini Muhi"
+    },
+    {
+      "id": "WD-20260920-002",
+      "type": "PENARIKAN",
+      "title": "- Penarikan Tabungan",
+      "status": "SELESAI",
+      "date": "20 September 2026, 14:15 WIB",
+      "amount": 50000,
+      "source": "Penarikan Mandiri Siswa"
+    },
+    {
+      "id": "TRX-20260915-004",
+      "type": "SETORAN",
+      "title": "+ Setoran Tabungan",
+      "status": "BERHASIL",
+      "date": "15 September 2026, 09:10 WIB",
+      "amount": 50000,
+      "source": "Setoran Rutin Wali Kelas"
+    }
+  ],
+  "infoNote": "Setoran baru dapat diproses di loket administrasi BMS gedung A setiap jam sekolah."
+}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -10,50 +11,18 @@ import {
   TrendingUp,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { formatMoney } from '@/lib/format'
+import dashboardPlaceholder from '@/placeholders/dashboard.json'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 
-type Transaction = {
-  id: string
-  type: 'setoran' | 'penarikan'
-  title: string
-  status: 'Berhasil' | 'Selesai'
-  date: string
-  amount: string
-  source: string
-}
-
-const transactions: Transaction[] = [
-  {
-    id: 'TRX-20260928-001',
-    type: 'setoran',
-    title: '+ Setoran Tabungan',
-    status: 'Berhasil',
-    date: '28 September 2026, 10:32 WIB',
-    amount: '+Rp 100.000',
-    source: 'Kasir Bank Mini Muhi',
-  },
-  {
-    id: 'WD-20260920-002',
-    type: 'penarikan',
-    title: '- Penarikan Tabungan',
-    status: 'Selesai',
-    date: '20 September 2026, 14:15 WIB',
-    amount: '-Rp 50.000',
-    source: 'Penarikan Mandiri Siswa',
-  },
-  {
-    id: 'TRX-20260915-004',
-    type: 'setoran',
-    title: '+ Setoran Tabungan',
-    status: 'Berhasil',
-    date: '15 September 2026, 09:10 WIB',
-    amount: '+Rp 50.000',
-    source: 'Setoran Rutin Wali Kelas',
-  },
-]
-
 export function StudentDashboardPage() {
+  const { data } = useQuery({
+    queryKey: ['dashboard'],
+    queryFn: () => Promise.resolve(dashboardPlaceholder),
+  })
+  const dashboard = data ?? dashboardPlaceholder
+  const statusLabel = (status: string) => (status === 'BERHASIL' ? 'Berhasil' : 'Selesai')
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
       <DashboardSidebar />
@@ -62,7 +31,7 @@ export function StudentDashboardPage() {
         <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
           <section className="flex flex-col gap-1 pt-1">
             <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
-              Selamat datang, Adinda
+              Selamat datang, {dashboard.student.name}
             </h1>
             <p className="text-base leading-6 tracking-[0] text-[#434655]">
               Kelola tabunganmu dengan mudah.
@@ -81,21 +50,23 @@ export function StudentDashboardPage() {
             <div className="relative flex w-full flex-wrap items-center justify-between gap-6">
               <div className="flex flex-col gap-1">
                 <span className="text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-white/80">
-                  No: 8820-019-332
+                  No: {dashboard.student.accountNo}
                 </span>
                 <span className="pt-1 text-sm font-medium leading-5 text-white/80">
                   Total Saldo Tabungan
                 </span>
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl font-bold leading-[44px] tracking-[-0.9px] text-white">
-                    Rp 1.250.000
+                    {formatMoney(dashboard.balance.amount)}
                   </span>
-                  <span className="text-xs leading-[18px] text-white/70">IDR</span>
+                  <span className="text-xs leading-[18px] text-white/70">
+                    {dashboard.balance.currency}
+                  </span>
                 </div>
                 <div className="flex items-center gap-1.5 pt-1">
                   <RefreshCw className="h-3.5 w-3.5 shrink-0 text-white/80" aria-hidden="true" />
                   <span className="text-xs leading-[18px] text-white/80">
-                    Saldo saat ini telah sinkron dengan kasir sekolah
+                    {dashboard.balance.syncNote}
                   </span>
                 </div>
               </div>
@@ -130,7 +101,7 @@ export function StudentDashboardPage() {
                     TOTAL SETORAN
                   </span>
                   <span className="text-2xl font-bold leading-8 tracking-[-0.24px] text-[#121c2a]">
-                    Rp 1.500.000
+                    {formatMoney(dashboard.stats.totalDeposit.amount)}
                   </span>
                 </div>
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#0063291a]">
@@ -140,10 +111,10 @@ export function StudentDashboardPage() {
               <div className="flex flex-wrap items-center gap-2 border-t border-solid border-[#c3c6d799] pt-3">
                 <span className="flex items-center gap-0.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#006329]">
                   <TrendingUp className="h-2 w-3.5" aria-hidden="true" />
-                  +12%
+                  {dashboard.stats.totalDeposit.trend}
                 </span>
                 <span className="text-xs leading-[18px] text-[#434655]">
-                  Akumulasi setoran berhasil
+                  {dashboard.stats.totalDeposit.trendNote}
                 </span>
               </div>
             </div>
@@ -154,7 +125,7 @@ export function StudentDashboardPage() {
                     TOTAL PENARIKAN
                   </span>
                   <span className="text-2xl font-bold leading-8 tracking-[-0.24px] text-[#121c2a]">
-                    Rp 250.000
+                    {formatMoney(dashboard.stats.totalWithdrawal.amount)}
                   </span>
                 </div>
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#e6eeff]">
@@ -164,10 +135,10 @@ export function StudentDashboardPage() {
               <div className="flex flex-wrap items-center gap-2 border-t border-solid border-[#c3c6d799] pt-3">
                 <span className="flex items-center gap-0.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#004ac6]">
                   <Clock className="h-3 w-3" aria-hidden="true" />
-                  1 Pengajuan
+                  {dashboard.stats.totalWithdrawal.pendingCount} Pengajuan
                 </span>
                 <span className="text-xs leading-[18px] text-[#434655]">
-                  Total penarikan selesai
+                  {dashboard.stats.totalWithdrawal.note}
                 </span>
               </div>
             </div>
@@ -193,7 +164,7 @@ export function StudentDashboardPage() {
             </div>
 
             <div className="flex flex-col pb-2">
-              {transactions.map((trx, index) => (
+              {dashboard.recentTransactions.map((trx, index) => (
                 <div
                   className={cn(
                     'flex flex-wrap items-center justify-between gap-4 rounded-xl px-3 py-4',
@@ -205,10 +176,10 @@ export function StudentDashboardPage() {
                     <div
                       className={cn(
                         'flex h-11 w-11 shrink-0 items-center justify-center rounded-xl',
-                        trx.type === 'setoran' ? 'bg-[#007f3626]' : 'bg-[#e6eeff]',
+                        trx.type === 'SETORAN' ? 'bg-[#007f3626]' : 'bg-[#e6eeff]',
                       )}
                     >
-                      {trx.type === 'setoran' ? (
+                      {trx.type === 'SETORAN' ? (
                         <ArrowDownToLine className="h-3.5 w-3.5 text-[#006329]" aria-hidden="true" />
                       ) : (
                         <ArrowUpFromLine className="h-3.5 w-3.5 text-[#004ac6]" aria-hidden="true" />
@@ -222,12 +193,12 @@ export function StudentDashboardPage() {
                         <span
                           className={cn(
                             'inline-flex rounded-full border px-2.5 py-0.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px]',
-                            trx.status === 'Berhasil'
+                            trx.status === 'BERHASIL'
                               ? 'border-solid border-[#a7f3d0] bg-[#ecfdf5] text-[#047857]'
                               : 'border-solid border-[#bfdbfe] bg-[#eff6ff] text-[#1d4ed8]',
                           )}
                         >
-                          {trx.status}
+                          {statusLabel(trx.status)}
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-2 text-xs leading-[18px] text-[#434655]">
@@ -242,10 +213,11 @@ export function StudentDashboardPage() {
                       <span
                         className={cn(
                           'text-lg font-bold leading-[26px]',
-                          trx.type === 'setoran' ? 'text-[#006329]' : 'text-[#121c2a]',
+                          trx.type === 'SETORAN' ? 'text-[#006329]' : 'text-[#121c2a]',
                         )}
                       >
-                        {trx.amount}
+                        {trx.type === 'SETORAN' ? '+' : '-'}
+                        {formatMoney(trx.amount)}
                       </span>
                       <span className="text-[11px] leading-[16.5px] text-[#434655]">
                         {trx.source}
@@ -264,9 +236,7 @@ export function StudentDashboardPage() {
 
             <div className="flex items-center gap-2 border-t border-solid border-[#c3c6d799] pt-3">
               <Info className="h-[15px] w-[15px] shrink-0 text-[#434655]" aria-hidden="true" />
-              <p className="text-xs leading-[18px] text-[#434655]">
-                Setoran baru dapat diproses di loket administrasi BMS gedung A setiap jam sekolah.
-              </p>
+              <p className="text-xs leading-[18px] text-[#434655]">{dashboard.infoNote}</p>
             </div>
           </section>
         </main>

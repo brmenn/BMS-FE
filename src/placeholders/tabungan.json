@@ -1,0 +1,38 @@
+{
+  "summary": {
+    "saldo": 1250000,
+    "totalSetoran": 1500000,
+    "totalPenarikan": 250000
+  },
+  "transactions": [
+    {
+      "id": "TRX-20260928-001",
+      "type": "SETORAN",
+      "date": "28 September 2026, 10:32 WIB",
+      "amount": 100000,
+      "source": "Kasir Bank Mini Muhi",
+      "status": "BERHASIL"
+    },
+    {
+      "id": "WD-20260920-002",
+      "type": "PENARIKAN",
+      "date": "20 September 2026, 14:15 WIB",
+      "amount": 50000,
+      "source": "Penarikan Mandiri Siswa",
+      "status": "SELESAI"
+    },
+    {
+      "id": "TRX-20260915-004",
+      "type": "SETORAN",
+      "date": "15 September 2026, 09:10 WIB",
+      "amount": 50000,
+      "source": "Setoran Rutin Wali Kelas",
+      "status": "BERHASIL"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "perPage": 10,
+    "total": 3
+  }
+}

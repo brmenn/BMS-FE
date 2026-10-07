@@ -1,0 +1,27 @@
+{
+  "summary": {
+    "totalPenarikan": 250000,
+    "pendingCount": 1
+  },
+  "requests": [
+    {
+      "id": "WD-20260920-002",
+      "date": "20 September 2026, 14:15 WIB",
+      "amount": 50000,
+      "reason": "Penarikan Mandiri Siswa",
+      "status": "SELESAI"
+    },
+    {
+      "id": "WD-20261001-003",
+      "date": "1 Oktober 2026, 08:45 WIB",
+      "amount": 25000,
+      "reason": "Kebutuhan alat tulis",
+      "status": "MENUNGGU"
+    }
+  ],
+  "meta": {
+    "page": 1,
+    "perPage": 10,
+    "total": 2
+  }
+}
