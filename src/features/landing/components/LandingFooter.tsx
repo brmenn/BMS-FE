@@ -34,10 +34,10 @@ export function LandingFooter() {
     <footer className="w-full border-t border-[#e5e7eb] bg-[#2563eb] text-white">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-start gap-10 px-4 py-10 sm:px-6 md:flex-row md:gap-12 md:px-[60px]">
         <div className="flex w-full flex-col items-start gap-4 md:w-[200px] md:shrink-0">
-          <span className="flex h-[72px] w-40 items-center justify-center overflow-hidden rounded-2xl bg-white">
+          <span className="flex h-20 w-44 items-center justify-center overflow-hidden rounded-2xl bg-white">
             <img
               alt="Logo Bank Mini Sekolah"
-              className="h-9 w-auto object-contain"
+              className="h-full w-full object-contain"
               src="/logoKet.png"
             />
           </span>

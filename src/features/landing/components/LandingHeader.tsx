@@ -1,36 +1,42 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
-import { SchoolLogo } from '@/features/auth/components/SchoolLogo'
 
 const NAV_ITEMS = [
   { label: 'Beranda', href: '#beranda' },
   { label: 'Tentang', href: '#tentang' },
   { label: 'Fitur', href: '#fitur' },
+  { label: 'Rating', href: '#ulasan' },
 ]
 
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [activeNav, setActiveNav] = useState('#beranda')
 
   return (
     <header className="sticky top-0 z-50 w-full border-b-2 border-[#e5e7eb] bg-white shadow-[0px_6px_2px_#0000000d]">
       <div className="mx-auto flex h-[69px] w-full max-w-[1160px] items-center justify-between gap-6 px-4 sm:px-6">
         <a
-          className="flex shrink-0 items-center"
+          className="-ml-3 flex shrink-0 items-center sm:-ml-5"
           href="#beranda"
           onClick={() => setMenuOpen(false)}
         >
-          <SchoolLogo className="h-11 w-auto object-contain" />
+          <img
+            alt="Logo Bank Mini Sekolah"
+            className="h-11 w-auto object-contain sm:h-16"
+            src="/logoKet.png"
+          />
         </a>
 
         <nav className="hidden items-center gap-7 md:flex" aria-label="Navigasi utama">
-          {NAV_ITEMS.map((item, index) => (
+          {NAV_ITEMS.map((item) => (
             <a
               key={item.href}
               className={`text-sm leading-[21px] transition-colors hover:text-[#2563eb] ${
-                index === 0 ? 'font-semibold text-[#2563eb]' : 'font-medium text-[#334155]'
+                item.href === activeNav ? 'font-semibold text-[#2563eb]' : 'font-medium text-[#334155]'
               }`}
               href={item.href}
+              onClick={() => setActiveNav(item.href)}
             >
               {item.label}
             </a>
@@ -39,16 +45,16 @@ export function LandingHeader() {
 
         <div className="hidden items-center gap-6 md:flex">
           <Link
-            className="flex h-9 items-center justify-center rounded-lg border border-[#e5e7eb] bg-[#2961ef] px-4 text-[13px] font-medium leading-[19.5px] text-white transition-colors hover:bg-[#1d4ed8]"
-            to="/login"
-          >
-            Masuk
-          </Link>
-          <Link
             className="text-[13px] font-medium leading-[19.5px] text-[#334155] transition-colors hover:text-[#2563eb]"
             to="/register"
           >
             Register
+          </Link>
+          <Link
+            className="flex h-9 items-center justify-center rounded-lg border border-[#e5e7eb] bg-[#2961ef] px-4 text-[13px] font-medium leading-[19.5px] text-white transition-colors hover:bg-[#1d4ed8]"
+            to="/login"
+          >
+            Masuk
           </Link>
         </div>
 
@@ -68,14 +74,19 @@ export function LandingHeader() {
           className="flex flex-col items-start gap-1 border-t border-[#e5e7eb] bg-white px-4 py-4 md:hidden"
           aria-label="Navigasi utama (seluler)"
         >
-          {NAV_ITEMS.map((item, index) => (
+          {NAV_ITEMS.map((item) => (
             <a
               key={item.href}
               className={`w-full rounded-lg px-3 py-2 text-sm transition-colors hover:bg-[#eff4ff] ${
-                index === 0 ? 'font-semibold text-[#2563eb]' : 'font-medium text-[#334155]'
+                item.href === activeNav
+                  ? 'font-semibold text-[#2563eb]'
+                  : 'font-medium text-[#334155]'
               }`}
               href={item.href}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                setActiveNav(item.href)
+                setMenuOpen(false)
+              }}
             >
               {item.label}
             </a>
@@ -83,18 +94,18 @@ export function LandingHeader() {
 
           <div className="mt-3 flex w-full items-center gap-3">
             <Link
-              className="flex h-9 flex-1 items-center justify-center rounded-lg bg-[#2961ef] px-4 text-[13px] font-medium text-white"
-              to="/login"
-              onClick={() => setMenuOpen(false)}
-            >
-              Masuk
-            </Link>
-            <Link
               className="flex h-9 flex-1 items-center justify-center rounded-lg border border-[#e5e7eb] px-4 text-[13px] font-medium text-[#334155]"
               to="/register"
               onClick={() => setMenuOpen(false)}
             >
               Register
+            </Link>
+            <Link
+              className="flex h-9 flex-1 items-center justify-center rounded-lg bg-[#2961ef] px-4 text-[13px] font-medium text-white"
+              to="/login"
+              onClick={() => setMenuOpen(false)}
+            >
+              Masuk
             </Link>
           </div>
         </nav>

@@ -7,12 +7,11 @@ import {
   PiggyBank,
   Wallet,
 } from 'lucide-react'
-import { SchoolLogo } from '@/features/auth/components/SchoolLogo'
 import { StudentPhoto } from './StudentPhoto'
 
 const SIDEBAR_MAIN = [
   { label: 'Dashboard', icon: LayoutDashboard, active: true },
-  { label: 'Tabungan', icon: PiggyBank, active: false },
+  { label: 'Tabungan', icon: PiggyBank, img: '/Screenshot 2026-10-08 115431.png', active: false },
   { label: 'Penarikan', icon: Wallet, active: false },
 ]
 
@@ -43,8 +42,12 @@ export function DashboardPreview() {
       <div className="flex w-full flex-col lg:flex-row">
         <aside className="hidden w-64 shrink-0 flex-col items-stretch border-r border-[#c3c6d7] bg-white p-4 lg:flex">
           <div className="flex flex-col items-start gap-6">
-            <div className="flex items-center justify-center gap-2 px-2 py-1.5">
-              <SchoolLogo className="h-9 w-14 object-contain" />
+            <div className="-mx-4 -mt-4 flex h-[57px] w-[calc(100%_+_2rem)] items-center justify-center border-b border-[#c3c6d7] px-4">
+              <img
+                alt="Logo Bank Mini Sekolah"
+                className="h-11 w-auto object-contain"
+                src="/logoKet.png"
+              />
             </div>
 
             <nav className="flex w-full flex-col items-start gap-1.5" aria-label="Menu dasbor pratinjau">
@@ -180,10 +183,12 @@ export function DashboardPreview() {
 function SidebarLink({
   label,
   icon: Icon,
+  img,
   active = false,
 }: {
   label: string
   icon: typeof LayoutDashboard
+  img?: string
   active?: boolean
 }) {
   return (
@@ -192,7 +197,11 @@ function SidebarLink({
         active ? 'bg-[#eff4ff] text-[#004ac6]' : 'text-[#434655]'
       }`}
     >
-      <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+      {img ? (
+        <img alt="" aria-hidden="true" className="h-[18px] w-[18px] shrink-0 object-contain" src={img} />
+      ) : (
+        <Icon className="h-[18px] w-[18px]" aria-hidden="true" />
+      )}
       <span className={`text-sm leading-6 ${active ? 'font-medium' : ''}`}>{label}</span>
     </span>
   )

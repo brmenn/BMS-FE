@@ -1,18 +1,19 @@
 import type { LucideIcon } from 'lucide-react'
-import { HandCoins, LayoutDashboard, PiggyBank, ReceiptText, Wallet } from 'lucide-react'
+import { HandCoins, LayoutDashboard, ReceiptText, Wallet } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
 import { cn } from '@/lib/utils'
 
 interface NavItem {
   label: string
-  icon: LucideIcon
+  icon?: LucideIcon
+  img?: string
   to?: string
 }
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard },
-  { label: 'Tabungan', icon: PiggyBank },
+{ label: 'Tabungan', img: '/Screenshot 2026-10-08 115431.png' },
   { label: 'Penarikan', icon: Wallet, to: '/penarikan/guru' },
   { label: 'Pinjaman', icon: HandCoins, to: '/pinjaman/guru' },
   { label: 'Pembayaran Pinjaman', icon: ReceiptText },
@@ -42,7 +43,16 @@ export function GuruKaryawanLayout() {
             const Icon = item.icon
             const content = (
               <>
-                <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />
+                {item.img ? (
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    className="h-[18px] w-[18px] shrink-0 object-contain"
+                    src={item.img}
+                  />
+                ) : Icon ? (
+                  <Icon className="h-[18px] w-[18px] shrink-0" aria-hidden="true" />
+                ) : null}
                 <span className="leading-5">{item.label}</span>
               </>
             )

@@ -6,7 +6,6 @@ import {
   ChevronRight,
   Clock,
   Info,
-  PiggyBank,
   RefreshCw,
   TrendingUp,
 } from 'lucide-react'
@@ -39,9 +38,11 @@ export function StudentDashboardPage() {
           </section>
 
           <section className="relative flex w-full flex-col items-start overflow-hidden rounded-2xl bg-[#2563eb] p-8 shadow-[0px_2px_4px_-2px_#0000001a,0px_4px_6px_-1px_#0000001a]">
-            <PiggyBank
+            <img
+              alt=""
               aria-hidden="true"
-              className="pointer-events-none absolute -bottom-10 -right-8 h-[180px] w-[190px] opacity-10"
+              className="pointer-events-none absolute -bottom-10 -right-8 h-[180px] w-[190px] object-contain opacity-10"
+              src="/Screenshot 2026-10-08 115431.png"
             />
             <div
               aria-hidden="true"
