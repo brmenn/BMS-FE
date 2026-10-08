@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Banknote, LayoutDashboard, Wallet, type LucideIcon } from 'lucide-react'
+import { Banknote, HandCoins, LayoutDashboard, Wallet, type LucideIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export type SidebarItem = { to: string; label: string; icon: LucideIcon }
@@ -8,6 +8,7 @@ const defaultItems: SidebarItem[] = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/tabungan', label: 'Tabungan', icon: Wallet },
   { to: '/penarikan', label: 'Penarikan', icon: Banknote },
+  { to: '/pinjaman/guru', label: 'Pinjaman', icon: HandCoins },
 ]
 
 interface DashboardSidebarProps {
