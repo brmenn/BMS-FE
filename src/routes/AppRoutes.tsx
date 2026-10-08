@@ -10,6 +10,8 @@ import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage
 import { PenarikanPage } from '@/features/penarikan/pages/PenarikanPage'
 import { LandingPage } from '@/features/landing/pages/LandingPage'
 import { GuruKaryawanLayout } from '@/components/layout/GuruKaryawanLayout'
+import { TabunganPage } from '@/features/tabungan/pages/TabunganPage'
+import { TabunganSiswaPage } from '@/features/siswa/pages/TabunganSiswaPage'
 
 export function AppRoutes() {
   return (
@@ -31,6 +33,8 @@ export function AppRoutes() {
         <Route path="/penarikan/guru" element={<PenarikanPage />} />
       </Route>
 
+      <Route path="/tabungan" element={<TabunganPage />} />
+      <Route path="/tabungan-siswa" element={<TabunganSiswaPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
