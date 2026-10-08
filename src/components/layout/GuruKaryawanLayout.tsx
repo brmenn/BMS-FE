@@ -13,7 +13,7 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard },
   { label: 'Tabungan', icon: PiggyBank },
-  { label: 'Penarikan', icon: Wallet },
+  { label: 'Penarikan', icon: Wallet, to: '/penarikan/guru' },
   { label: 'Pinjaman', icon: HandCoins, to: '/pinjaman/guru' },
   { label: 'Pembayaran Pinjaman', icon: ReceiptText },
 ]
@@ -26,10 +26,10 @@ export function GuruKaryawanLayout() {
   return (
     <div className="flex min-h-screen w-full bg-[#f3f7fb]">
       <aside
-        className="sticky top-0 hidden h-screen w-[230px] shrink-0 flex-col border-r border-[#c3c6d7] bg-white p-5 lg:flex"
+        className="sticky top-0 hidden h-screen w-[230px] shrink-0 flex-col border-r border-[#c3c6d7] bg-white px-5 pt-0 pb-5 lg:flex"
         aria-label="Navigasi utama"
       >
-        <div className="flex h-[72px] w-full items-center justify-center">
+        <div className="-mx-5 flex h-16 items-start justify-center border-b border-[#c3c6d7] px-5">
           <img
             alt="SMKS Muhammadiyah 1 Genteng"
             className="h-14 w-auto object-contain"

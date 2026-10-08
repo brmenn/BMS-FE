@@ -7,6 +7,7 @@ import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { StudentDashboardPage } from '@/features/dashboard/pages/StudentDashboardPage'
 import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPage'
 import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage'
+import { PenarikanPage } from '@/features/penarikan/pages/PenarikanPage'
 import { LandingPage } from '@/features/landing/pages/LandingPage'
 import { GuruKaryawanLayout } from '@/components/layout/GuruKaryawanLayout'
 
@@ -26,6 +27,8 @@ export function AppRoutes() {
         <Route path="/pinjaman" element={<DetailPinjamanPage />} />
         <Route path="/pinjaman/guru" element={<DetailPinjamanPage />} />
         <Route path="/pinjaman/:id" element={<DetailPinjamanPage />} />
+        <Route path="/penarikan" element={<PenarikanPage />} />
+        <Route path="/penarikan/guru" element={<PenarikanPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />

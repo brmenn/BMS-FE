@@ -23,7 +23,7 @@ import { DashboardTopbar } from '../components/DashboardTopbar'
 const navItems: SidebarItem[] = [
   { to: '/dashboard/guru', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/tabungan', label: 'Tabungan', icon: Wallet },
-  { to: '/penarikan', label: 'Penarikan', icon: Banknote },
+  { to: '/penarikan/guru', label: 'Penarikan', icon: Banknote },
   { to: '/pinjaman/guru', label: 'Pinjaman', icon: HandCoins },
   { to: '/pembayaran-pinjaman', label: 'Pembayaran Pinjaman', icon: Receipt },
 ]
