@@ -6,12 +6,14 @@ import { OtpVerificationPage } from '@/features/auth/pages/OtpVerificationPage'
 import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { LandingPage } from '@/features/landing/pages/LandingPage'
 import { StudentDashboardPage } from '@/features/dashboard/pages/StudentDashboardPage'
+import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPage'
 
 export function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={<StudentDashboardPage />} />
+      <Route path="/dashboard/guru" element={<StaffDashboardPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />

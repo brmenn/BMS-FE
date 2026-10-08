@@ -1,0 +1,72 @@
+{
+  "profile": {
+    "name": "Adinda Putri",
+    "meta": "XII RPL 1 • NISN 00642189"
+  },
+  "dueDateAlert": {
+    "title": "Peringatan Jatuh Tempo Angsuran Pinjaman",
+    "badge": "Tersisa 5 Hari",
+    "installmentNumber": 8,
+    "amount": 1350000,
+    "daysRemaining": 5,
+    "dueDate": "10 November 2026",
+    "note": "Pastikan saldo mencukupi untuk autodebet atau lakukan pembayaran mandiri."
+  },
+  "remainingBills": {
+    "amount": 6200000,
+    "nextInstallment": 420000
+  },
+  "savings": {
+    "balance": 4500000,
+    "totalLoan": 8000000,
+    "loanStatus": "Pinjaman berjalan",
+    "tenor": "Tenor 24 bulan",
+    "balanceStatus": "Saldo aktif",
+    "interest": "Bunga 0.25%/bln",
+    "accountNo": "SMK-M1-8890241"
+  },
+  "nextInstallment": {
+    "number": 6,
+    "status": "BELUM JATUH TEMPO",
+    "dueDate": "10 Oktober 2026",
+    "daysRemaining": 9,
+    "principal": 400000,
+    "interestRate": 5,
+    "interest": 20000,
+    "total": 420000,
+    "paymentNote": "Pembayaran dapat dilakukan melalui pemotongan gaji rutin atau transfer manual ke rekening Virtual BMS Muhi."
+  },
+  "recentActivities": [
+    {
+      "id": "TRX-20261001-010",
+      "date": "01 Okt 2026",
+      "time": "08:30 WIB",
+      "type": "SETORAN",
+      "title": "Setoran Tabungan",
+      "subtitle": "Tabungan Wajib Guru",
+      "amount": 500000,
+      "status": "BERHASIL"
+    },
+    {
+      "id": "CIC-20260928-005",
+      "date": "28 Sep 2026",
+      "time": "14:15 WIB",
+      "type": "PEMBAYARAN",
+      "title": "Pembayaran Cicilan",
+      "subtitle": "Angsuran ke-05",
+      "amount": 420000,
+      "status": "BERHASIL"
+    },
+    {
+      "id": "WD-20260920-002",
+      "date": "20 Sep 2026",
+      "time": "10:02 WIB",
+      "type": "PENARIKAN",
+      "title": "Penarikan",
+      "subtitle": "Tabungan Sukarela",
+      "amount": 300000,
+      "status": "SELESAI"
+    }
+  ],
+  "activityFooter": "Menampilkan 3 transaksi terbaru"
+}

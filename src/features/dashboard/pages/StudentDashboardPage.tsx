@@ -25,7 +25,7 @@ export function StudentDashboardPage() {
   const statusLabel = (status: string) => (status === 'BERHASIL' ? 'Berhasil' : 'Selesai')
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar />
+      <DashboardSidebar logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar />
         <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
