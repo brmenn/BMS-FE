@@ -6,6 +6,7 @@ import { OtpVerificationPage } from '@/features/auth/pages/OtpVerificationPage'
 import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { StudentDashboardPage } from '@/features/dashboard/pages/StudentDashboardPage'
 import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPage'
+import { AdminDashboardPage } from '@/features/dashboard/pages/AdminDashboardPage'
 import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage'
 import { PembayaranPinjamanPage } from '@/features/pinjaman/pages/PembayaranPinjamanPage'
 import { PenarikanPage } from '@/features/penarikan/pages/PenarikanPage'
@@ -21,6 +22,7 @@ export function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={<StudentDashboardPage />} />
       <Route path="/dashboard/guru" element={<StaffDashboardPage />} />
+      <Route path="/admin" element={<AdminDashboardPage />} />
       <Route path="/penarikan/siswa" element={<StudentPenarikanPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />

@@ -30,10 +30,10 @@ export function GuruKaryawanLayout() {
         className="sticky top-0 hidden h-screen w-[230px] shrink-0 flex-col border-r border-[#c3c6d7] bg-white px-5 pt-0 pb-5 lg:flex"
         aria-label="Navigasi utama"
       >
-        <div className="-mx-5 flex h-16 items-start justify-center border-b border-[#c3c6d7] px-5">
+        <div className="-mx-5 flex h-16 items-center justify-center border-b border-[#c3c6d7] px-5">
           <img
             alt="SMKS Muhammadiyah 1 Genteng"
-            className="h-14 w-auto object-contain"
+            className="h-[60px] w-auto object-contain"
             src="/logoTitle.png"
           />
         </div>
