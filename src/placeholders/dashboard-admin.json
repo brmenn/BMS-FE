@@ -1,54 +1,169 @@
 {
   "admin": {
-    "name": "Administrator",
-    "accountNo": "BMS-M1-001"
+    "name": "Admin",
+    "dateLabel": "01 Oktober 2026"
   },
-  "balance": {
-    "label": "Total Saldo Tabungan Siswa",
-    "amount": 152500000,
-    "currency": "IDR",
-    "syncNote": "Data saldo tersinkron dengan seluruh kasir sekolah"
-  },
-  "stats": {
-    "totalDeposit": {
-      "amount": 18500000,
-      "trend": "+12%",
-      "trendNote": "Akumulasi setoran bulan ini"
-    },
-    "totalWithdrawal": {
-      "amount": 4200000,
-      "pendingCount": 5,
-      "note": "Total penarikan selesai"
-    }
-  },
-  "recentTransactions": [
+  "systemStatus": "Sistem Aktif",
+  "summaryCards": [
     {
-      "id": "TRX-20260928-001",
-      "type": "SETORAN",
-      "title": "+ Setoran Tabungan",
-      "status": "BERHASIL",
-      "date": "28 September 2026, 10:32 WIB",
-      "amount": 100000,
-      "source": "Ahmad Fauzi • XII RPL 1"
+      "id": "total-tTabungan",
+      "label": "TOTAL TABUNGAN",
+      "value": 125500000,
+      "valueText": "Rp 125.500.000",
+      "tone": "blue",
+      "trend": "+3.8%",
+      "trendNote": "• Total saldo aktif"
     },
     {
-      "id": "WD-20260920-002",
-      "type": "PENARIKAN",
-      "title": "- Penarikan Tabungan",
-      "status": "SELESAI",
-      "date": "20 September 2026, 14:15 WIB",
-      "amount": 50000,
-      "source": "Siti Nurhaliza • XI AKL 2"
+      "id": "transaksi-hari-ini",
+      "label": "TRANSAKSI HARI INI",
+      "valueText": "48 Transaksi",
+      "tone": "blue",
+      "trendNote": "Hari ini per 14:30 WIB"
     },
     {
-      "id": "TRX-20260915-004",
-      "type": "SETORAN",
-      "title": "+ Setoran Tabungan",
-      "status": "BERHASIL",
-      "date": "15 September 2026, 09:10 WIB",
-      "amount": 50000,
-      "source": "Setoran Rutin Wali Kelas"
+      "id": "kas-siswa",
+      "label": "KAS SISWA",
+      "value": 85000000,
+      "valueText": "Rp 85.000.000",
+      "tone": "blue",
+      "trendNote": "Saldo kas tabungan siswa"
+    },
+    {
+      "id": "kas-guru-karyawan",
+      "label": "KAS GURU/KARYAWAN",
+      "labelLines": ["KAS", "GURU/KARYAWAN"],
+      "value": 40500000,
+      "valueText": "Rp 40.500.000",
+      "tone": "blue",
+      "trendNote": "Saldo kas operasional staf"
     }
   ],
-  "infoNote": "Setoran baru dapat diproses di loket administrasi BMS gedung A setiap jam sekolah."
+  "attention": {
+    "title": "Aktivitas Membutuhkan Perhatian",
+    "note": "Perlu respon petugas hari ini",
+    "items": [
+      {
+        "id": "ATT-001",
+        "label": ["PENARIKAN", "MENUNGGU"],
+        "count": 8,
+        "unit": "Pengajuan",
+        "tone": "amber"
+      },
+      {
+        "id": "ATT-002",
+        "label": ["PINJAMAN", "MENUNGGU"],
+        "count": 3,
+        "unit": "Pengajuan",
+        "tone": "blue"
+      },
+      {
+        "id": "ATT-003",
+        "label": ["CICILAN TERLAMBAT"],
+        "count": 5,
+        "unit": "Pembayaran",
+        "tone": "red"
+      }
+    ]
+  },
+  "cashflow": {
+    "title": "ARUS KAS",
+    "subtitle": "Komparasi mutasi debit masuk & penarikan tunai per hari",
+    "ranges": ["Hari ini", "7 hari", "Bulan ini", "Custom"],
+    "activeRange": "7 hari",
+    "filters": ["Mingguan", "Kas Siswa"],
+    "max": 15,
+    "data": [
+      { "day": "01 Okt", "masuk": 9.2, "keluar": 5.2 },
+      { "day": "03 Okt", "masuk": 11.4, "keluar": 5.6 },
+      { "day": "05 Okt", "masuk": 8.1, "keluar": 4.9 },
+      { "day": "08 Okt", "masuk": 12.6, "keluar": 6.0 },
+      { "day": "11 Okt", "masuk": 10.3, "keluar": 5.4 },
+      { "day": "14 Okt", "masuk": 13.0, "keluar": 5.8 },
+      { "day": "17 Okt", "masuk": 9.8, "keluar": 5.0 },
+      { "day": "20 Okt", "masuk": 12.1, "keluar": 5.5 },
+      { "day": "23 Okt", "masuk": 7.6, "keluar": 4.7 },
+      { "day": "26 Okt", "masuk": 10.9, "keluar": 5.9 },
+      { "day": "28 Okt", "masuk": 8.8, "keluar": 5.1 },
+      { "day": "30 Okt", "masuk": 11.7, "keluar": 5.4 }
+    ],
+    "aggregate": [
+      {
+        "id": "AGG-001",
+        "label": "Pemasukan Minggu Ini",
+        "value": "Rp 39.700.000",
+        "tone": "blue"
+      },
+      {
+        "id": "AGG-002",
+        "label": "Pengeluaran Minggu Ini",
+        "value": "Rp 18.000.000",
+        "tone": "amber"
+      },
+      {
+        "id": "AGG-003",
+        "label": "Surplus Bersih",
+        "value": "+ Rp 21.700.000",
+        "tone": "green"
+      }
+    ]
+  },
+  "recentTransactions": {
+    "title": "Transaksi Terbaru",
+    "subtitle": "Catatan mutasi riil yang telah divalidasi kasir loket",
+    "linkLabel": "Buka Seluruh Transaksi",
+    "footerNote": "Menampilkan 5 dari 48 transaksi hari ini",
+    "rows": [
+      {
+        "id": "TRX-001",
+        "user": "Ahmad",
+        "meta": "NIS: 2024.11.082 • Kelas X TKJ 1",
+        "type": "Setoran",
+        "group": "Siswa",
+        "amount": "Rp 500.000",
+        "amountTone": "green",
+        "status": "Tervalidasi"
+      },
+      {
+        "id": "TRX-002",
+        "user": "Budi",
+        "meta": "NIP: 19840212 • Guru Produktif Mesin",
+        "type": "Cicilan",
+        "group": "Guru/Karyawan",
+        "amount": "Rp 420.000",
+        "amountTone": "neutral",
+        "status": "Tervalidasi"
+      },
+      {
+        "id": "TRX-003",
+        "user": "Sinta",
+        "meta": "NIS: 2024.11.145 • Kelas XI AKL 2",
+        "type": "Setoran",
+        "group": "Siswa",
+        "amount": "Rp 300.000",
+        "amountTone": "green",
+        "status": "Tervalidasi"
+      },
+      {
+        "id": "TRX-004",
+        "user": "Wahyu Prasetyo",
+        "meta": "NIS: 2023.10.041 • Kelas XII TBSM 1",
+        "type": "Penarikan",
+        "group": "Siswa",
+        "amount": "- Rp 150.000",
+        "amountTone": "amber",
+        "status": "Tervalidasi"
+      },
+      {
+        "id": "TRX-005",
+        "user": "Dewi Susanti, M.Pd.",
+        "meta": "NIP: 19780519 • Staf Tata Usaha",
+        "type": "Setoran",
+        "group": "Guru/Karyawan",
+        "amount": "Rp 1.000.000",
+        "amountTone": "green",
+        "status": "Tervalidasi"
+      }
+    ]
+  }
 }

@@ -83,15 +83,16 @@ const activities = [
 
 export function SuperAdminDashboardPage() {
   return (
-    <div className="flex min-h-screen w-full bg-[#f8f9ff]">
-      <div className="hidden md:flex md:w-[264px]">
-        <SuperAdminSidebar />
-      </div>
+    <div className="min-h-screen w-full bg-[#f8f9ff]">
+      <SuperAdminSidebar />
 
-      <div className="flex w-full flex-col">
+      <div className="flex min-h-screen flex-col lg:pl-64">
         <SuperAdminTopbar />
 
-        <main id="dashboard" className="flex flex-col gap-5 px-4 py-6 sm:px-6 lg:px-8">
+        <main
+          id="dashboard"
+          className="mx-auto flex w-full max-w-[1360px] flex-col gap-7 p-8"
+        >
           <section className="flex flex-col gap-4 border-b border-[#dee9fcb2] pb-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col gap-1">
               <h1 className="text-[30px] font-extrabold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
@@ -104,21 +105,21 @@ export function SuperAdminDashboardPage() {
                 className="flex h-11 items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 shadow-[0px_1px_2px_#0000000d] hover:brightness-[0.98]"
               >
                
-<SlidersHorizontal className="h-[13.5px] w-[13.5px] text-[#121c2a]" aria-hidden="true" />
+<SlidersHorizontal className="h-4 w-4 shrink-0 text-[#121c2a]" aria-hidden="true" />
                 <span className="text-sm font-medium leading-5 text-[#121c2a]">Konfigurasi Sistem</span>
               </button>
               <button
                 type="button"
                 className="flex h-11 items-center gap-2 rounded-xl bg-[#2563eb] px-5 shadow-[0px_2px_4px_-2px_#3b82f633,0px_4px_6px_-1px_#3b82f633] hover:brightness-[0.98]"
               >
-                <UserPlus className="h-3 w-[16.5px] text-white" aria-hidden="true" />
+                <UserPlus className="h-4 w-4 shrink-0 text-white" aria-hidden="true" />
                 <span className="text-sm font-medium leading-5 text-white">Tambah Pengguna</span>
               </button>
             </div>
           </section>
 
           <section className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_303px]">
-            <article className="grid gap-6 rounded-2xl border border-[#c3c6d7b2] bg-white px-6 py-5 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a] sm:grid-cols-[1fr_1px_1fr]">
+            <article className="grid gap-6 rounded-2xl border border-[#c3c6d7b2] bg-white px-6 py-5 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a] sm:grid-cols-[minmax(0,0.8fr)_1px_minmax(0,1.2fr)]">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center">
                   <h2 className="text-xs font-semibold uppercase tracking-[0.6px] text-[#434655]">
@@ -288,7 +289,7 @@ export function SuperAdminDashboardPage() {
                 <span className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#004ac6]">
                   Lihat Semua
                 </span>
-                <ArrowRight className="h-[10.67px] w-[10.67px] text-[#004ac6]" aria-hidden="true" />
+                <ArrowRight className="h-3.5 w-3.5 shrink-0 text-[#004ac6]" aria-hidden="true" />
               </button>
             </div>
 
