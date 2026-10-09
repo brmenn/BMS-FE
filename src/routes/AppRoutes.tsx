@@ -7,6 +7,7 @@ import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { StudentDashboardPage } from '@/features/dashboard/pages/StudentDashboardPage'
 import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPage'
 import { AdminDashboardPage } from '@/features/dashboard/pages/AdminDashboardPage'
+import { AdminTabunganPage } from '@/features/dashboard/pages/AdminTabunganPage'
 import { AdminLayout } from '@/components/layout/AdminLayout'
 import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage'
 import { PembayaranPinjamanPage } from '@/features/pinjaman/pages/PembayaranPinjamanPage'
@@ -54,6 +55,7 @@ export function AppRoutes() {
       {/* Admin */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
       <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+      <Route path="/admin/tabungan" element={<AdminTabunganPage />} />
       <Route element={<AdminLayout />}>
         <Route path="/admin/laporan-arus-kas" element={<LaporanArusKasPage />} />
         <Route path="/admin/laporan-arus-kas/transaksi/:id" element={<DetailTransaksiPage />} />

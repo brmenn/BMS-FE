@@ -17,16 +17,11 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import dashboardAdminPlaceholder from '@/placeholders/dashboard-admin.json'
-import dashboardIcon from '@/assets/icon/dashboard.svg'
 import { DashboardSidebar } from '../components/DashboardSidebar'
-import { type SidebarItem } from '../components/sidebar-items'
+import { adminItems } from '../components/sidebar-items'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 
 const dashboard = dashboardAdminPlaceholder
-
-const navItems: SidebarItem[] = [
-  { to: '/admin/dashboard', label: 'Dashboard', icon: dashboardIcon },
-]
 
 const summaryIcons = [Wallet, TrendingUp, CreditCard, Landmark] as const
 
@@ -134,7 +129,7 @@ export function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar items={navItems} logo />
+        <DashboardSidebar items={adminItems} logo variant="admin" />
 
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Admin" />
