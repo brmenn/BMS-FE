@@ -15,6 +15,7 @@ import { LandingPage } from '@/features/landing/pages/LandingPage'
 import { GuruKaryawanLayout } from '@/components/layout/GuruKaryawanLayout'
 import { TabunganPage } from '@/features/tabungan/pages/TabunganPage'
 import { TabunganSiswaPage } from '@/features/siswa/pages/TabunganSiswaPage'
+import { SuperAdminDashboardPage } from '@/features/super-admin/pages/SuperAdminDashboardPage'
 
 export function AppRoutes() {
   return (
@@ -24,6 +25,7 @@ export function AppRoutes() {
       <Route path="/dashboard/guru" element={<StaffDashboardPage />} />
       <Route path="/admin" element={<AdminDashboardPage />} />
       <Route path="/penarikan/siswa" element={<StudentPenarikanPage />} />
+      <Route path="/super-admin/dashboard" element={<SuperAdminDashboardPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />

@@ -13,7 +13,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Dashboard', icon: LayoutDashboard },
-{ label: 'Tabungan', img: '/Screenshot 2026-10-08 115431.png' },
+  { label: 'Tabungan', img: '/Screenshot 2026-10-08 115431.png' },
   { label: 'Penarikan', icon: Wallet, to: '/penarikan/guru' },
   { label: 'Pinjaman', icon: HandCoins, to: '/pinjaman/guru' },
   { label: 'Pembayaran Pinjaman', icon: ReceiptText, to: '/pembayaran-pinjaman' },
