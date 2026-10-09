@@ -8,10 +8,12 @@ import {
   Wallet,
 } from 'lucide-react'
 import { StudentPhoto } from './StudentPhoto'
+import logoKet from '@/assets/logo/logoKet.png'
+import screenshot from '@/assets/logo/screenshot.png'
 
 const SIDEBAR_MAIN = [
   { label: 'Dashboard', icon: LayoutDashboard, active: true },
-  { label: 'Tabungan', icon: PiggyBank, img: '/Screenshot 2026-10-08 115431.png', active: false },
+  { label: 'Tabungan', icon: PiggyBank, img: screenshot, active: false },
   { label: 'Penarikan', icon: Wallet, active: false },
 ]
 
@@ -46,7 +48,7 @@ export function DashboardPreview() {
               <img
                 alt="Logo Bank Mini Sekolah"
                 className="h-11 w-auto object-contain"
-                src="/logoKet.png"
+                src={logoKet}
               />
             </div>
 

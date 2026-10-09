@@ -1,10 +1,17 @@
-import { Banknote, HandCoins, LayoutDashboard, Wallet, type LucideIcon } from 'lucide-react'
+import type { ComponentType } from 'react'
+import dashboardIcon from '@/assets/icon/dashboard.svg'
+import tabunganIcon from '@/assets/icon/tabungan.svg'
+import penarikanIcon from '@/assets/icon/penarikan.svg'
 
-export type SidebarItem = { to: string; label: string; icon: LucideIcon }
+export type SidebarIcon = string | ComponentType<{ className?: string; 'aria-hidden'?: boolean | 'true' | 'false' }>
+export type SidebarItem = {
+  to?: string
+  label: string
+  icon?: SidebarIcon
+}
 
 export const defaultItems: SidebarItem[] = [
-  { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/tabungan', label: 'Tabungan', icon: Wallet },
-  { to: '/penarikan/siswa', label: 'Penarikan', icon: Banknote },
-  { to: '/pinjaman/guru', label: 'Pinjaman', icon: HandCoins },
+  { to: '/siswa/dashboard', label: 'Dashboard', icon: dashboardIcon },
+  { to: '/siswa/tabungan', label: 'Tabungan', icon: tabunganIcon },
+  { to: '/siswa/penarikan', label: 'Penarikan', icon: penarikanIcon },
 ]

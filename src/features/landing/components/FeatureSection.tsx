@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react'
 import { ReceiptText, Wallet } from 'lucide-react'
+import screenshot from '@/assets/logo/screenshot.png'
 
 const FEATURES: {
   title: string
@@ -8,7 +9,7 @@ const FEATURES: {
   img?: string
 }[] = [
   {
-    img: '/Screenshot 2026-10-08 115431.png',
+    img: screenshot,
     title: 'Tabungan',
     description: 'Lihat saldo dan riwayat transaksi tabungan secara mudah.',
   },

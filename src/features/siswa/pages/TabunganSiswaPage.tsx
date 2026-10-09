@@ -2,19 +2,27 @@ import { useState } from 'react'
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
-  ArrowUpRight,
   ChevronLeft,
   ChevronRight,
   CreditCard,
-  LayoutGrid,
   PiggyBank,
   Plus,
   Receipt,
   User,
   Wallet,
 } from 'lucide-react'
-import bmsLogo from '@/assets/bms-logo.png'
+import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
+import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
+import dashboardIcon from '@/assets/icon/dashboard.svg'
+import tabunganIcon from '@/assets/icon/tabungan.svg'
+import penarikanIcon from '@/assets/icon/penarikan.svg'
 import './TabunganSiswaPage.css'
+
+const NAV_ITEMS: SidebarItem[] = [
+  { to: '/siswa/dashboard', label: 'Dashboard', icon: dashboardIcon },
+  { to: '/siswa/tabungan', label: 'Tabungan', icon: tabunganIcon },
+  { to: '/siswa/penarikan', label: 'Penarikan', icon: penarikanIcon },
+]
 
 type Transaction = {
   jenis: 'setoran' | 'penarikan'
@@ -160,55 +168,12 @@ export function TabunganSiswaPage() {
   return (
     <div className="siswa-page">
       {/* SIDEBAR */}
-      <aside className="siswa-sidebar" aria-label="Navigasi utama">
-        <div className="siswa-sidebar-logo">
-          <img src={bmsLogo} alt="BMS" />
-        </div>
-
-        <nav className="siswa-nav">
-          <a href="#" className="siswa-nav-item" aria-label="Dashboard">
-            <span className="siswa-nav-icon" aria-hidden="true">
-              <LayoutGrid size={18} />
-            </span>
-            <span>Dashboard</span>
-          </a>
-
-          <a
-            href="/tabungan-siswa"
-            className="siswa-nav-item active"
-            aria-current="page"
-            aria-label="Tabungan"
-          >
-            <span className="siswa-nav-icon" aria-hidden="true">
-              <Wallet size={18} />
-            </span>
-            <span>Tabungan</span>
-          </a>
-
-          <a href="#" className="siswa-nav-item" aria-label="Penarikan">
-            <span className="siswa-nav-icon" aria-hidden="true">
-              <ArrowUpRight size={18} />
-            </span>
-            <span>Penarikan</span>
-          </a>
-        </nav>
-      </aside>
+      <DashboardSidebar items={NAV_ITEMS} logo />
 
       {/* AREA KANAN */}
-      <div className="siswa-main">
+      <div className="siswa-main lg:pl-64">
         {/* HEADER */}
-        <header className="siswa-header">
-          <strong className="siswa-header-title">
-            BMS Siswa&nbsp;&nbsp;|&nbsp;&nbsp;SMKS Muhammadiyah 1 Genteng
-          </strong>
-
-          <button className="siswa-profile-btn" type="button" aria-label="Buka profil pengguna">
-            <img
-              src="https://i.pravatar.cc/80?img=47"
-              alt="Profil pengguna"
-            />
-          </button>
-        </header>
+        <DashboardTopbar role="Siswa" />
 
         {/* CONTENT */}
         <main className="siswa-content">

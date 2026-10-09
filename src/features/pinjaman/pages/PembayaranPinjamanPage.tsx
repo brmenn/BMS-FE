@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import logoKet from '@/assets/logo/logoKet.png'
 import {
   Banknote,
   ChevronDown,
@@ -470,7 +471,7 @@ function ReceiptContent({ row }: { row: InstallmentRow }) {
         alt="Logo Bank Mini Sekolah"
         aria-hidden="true"
         className="h-20 w-auto max-w-[210px] object-contain"
-        src="/logoKet.png"
+        src={logoKet}
       />
 
       <div className="flex w-full flex-col items-center gap-1 border-b-2 border-dashed border-[#c3c6d799] pb-4 text-center">

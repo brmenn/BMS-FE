@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 import { Mail, MapPin, Phone } from 'lucide-react'
+import logoKet from '@/assets/logo/logoKet.png'
+import maps from '@/assets/logo/maps.png'
 
 const INFO_LINKS = [
   { label: 'Tentang BMS', href: '#tentang' },
@@ -38,7 +40,7 @@ export function LandingFooter() {
             <img
               alt="Logo Bank Mini Sekolah"
               className="h-full w-full object-contain"
-              src="/logoKet.png"
+              src={logoKet}
             />
           </span>
           <p className="text-[13px] leading-5 text-white/80">
@@ -104,7 +106,7 @@ export function LandingFooter() {
               alt="Peta lokasi SMKS Muhammadiyah 1 Genteng"
               className="h-[200px] w-full rounded-lg object-cover"
               loading="lazy"
-              src="/maps.png"
+              src={maps}
             />
           </div>
         </FooterColumn>

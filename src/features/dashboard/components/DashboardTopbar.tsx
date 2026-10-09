@@ -1,23 +1,26 @@
-import { type ReactNode } from 'react'
-import { ChevronDown, Landmark } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
+import avatar from '@/assets/logo/avatar.png'
 
-const defaultBrand = (
-  <div className="flex min-w-0 items-center gap-2">
-    <Landmark className="h-[18px] w-[22px] shrink-0 text-[#121c2a]" aria-hidden="true" />
-    <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
-      SMKS Muhammadiyah 1 Genteng
-    </p>
-  </div>
-)
+const SCHOOL_NAME = 'SMKS Muhammadiyah 1 Genteng'
 
 interface DashboardTopbarProps {
-  brand?: ReactNode
+  role?: string
 }
 
-export function DashboardTopbar({ brand = defaultBrand }: DashboardTopbarProps) {
+export function DashboardTopbar({ role }: DashboardTopbarProps) {
   return (
     <header className="sticky top-0 z-10 flex h-16 w-full items-center justify-between gap-4 border-b border-solid border-[#c3c6d7] bg-white px-6 shadow-[0px_1px_2px_#0000000d]">
-      {brand}
+      <div className="flex min-w-0 items-center gap-2">
+        <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
+          {role ? (
+            <>
+              {role}&nbsp;&nbsp;|&nbsp;&nbsp;{SCHOOL_NAME}
+            </>
+          ) : (
+            SCHOOL_NAME
+          )}
+        </p>
+      </div>
       <button
         aria-label="Menu profil"
         className="flex shrink-0 items-center gap-2 rounded-xl border border-solid border-[#c3c6d766] bg-white px-3 py-2 text-[#434655] transition-colors hover:bg-[#f8f9ff] hover:text-[#121c2a]"
@@ -26,7 +29,7 @@ export function DashboardTopbar({ brand = defaultBrand }: DashboardTopbarProps) 
         <img
           alt="Profil"
           className="h-7 w-7 rounded-full object-cover"
-          src="/avatar.png"
+          src={avatar}
         />
         <ChevronDown className="hidden h-4 w-4 sm:block" aria-hidden="true" />
       </button>

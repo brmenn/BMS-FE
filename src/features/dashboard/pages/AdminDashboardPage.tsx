@@ -12,15 +12,15 @@ import {
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import dashboardAdminPlaceholder from '@/placeholders/dashboard-admin.json'
+import dashboardIcon from '@/assets/icon/dashboard.svg'
+import screenshot from '@/assets/logo/screenshot.png'
 import { DashboardSidebar } from '../components/DashboardSidebar'
-import { defaultItems, type SidebarItem } from '../components/sidebar-items'
+import { type SidebarItem } from '../components/sidebar-items'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 
-const navItems: SidebarItem[] = defaultItems.map((item) => {
-  if (item.to === '/dashboard') return { ...item, to: '/admin' }
-  if (item.to === '/penarikan/siswa') return { ...item, to: '/penarikan' }
-  return item
-})
+const navItems: SidebarItem[] = [
+  { to: '/admin/dashboard', label: 'Dashboard', icon: dashboardIcon },
+]
 
 export function AdminDashboardPage() {
   const { data } = useQuery({
@@ -32,18 +32,10 @@ export function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar items={navItems} logo />
-      <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar
-          brand={
-            <div className="flex min-w-0 items-center gap-2">
-              <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
-                SMKS Muhammadiyah 1 Genteng
-              </p>
-            </div>
-          }
-        />
-        <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
+        <DashboardSidebar items={navItems} logo />
+        <div className="flex min-h-screen flex-col lg:pl-64">
+          <DashboardTopbar role="Admin" />
+          <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
           <section className="flex flex-col gap-1 pt-1">
             <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
               Selamat datang, {dashboard.admin.name}
@@ -58,7 +50,7 @@ export function AdminDashboardPage() {
               alt=""
               aria-hidden="true"
               className="pointer-events-none absolute -bottom-10 -right-8 h-[180px] w-[190px] object-contain opacity-10"
-              src="/Screenshot 2026-10-08 115431.png"
+              src={screenshot}
             />
             <div
               aria-hidden="true"
@@ -99,7 +91,7 @@ export function AdminDashboardPage() {
                 </button>
                 <Link
                   className="flex items-center gap-2 rounded-xl border border-solid border-white/40 px-5 py-2.5 backdrop-blur-[2px] transition-colors hover:bg-white/10"
-                  to="/penarikan"
+                  to="/admin/penarikan"
                 >
                   <ArrowUpFromLine className="h-3.5 w-3.5 text-white" aria-hidden="true" />
                   <span className="text-base font-medium leading-6 text-white">
@@ -173,7 +165,7 @@ export function AdminDashboardPage() {
               </div>
               <Link
                 className="flex items-center gap-1.5 text-sm font-semibold leading-5 text-[#004ac6] hover:underline"
-                to="/tabungan"
+                to="/admin/tabungan"
               >
                 Lihat Semua
                 <ChevronRight className="h-3 w-3" aria-hidden="true" />

@@ -70,16 +70,7 @@ export function StudentPenarikanPage() {
     <div className="min-h-screen w-full bg-[#f8f9ff]">
       <DashboardSidebar logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar
-          brand={
-            <div className="flex min-w-0 items-center gap-2">
-              <Wallet className="h-[18px] w-[22px] shrink-0 text-[#121c2a]" aria-hidden="true" />
-              <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
-                BMS Siswa&nbsp;&nbsp;|&nbsp;&nbsp;SMKS Muhammadiyah 1 Genteng
-              </p>
-            </div>
-          }
-        />
+        <DashboardTopbar role="Siswa" />
         <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
           <section className="flex flex-col gap-1" aria-labelledby="page-title">
             <h1

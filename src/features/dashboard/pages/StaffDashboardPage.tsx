@@ -2,13 +2,11 @@ import {
   AlarmClock,
   ArrowDownToLine,
   ArrowUpFromLine,
-  Banknote,
   ChevronRight,
   Clock,
   CreditCard,
   HandCoins,
   Info,
-  LayoutDashboard,
   Receipt,
   SlidersHorizontal,
   Wallet,
@@ -17,15 +15,21 @@ import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import staffDashboardPlaceholder from '@/placeholders/dashboard-guru.json'
+import dashboardIcon from '@/assets/icon/dashboard.svg'
+import tabunganIcon from '@/assets/icon/tabungan.svg'
+import penarikanIcon from '@/assets/icon/penarikan.svg'
+import pinjamanIcon from '@/assets/icon/pinjaman.svg'
+import pembayaranPinjamanIcon from '@/assets/icon/pembayaran-pinjaman.svg'
+import avatar from '@/assets/logo/avatar.png'
 import { DashboardSidebar, type SidebarItem } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 
 const navItems: SidebarItem[] = [
-  { to: '/dashboard/guru', label: 'Dashboard', icon: LayoutDashboard },
-  { to: '/tabungan', label: 'Tabungan', icon: Wallet },
-  { to: '/penarikan/guru', label: 'Penarikan', icon: Banknote },
-  { to: '/pinjaman/guru', label: 'Pinjaman', icon: HandCoins },
-  { to: '/pembayaran-pinjaman', label: 'Pembayaran Pinjaman', icon: Receipt },
+  { to: '/guru/dashboard', label: 'Dashboard', icon: dashboardIcon },
+  { to: '/guru/tabungan', label: 'Tabungan', icon: tabunganIcon },
+  { to: '/guru/penarikan', label: 'Penarikan', icon: penarikanIcon },
+  { to: '/guru/pinjaman', label: 'Pinjaman', icon: pinjamanIcon },
+  { to: '/guru/pembayaran-pinjaman', label: 'Pembayaran Pinjaman', icon: pembayaranPinjamanIcon },
 ]
 
 const activityIcon: Record<string, { icon: typeof Wallet; box: string }> = {
@@ -47,15 +51,7 @@ export function StaffDashboardPage() {
     <div className="min-h-screen w-full bg-[#f8f9ff]">
       <DashboardSidebar items={navItems} logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar
-          brand={
-            <div className="flex min-w-0 items-center gap-2">
-              <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
-                SMKS Muhammadiyah 1 Genteng
-              </p>
-            </div>
-          }
-        />
+        <DashboardTopbar role="Guru & Karyawan" />
         <main className="flex w-full max-w-[1030px] flex-col gap-8 p-8">
           <section className="flex w-full flex-wrap items-center gap-4 rounded-2xl border border-solid border-[#f59e0b4c] bg-[#f59e0b1a] p-5 shadow-[0px_1px_3px_#d977060f]">
             <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3.5">
@@ -110,7 +106,7 @@ export function StaffDashboardPage() {
                   <img
                     alt={dash.profile.name}
                     className="h-9 w-9 rounded-xl object-cover ring-2 ring-[#004ac633]"
-                    src="/avatar.png"
+                    src={avatar}
                   />
                   <span className="absolute -bottom-0.5 -right-0.5 h-2.5 w-2.5 rounded-full border-2 border-white bg-[#62df7d]" />
                 </div>

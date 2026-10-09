@@ -46,7 +46,8 @@ export function DepositStatus() {
 
 
       <button className="receipt-button">
-        ▣ &nbsp; Lihat Resi Tabungan
+        <span className="receipt-button-icon" aria-hidden="true" />
+        Lihat Resi Tabungan
       </button>
 
     </div>

@@ -1,10 +1,24 @@
 import { useState } from 'react'
-import bmsLogo from '@/assets/bms-logo.png'
+import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
+import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
+import dashboardIcon from '@/assets/icon/dashboard.svg'
+import tabunganIcon from '@/assets/icon/tabungan.svg'
+import penarikanIcon from '@/assets/icon/penarikan.svg'
+import pinjamanIcon from '@/assets/icon/pinjaman.svg'
+import pembayaranPinjamanIcon from '@/assets/icon/pembayaran-pinjaman.svg'
 import { TabunganSummary } from '../components/TabunganSummary'
 import { DepositStatus } from '../components/DepositStatus'
 import { TransactionTable } from '../components/TransactionTable'
 import { SetorTabunganModal } from '../components/SetorTabunganModal'
 import './TabunganPage.css'
+
+const NAV_ITEMS: SidebarItem[] = [
+  { to: '/guru/dashboard', label: 'Dashboard', icon: dashboardIcon },
+  { to: '/guru/tabungan', label: 'Tabungan', icon: tabunganIcon },
+  { to: '/guru/penarikan', label: 'Penarikan', icon: penarikanIcon },
+  { to: '/guru/pinjaman', label: 'Pinjaman', icon: pinjamanIcon },
+  { to: '/guru/pembayaran-pinjaman', label: 'Pembayaran Pinjaman', icon: pembayaranPinjamanIcon },
+]
 
 export function TabunganPage() {
     const [showSetorModal, setShowSetorModal] = useState(false)
@@ -12,70 +26,13 @@ export function TabunganPage() {
     <div className="tabungan-page">
 
       {/* SIDEBAR */}
-      <aside className="tabungan-sidebar">
-        <div className="tabungan-logo">
-          <img
-            className="bms-logo"
-            src={bmsLogo}
-            alt="BMS"
-          />
-        </div>
-
-        <nav className="tabungan-nav">
-
-          <a href="#" className="nav-item">
-            <span>▦</span>
-            Dashboard
-          </a>
-
-          <a href="/tabungan" className="nav-item active">
-            <span>▣</span>
-            Tabungan
-          </a>
-
-
-          <a href="#" className="nav-item">
-            <span>♜</span>
-            Pinjaman
-          </a>
-
-          <a href="#" className="nav-item">
-            <span>▣</span>
-            Pembayaran Pinjaman
-          </a>
-
-        </nav>
-      </aside>
-
+      <DashboardSidebar items={NAV_ITEMS} logo />
 
       {/* AREA KANAN */}
-      <main className="tabungan-main">
+      <main className="tabungan-main lg:pl-64">
 
         {/* HEADER */}
-        <header className="tabungan-header">
-
-          <div className="header-title">
-            <strong>BMS Guru & Karyawan</strong>
-            <span>|</span>
-            <strong>SMKS Muhammadiyah 1 Genteng</strong>
-          </div>
-
-          <div className="header-profile">
-
-            <button className="notification-button">
-              ♧
-            </button>
-
-            <div className="profile-circle">
-              <img
-                src="https://i.pravatar.cc/100?img=47"
-                alt="Profile"
-              />
-            </div>
-
-          </div>
-
-        </header>
+        <DashboardTopbar role="Guru & Karyawan" />
 
 
         {/* CONTENT */}

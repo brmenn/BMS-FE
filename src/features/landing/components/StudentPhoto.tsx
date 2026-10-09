@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import lumba from '@/assets/logo/lumba.png'
 
 /**
  * The hero mockup and the dashboard preview both show the same student, so both
- * read from one asset in `public/`. Drop a replacement at `public/lumba.png`
- * and it is picked up everywhere; until then the initials placeholder keeps the
- * composition intact.
+ * read from one asset in `src/assets/logo/`. Drop a replacement at
+ * `src/assets/logo/lumba.png` and it is picked up everywhere; until then the initials
+ * placeholder keeps the composition intact.
  */
 export function StudentPhoto({
   className,
   fallbackClassName,
   initials = 'AP',
-  src = '/lumba.png',
+  src = lumba,
   alt = 'Siswa BMS sedang mengelola tabungan sekolah',
 }: {
   className?: string

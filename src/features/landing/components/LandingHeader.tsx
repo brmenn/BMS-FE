@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import logoKet from '@/assets/logo/logoKet.png'
 
 const NAV_ITEMS = [
   { label: 'Beranda', href: '#beranda' },
@@ -24,7 +25,7 @@ export function LandingHeader() {
           <img
             alt="Logo Bank Mini Sekolah"
             className="h-11 w-auto object-contain sm:h-16"
-            src="/logoKet.png"
+            src={logoKet}
           />
         </a>
 

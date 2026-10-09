@@ -12,6 +12,7 @@ import {
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import dashboardPlaceholder from '@/placeholders/dashboard.json'
+import screenshot from '@/assets/logo/screenshot.png'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 
@@ -26,7 +27,7 @@ export function StudentDashboardPage() {
     <div className="min-h-screen w-full bg-[#f8f9ff]">
       <DashboardSidebar logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar />
+        <DashboardTopbar role="Siswa" />
         <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
           <section className="flex flex-col gap-1 pt-1">
             <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
@@ -42,7 +43,7 @@ export function StudentDashboardPage() {
               alt=""
               aria-hidden="true"
               className="pointer-events-none absolute -bottom-10 -right-8 h-[180px] w-[190px] object-contain opacity-10"
-              src="/Screenshot 2026-10-08 115431.png"
+              src={screenshot}
             />
             <div
               aria-hidden="true"
@@ -83,7 +84,7 @@ export function StudentDashboardPage() {
                 </button>
                 <Link
                   className="flex items-center gap-2 rounded-xl border border-solid border-white/40 px-5 py-2.5 backdrop-blur-[2px] transition-colors hover:bg-white/10"
-                  to="/penarikan/siswa"
+                  to="/siswa/penarikan"
                 >
                   <ArrowUpFromLine className="h-3.5 w-3.5 text-white" aria-hidden="true" />
                   <span className="text-base font-medium leading-6 text-white">
@@ -157,7 +158,7 @@ export function StudentDashboardPage() {
               </div>
               <Link
                 className="flex items-center gap-1.5 text-sm font-semibold leading-5 text-[#004ac6] hover:underline"
-                to="/riwayat"
+                to="/siswa/riwayat"
               >
                 Lihat Semua
                 <ChevronRight className="h-3 w-3" aria-hidden="true" />
