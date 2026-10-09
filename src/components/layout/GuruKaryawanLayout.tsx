@@ -16,7 +16,7 @@ const NAV_ITEMS: NavItem[] = [
 { label: 'Tabungan', img: '/Screenshot 2026-10-08 115431.png' },
   { label: 'Penarikan', icon: Wallet, to: '/penarikan/guru' },
   { label: 'Pinjaman', icon: HandCoins, to: '/pinjaman/guru' },
-  { label: 'Pembayaran Pinjaman', icon: ReceiptText },
+  { label: 'Pembayaran Pinjaman', icon: ReceiptText, to: '/pembayaran-pinjaman' },
 ]
 
 const navItemClass = 'flex w-full items-center gap-3.5 rounded-xl px-3 py-2.5 text-sm font-medium'
