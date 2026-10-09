@@ -7,7 +7,7 @@ export type SidebarItem = { to: string; label: string; icon: LucideIcon }
 const defaultItems: SidebarItem[] = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/tabungan', label: 'Tabungan', icon: Wallet },
-  { to: '/penarikan/guru', label: 'Penarikan', icon: Banknote },
+  { to: '/penarikan/siswa', label: 'Penarikan', icon: Banknote },
   { to: '/pinjaman/guru', label: 'Pinjaman', icon: HandCoins },
 ]
 
@@ -18,9 +18,9 @@ interface DashboardSidebarProps {
 
 export function DashboardSidebar({ items = defaultItems, logo = false }: DashboardSidebarProps) {
   return (
-    <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col gap-6 border-r border-solid border-[#c3c6d7] bg-white p-4 shadow-[0px_1px_2px_#0000000d] lg:flex">
+    <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col gap-6 border-r border-solid border-[#c3c6d7] bg-white shadow-[0px_1px_2px_#0000000d] lg:flex">
       {logo ? (
-        <div className="flex h-16 w-full items-center justify-center">
+        <div className="flex h-16 w-full items-center justify-center border-b border-solid border-[#c3c6d7]">
           <img
             alt="SMKS Muhammadiyah 1 Genteng"
             className="h-14 w-auto"
@@ -28,9 +28,9 @@ export function DashboardSidebar({ items = defaultItems, logo = false }: Dashboa
           />
         </div>
       ) : (
-        <div className="h-[50px] w-full" />
+        <div className="h-16 w-full border-b border-solid border-[#c3c6d7]" />
       )}
-      <nav className="flex w-full flex-col gap-1.5">
+      <nav className="flex w-full flex-col gap-1.5 px-4 pb-4">
         {items.map(({ to, label, icon: Icon }) => (
           <NavLink
             className={({ isActive }) =>

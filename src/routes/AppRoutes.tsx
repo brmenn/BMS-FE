@@ -9,6 +9,7 @@ import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPag
 import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage'
 import { PembayaranPinjamanPage } from '@/features/pinjaman/pages/PembayaranPinjamanPage'
 import { PenarikanPage } from '@/features/penarikan/pages/PenarikanPage'
+import { StudentPenarikanPage } from '@/features/penarikan/pages/StudentPenarikanPage'
 import { LandingPage } from '@/features/landing/pages/LandingPage'
 import { GuruKaryawanLayout } from '@/components/layout/GuruKaryawanLayout'
 import { TabunganPage } from '@/features/tabungan/pages/TabunganPage'
@@ -20,6 +21,7 @@ export function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={<StudentDashboardPage />} />
       <Route path="/dashboard/guru" element={<StaffDashboardPage />} />
+      <Route path="/penarikan/siswa" element={<StudentPenarikanPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPasswordPage />} />

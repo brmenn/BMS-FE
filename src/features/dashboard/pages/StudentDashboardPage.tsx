@@ -81,15 +81,15 @@ export function StudentDashboardPage() {
                     Setor Tabungan
                   </span>
                 </button>
-                <button
+                <Link
                   className="flex items-center gap-2 rounded-xl border border-solid border-white/40 px-5 py-2.5 backdrop-blur-[2px] transition-colors hover:bg-white/10"
-                  type="button"
+                  to="/penarikan/siswa"
                 >
                   <ArrowUpFromLine className="h-3.5 w-3.5 text-white" aria-hidden="true" />
                   <span className="text-base font-medium leading-6 text-white">
                     Ajukan Penarikan
                   </span>
-                </button>
+                </Link>
               </div>
             </div>
           </section>
