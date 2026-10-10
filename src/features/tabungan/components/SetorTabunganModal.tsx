@@ -127,19 +127,19 @@ export function SetorTabunganModal({
                 )}
               </div>
 
-              <div className="method-icon">
-                <Banknote size={14} />
-              </div>
-
+              
               <div className="method-text">
 
                 <strong>
                   Cash (Loket Kasir)
                 </strong>
-
                 <span>
                   Bayar langsung di loket keuangan SMK Muhi
                 </span>
+
+                <div className="method-icon">
+                <Banknote size={14} />
+              </div>
 
               </div>
 

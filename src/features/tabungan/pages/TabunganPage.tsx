@@ -9,7 +9,11 @@ import pembayaranPinjamanIcon from '@/assets/icon/pembayaran-pinjaman.svg'
 import { TabunganSummary } from '../components/TabunganSummary'
 import { DepositStatus } from '../components/DepositStatus'
 import { TransactionTable } from '../components/TransactionTable'
+import type { Transaction } from '../components/TransactionTable'
 import { SetorTabunganModal } from '../components/SetorTabunganModal'
+import { ReceiptModal } from '../components/ReceiptModal'
+import type { ReceiptData } from '../components/receipt-data'
+import { DEFAULT_RECEIPT } from '../components/receipt-data'
 import './TabunganPage.css'
 
 const NAV_ITEMS: SidebarItem[] = [
@@ -20,8 +24,29 @@ const NAV_ITEMS: SidebarItem[] = [
   { to: '/guru/pembayaran-pinjaman', label: 'Pembayaran Pinjaman', icon: pembayaranPinjamanIcon },
 ]
 
+function buildReceipt(tx: Transaction): ReceiptData {
+  const signed = tx.amount.startsWith('-')
+    ? `- ${tx.amount.slice(1)}`
+    : `+ ${tx.amount.slice(1)}`
+  const bare = tx.amount.startsWith('+') || tx.amount.startsWith('-')
+    ? tx.amount.slice(1)
+    : tx.amount
+
+  return {
+    ...DEFAULT_RECEIPT,
+    reference: tx.code,
+    service: `${tx.type} Tabungan Reguler`,
+    datetime: `${tx.date} • 09:42:15 WIB`,
+    channel: `Teller Loket 01 (${tx.method})`,
+    amount: bare,
+    depositAmount: signed,
+  }
+}
+
 export function TabunganPage() {
-    const [showSetorModal, setShowSetorModal] = useState(false)
+  const [showSetorModal, setShowSetorModal] = useState(false)
+  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
+
   return (
     <div className="tabungan-page">
 
@@ -33,7 +58,6 @@ export function TabunganPage() {
 
         {/* HEADER */}
         <DashboardTopbar role="Guru & Karyawan" />
-
 
         {/* CONTENT */}
         <section className="tabungan-content">
@@ -47,7 +71,7 @@ export function TabunganPage() {
             </div>
 
             <button className="semester-button">
-              ▣ &nbsp; Semester Ganjil TA 2026/2027
+            ▣ &nbsp; Semester Ganjil TA 2026/2027
             </button>
 
           </div>
@@ -60,17 +84,27 @@ export function TabunganPage() {
             onSetorClick={() => setShowSetorModal(true)}
             />
 
-            <DepositStatus />
-
+            <DepositStatus
+            onReceiptClick={() => setReceiptData(DEFAULT_RECEIPT)}
+            />
           </div>
 
 
           {/* RIWAYAT */}
-          <TransactionTable />
+          <TransactionTable
+            onReceiptClick={(transaction) => setReceiptData(buildReceipt(transaction))}
+            />
 
           {showSetorModal && (
         <SetorTabunganModal
             onClose={() => setShowSetorModal(false)}
+        />
+        )}
+
+        {receiptData && (
+        <ReceiptModal
+            data={receiptData}
+            onClose={() => setReceiptData(null)}
         />
         )}
 

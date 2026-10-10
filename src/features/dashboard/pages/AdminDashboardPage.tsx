@@ -18,7 +18,7 @@ import {
 import { cn } from '@/lib/utils'
 import dashboardAdminPlaceholder from '@/placeholders/dashboard-admin.json'
 import { DashboardSidebar } from '../components/DashboardSidebar'
-import { adminItems } from '../components/sidebar-items'
+import { adminItems } from '../components/admin-sidebar-items'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 
 const dashboard = dashboardAdminPlaceholder

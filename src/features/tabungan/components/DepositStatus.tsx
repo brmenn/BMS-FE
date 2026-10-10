@@ -1,4 +1,11 @@
-export function DepositStatus() {
+interface DepositStatusProps {
+  onReceiptClick: () => void
+}
+
+export function DepositStatus({
+  onReceiptClick,
+}: DepositStatusProps) {
+
   return (
     <div className="deposit-status-card">
 
@@ -45,7 +52,11 @@ export function DepositStatus() {
       </div>
 
 
-      <button className="receipt-button">
+<button
+        className="receipt-button"
+        type="button"
+        onClick={onReceiptClick}
+      >
         <span className="receipt-button-icon" aria-hidden="true" />
         Lihat Resi Tabungan
       </button>

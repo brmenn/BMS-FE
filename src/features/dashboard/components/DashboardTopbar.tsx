@@ -8,9 +8,10 @@ const SCHOOL_NAME = 'SMKS Muhammadiyah 1 Genteng'
 
 interface DashboardTopbarProps {
   role?: string
+  brand?: string
 }
 
-export function DashboardTopbar({ role }: DashboardTopbarProps) {
+export function DashboardTopbar({ role, brand }: DashboardTopbarProps) {
   const [open, setOpen] = useState(false)
   const profile = getRoleProfile(role)
 
@@ -18,7 +19,11 @@ export function DashboardTopbar({ role }: DashboardTopbarProps) {
     <header className="relative sticky top-0 z-10 flex h-16 w-full items-center justify-between gap-4 border-b border-solid border-[#c3c6d7] bg-white px-6 shadow-[0px_1px_2px_#0000000d]">
       <div className="flex min-w-0 items-center gap-2">
         <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
-          {role ? (
+          {brand ? (
+            <>
+              {brand}&nbsp;&nbsp;{role}&nbsp;&nbsp;|&nbsp;&nbsp;{SCHOOL_NAME}
+            </>
+          ) : role ? (
             <>
               {role}&nbsp;&nbsp;|&nbsp;&nbsp;{SCHOOL_NAME}
             </>
