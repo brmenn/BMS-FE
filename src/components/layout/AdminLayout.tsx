@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import type { LucideIcon } from 'lucide-react'
 import { Banknote, Bell, ChevronDown, ClipboardList, LayoutDashboard, Wallet } from 'lucide-react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import logoTitle from '@/assets/logo/logoTitle.png'
 import avatar from '@/assets/logo/avatar.png'
+import { ProfilePopover } from '@/features/dashboard/components/ProfilePopover'
+import { getRoleProfile } from '@/features/dashboard/components/role-profiles'
 
 interface AdminNavItem {
   label: string
@@ -24,6 +27,9 @@ const navItemActiveClass = 'bg-[#eff4ff] font-semibold text-[#004ac6] shadow-[0p
 const navItemInactiveClass = 'font-medium text-[#737686] hover:bg-[#f8f9ff] hover:text-[#121c2a]'
 
 export function AdminLayout() {
+  const [profileOpen, setProfileOpen] = useState(false)
+  const profile = getRoleProfile('Admin')
+
   return (
     <div className="flex min-h-screen w-full bg-[#f8f9ff]">
       <aside
@@ -96,18 +102,29 @@ export function AdminLayout() {
 
             <span aria-hidden="true" className="h-8 w-px bg-[#c3c6d7]" />
 
-            <button
-              aria-label="Menu profil"
-              className="flex shrink-0 items-center gap-3 rounded-xl transition-colors hover:bg-[#f8f9ff]"
-              type="button"
-            >
-              <img
-                alt="Profil"
-                className="h-10 w-10 rounded-full bg-[#eff4ff] p-0.5 object-cover ring-2 ring-[#004ac633]"
-                src={avatar}
-              />
-              <ChevronDown className="hidden h-4 w-4 text-[#434655] sm:block" aria-hidden="true" />
-            </button>
+            <div className="relative">
+              <button
+                aria-expanded={profileOpen}
+                aria-haspopup="dialog"
+                aria-label="Menu profil"
+                className="flex shrink-0 items-center gap-3 rounded-xl transition-colors hover:bg-[#f8f9ff]"
+                onClick={() => setProfileOpen((prev) => !prev)}
+                type="button"
+              >
+                <img
+                  alt="Profil"
+                  className="h-10 w-10 rounded-full bg-[#eff4ff] p-0.5 object-cover ring-2 ring-[#004ac633]"
+                  src={avatar}
+                />
+                <ChevronDown
+                  className={cn('hidden h-4 w-4 text-[#434655] sm:block', profileOpen && 'rotate-180')}
+                  aria-hidden="true"
+                />
+              </button>
+              {profileOpen ? (
+                <ProfilePopover onClose={() => setProfileOpen(false)} profile={profile} />
+              ) : null}
+            </div>
           </div>
         </header>
 

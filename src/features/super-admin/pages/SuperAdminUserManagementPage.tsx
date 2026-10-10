@@ -21,7 +21,8 @@ import {
 import { cn } from '@/lib/utils'
 import { SuperAdminSidebar } from '../components/SuperAdminSidebar'
 import { SuperAdminTopbar } from '../components/SuperAdminTopbar'
-import { UserFormModal, type UserFormValue } from '../components/UserFormModal'
+import { CreateUserModal, type CreateUserValue } from '../components/CreateUserModal'
+import { EditUserModal, type EditUserValue } from '../components/EditUserModal'
 import { UserDetailModal } from '../components/UserDetailModal'
 import { ResetPasswordModal } from '../components/ResetPasswordModal'
 import { DeactivateUserModal } from '../components/DeactivateUserModal'
@@ -291,30 +292,47 @@ export function SuperAdminUserManagementPage() {
     setNotice(`Akun ${user.name} dinonaktifkan. Alasan: ${reason}.`)
   }
 
-  const handleDialogSubmit = (value: UserFormValue) => {
-    if (!dialog) return
-
-    if (dialog.mode === 'create') {
-      const newUser: SuperAdminUser = {
-        id: `USR-${Date.now().toString().slice(-6)}`,
-        ...value,
-        initials: getInitials(value.name),
-        lastLogin: 'Belum pernah login',
-      }
-      setUsers((prev) => [newUser, ...prev])
-      setPage(1)
-      setNotice(`User ${value.name} berhasil ditambahkan.`)
-    } else if (dialog.user) {
-      setUsers((prev) =>
-        prev.map((user) =>
-          user.id === dialog.user?.id
-            ? { ...user, ...value, initials: getInitials(value.name) }
-            : user,
-        ),
-      )
-      setNotice(`Data ${value.name} berhasil diperbarui.`)
+  const handleCreateUser = (value: CreateUserValue) => {
+    const username = `@${value.email.split('@')[0].toLowerCase().replace(/[^a-z0-9]/g, '')}`
+    const newUser: SuperAdminUser = {
+      id: `USR-${Date.now().toString().slice(-6)}`,
+      name: value.name,
+      identity: value.identity || 'ID: USR-BARU',
+      email: value.email,
+      username,
+      role: value.role,
+      status: 'Aktif',
+      lastLogin: 'Belum pernah login',
+      initials: getInitials(value.name),
+      phone: value.phone,
     }
+    setUsers((prev) => [newUser, ...prev])
+    setPage(1)
+    setDialog(null)
+    setNotice(
+      `Akun ${value.name} (${value.role}) berhasil dibuat. Kredensial dikirim ke ${value.phone}.`,
+    )
+  }
 
+  const handleEditUser = (value: EditUserValue) => {
+    if (!dialog?.user) return
+
+    setUsers((prev) =>
+      prev.map((user) =>
+        user.id === dialog.user?.id
+          ? {
+              ...user,
+              name: value.name,
+              email: value.email,
+              phone: value.phone,
+              identity: value.identity,
+              role: value.role,
+              initials: getInitials(value.name),
+            }
+          : user,
+      ),
+    )
+    setNotice(`Data ${value.name} berhasil diperbarui.`)
     setDialog(null)
   }
 
@@ -863,11 +881,14 @@ export function SuperAdminUserManagementPage() {
         />
       ) : null}
 
-      {dialog && (dialog.mode === 'create' || dialog.mode === 'edit') ? (
-        <UserFormModal
-          mode={dialog.mode}
+      {dialog?.mode === 'create' ? (
+        <CreateUserModal onClose={() => setDialog(null)} onSubmit={handleCreateUser} />
+      ) : null}
+
+      {dialog?.mode === 'edit' && dialog.user ? (
+        <EditUserModal
           onClose={() => setDialog(null)}
-          onSubmit={handleDialogSubmit}
+          onSubmit={handleEditUser}
           user={dialog.user}
         />
       ) : null}
