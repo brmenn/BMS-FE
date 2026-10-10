@@ -7,6 +7,8 @@ import { RegisterPage } from '@/features/auth/pages/RegisterPage'
 import { StudentDashboardPage } from '@/features/dashboard/pages/StudentDashboardPage'
 import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPage'
 import { AdminDashboardPage } from '@/features/dashboard/pages/AdminDashboardPage'
+import { AdminTabunganPage } from '@/features/dashboard/pages/AdminTabunganPage'
+import { AdminLayout } from '@/components/layout/AdminLayout'
 import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage'
 import { PembayaranPinjamanPage } from '@/features/pinjaman/pages/PembayaranPinjamanPage'
 import { PenarikanPage } from '@/features/penarikan/pages/PenarikanPage'
@@ -17,7 +19,9 @@ import { IsiJurnalPage } from '@/features/jurnal/pages/IsiJurnalPage'
 import { TabunganPage } from '@/features/tabungan/pages/TabunganPage'
 import { TabunganSiswaPage } from '@/features/siswa/pages/TabunganSiswaPage'
 import { SuperAdminDashboardPage } from '@/features/super-admin/pages/SuperAdminDashboardPage'
+import { SuperAdminUserManagementPage } from '@/features/super-admin/pages/SuperAdminUserManagementPage'
 import { LaporanArusKasPage } from '@/features/dashboard/pages/LaporanArusKasPage'
+import { DetailTransaksiPage } from '@/features/laporan-arus-kas/pages/DetailTransaksiPage'
 
 export function AppRoutes() {
   return (
@@ -31,6 +35,7 @@ export function AppRoutes() {
 
       {/* Super Admin */}
       <Route path="/super-admin/dashboard" element={<SuperAdminDashboardPage />} />
+      <Route path="/super-admin/user-management" element={<SuperAdminUserManagementPage />} />
 
       {/* Siswa */}
       <Route path="/siswa" element={<Navigate to="/siswa/dashboard" replace />} />
@@ -52,7 +57,11 @@ export function AppRoutes() {
       {/* Admin */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
       <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+<Route path="/admin/tabungan" element={<AdminTabunganPage />} />
       <Route path="/admin/laporan-arus-kas" element={<LaporanArusKasPage />} />
+      <Route element={<AdminLayout />}>
+        <Route path="/admin/laporan-arus-kas/transaksi/:id" element={<DetailTransaksiPage />} />
+      </Route>
 
       {/* Akuntansi */}
       <Route path="/akuntansi" element={<Navigate to="/akuntansi/isi-jurnal" replace />} />
