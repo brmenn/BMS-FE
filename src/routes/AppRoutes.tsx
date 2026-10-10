@@ -17,6 +17,7 @@ import { IsiJurnalPage } from '@/features/jurnal/pages/IsiJurnalPage'
 import { TabunganPage } from '@/features/tabungan/pages/TabunganPage'
 import { TabunganSiswaPage } from '@/features/siswa/pages/TabunganSiswaPage'
 import { SuperAdminDashboardPage } from '@/features/super-admin/pages/SuperAdminDashboardPage'
+import { LaporanArusKasPage } from '@/features/dashboard/pages/LaporanArusKasPage'
 
 export function AppRoutes() {
   return (
@@ -51,6 +52,7 @@ export function AppRoutes() {
       {/* Admin */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
       <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+      <Route path="/admin/laporan-arus-kas" element={<LaporanArusKasPage />} />
 
       {/* Akuntansi */}
       <Route path="/akuntansi" element={<Navigate to="/akuntansi/isi-jurnal" replace />} />

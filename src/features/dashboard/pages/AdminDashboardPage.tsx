@@ -12,15 +12,10 @@ import {
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import dashboardAdminPlaceholder from '@/placeholders/dashboard-admin.json'
-import dashboardIcon from '@/assets/icon/dashboard.svg'
 import screenshot from '@/assets/logo/screenshot.png'
 import { DashboardSidebar } from '../components/DashboardSidebar'
-import { type SidebarItem } from '../components/sidebar-items'
 import { DashboardTopbar } from '../components/DashboardTopbar'
-
-const navItems: SidebarItem[] = [
-  { to: '/admin/dashboard', label: 'Dashboard', icon: dashboardIcon },
-]
+import { adminItems } from '../components/admin-sidebar-items'
 
 export function AdminDashboardPage() {
   const { data } = useQuery({
@@ -32,7 +27,7 @@ export function AdminDashboardPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-        <DashboardSidebar items={navItems} logo />
+        <DashboardSidebar items={adminItems} logo />
         <div className="flex min-h-screen flex-col lg:pl-64">
           <DashboardTopbar role="Admin" />
           <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">

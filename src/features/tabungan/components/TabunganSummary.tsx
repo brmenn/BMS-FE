@@ -1,3 +1,5 @@
+import { Wallet } from 'lucide-react'
+
 interface TabunganSummaryProps {
     onSetorClick: () => void
 }
@@ -32,8 +34,8 @@ export function TabunganSummary({
       </div>
 
 
-      <div className="saving-wallet">
-        ▣
+      <div className="saving-wallet" aria-hidden="true">
+        <Wallet strokeWidth={1} />
       </div>
 
 

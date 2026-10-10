@@ -1,0 +1,438 @@
+/* =========================
+   OVERLAY
+========================= */
+
+.setor-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background: rgba(15, 23, 42, 0.48);
+
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.setor-modal {
+  position: relative;
+
+  width: 461px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 48px);
+
+  overflow-y: auto;
+
+  padding: 24px;
+
+  background: #ffffff;
+
+  border: 1px solid #c3c6d7;
+  border-radius: 16px;
+
+  box-shadow:
+    0 8px 10px -6px rgba(23, 37, 84, 0.04),
+    0 20px 25px -5px rgba(23, 37, 84, 0.1);
+
+  font-family:
+    'Inter',
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.setor-modal::-webkit-scrollbar {
+  display: none;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.setor-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 16px;
+
+  border-bottom: 1px solid #c3c6d7;
+}
+
+.setor-modal-title-wrap {
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+}
+
+.setor-modal-icon {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eff4ff;
+
+  border-radius: 8px;
+
+  color: #004ac6;
+}
+
+.setor-modal-title {
+  margin: 0;
+
+  color: #121c2a;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.setor-modal-close {
+  width: 32px;
+  height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 4px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: transparent;
+
+  color: #434655;
+
+  cursor: pointer;
+}
+
+.setor-modal-close:hover {
+  background: #f0f2f7;
+}
+
+/* =========================
+   BODY
+========================= */
+
+.setor-modal-body {
+  display: flex;
+  flex-direction: column;
+
+  gap: 16px;
+
+  padding-top: 16px;
+}
+
+/* =========================
+   FIELD
+========================= */
+
+.setor-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.setor-field > label {
+  color: #434655;
+
+  font-size: 12px;
+  font-weight: 600;
+
+  letter-spacing: 0.24px;
+  line-height: 16px;
+}
+
+/* =========================
+   NOMINAL
+========================= */
+
+.setor-nominal-input {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+
+  min-height: 48px;
+
+  background: #ffffff;
+
+  border: 1px solid #c3c6d7;
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+.setor-rupiah {
+  flex-shrink: 0;
+
+  padding-left: 16px;
+
+  color: #434655;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 20px;
+}
+
+.setor-nominal-input input {
+  width: 100%;
+
+  padding: 10px 16px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #121c2a;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 20px;
+}
+
+.setor-nominal-input:focus-within {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+.setor-helper {
+  margin: 0;
+
+  color: #737686;
+
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* =========================
+   METODE PEMBAYARAN
+========================= */
+
+.setor-method-wrapper {
+  position: relative;
+
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+
+  background: #ffffff;
+
+  border: 1px solid #c3c6d7;
+  border-radius: 12px;
+
+  overflow: hidden;
+}
+
+.setor-method-wrapper:focus-within {
+  border-color: #2563eb;
+
+  box-shadow:
+    0 0 0 2px rgba(37, 99, 235, 0.08);
+}
+
+.setor-method-icon {
+  width: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  color: #2563eb;
+}
+
+.setor-method-wrapper select {
+  width: 100%;
+  height: 46px;
+
+  padding: 0 40px 0 4px;
+
+  border: none;
+  outline: none;
+
+  appearance: none;
+  -webkit-appearance: none;
+
+  background: transparent;
+
+  color: #121c2a;
+
+  font-family: inherit;
+
+  font-size: 14px;
+  line-height: 20px;
+
+  cursor: pointer;
+}
+
+.setor-method-chevron {
+  position: absolute;
+
+  right: 12px;
+
+  color: #737686;
+
+  pointer-events: none;
+}
+
+/* =========================
+   INFO BOX
+========================= */
+
+.setor-info-box {
+  display: flex;
+  align-items: flex-start;
+
+  gap: 10px;
+
+  padding: 12px;
+
+  background: #eff4ff;
+
+  border-left: 4px solid #004ac6;
+
+  border-radius: 12px;
+}
+
+.setor-info-icon {
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding-top: 2px;
+
+  color: #004ac6;
+}
+
+.setor-info-box p {
+  margin: 0;
+
+  color: #434655;
+
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* =========================
+   ACTION
+========================= */
+
+.setor-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid #c3c6d7;
+}
+
+.setor-cancel-btn,
+.setor-submit-btn {
+  min-height: 44px;
+
+  padding: 10px 20px;
+
+  border-radius: 12px;
+
+  font-family: inherit;
+
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+
+  cursor: pointer;
+}
+
+.setor-cancel-btn {
+  border: 1px solid #c3c6d7;
+
+  background: #ffffff;
+
+  color: #121c2a;
+}
+
+.setor-cancel-btn:hover {
+  background: #f5f7fb;
+}
+
+.setor-submit-btn {
+  padding-left: 24px;
+  padding-right: 24px;
+
+  border: none;
+
+  background: #2563eb;
+
+  color: #ffffff;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.setor-submit-btn:hover:not(:disabled) {
+  background: #1d4ed8;
+}
+
+.setor-submit-btn:disabled {
+  opacity: 0.5;
+
+  cursor: not-allowed;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+  .setor-modal-overlay {
+    padding: 12px;
+  }
+
+  .setor-modal {
+    width: 100%;
+
+    padding: 20px;
+  }
+
+  .setor-modal-actions {
+    flex-direction: column-reverse;
+  }
+
+  .setor-cancel-btn,
+  .setor-submit-btn {
+    width: 100%;
+  }
+}

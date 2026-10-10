@@ -26,16 +26,17 @@ interface DashboardSidebarProps {
   items?: SidebarItem[]
   logo?: boolean
   logoSrc?: string
+  logoClassName?: string
 }
 
-export function DashboardSidebar({ items = defaultItems, logo = false, logoSrc = logoTitle }: DashboardSidebarProps) {
+export function DashboardSidebar({ items = defaultItems, logo = false, logoSrc = logoTitle, logoClassName }: DashboardSidebarProps) {
   return (
     <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col gap-6 border-r border-solid border-[#c3c6d7] bg-white shadow-[0px_1px_2px_#0000000d] lg:flex">
       {logo ? (
         <div className="flex h-16 w-full items-center justify-center border-b border-solid border-[#c3c6d7]">
           <img
             alt="SMKS Muhammadiyah 1 Genteng"
-            className="h-14 w-auto"
+            className={logoClassName ?? 'h-14 w-auto'}
             src={logoSrc}
           />
         </div>
