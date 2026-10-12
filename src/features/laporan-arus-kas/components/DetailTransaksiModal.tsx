@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import {
-  ArrowLeft,
   Banknote,
   Check,
   Copy,
@@ -11,11 +10,11 @@ import {
   QrCode,
   ShieldCheck,
   Stamp,
+  X,
 } from 'lucide-react'
-import { Link, useParams } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
-import { getTransactionById } from '@/features/laporan-arus-kas/data/transactions'
+import type { CashFlowTransaction } from '@/features/laporan-arus-kas/data/transactions'
 
 const fieldLabelClass =
   'text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#737686]'
@@ -24,12 +23,27 @@ const fieldNoteClass = 'text-xs leading-[18px] text-[#737686]'
 const sectionLabelClass =
   'text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]'
 
-export function DetailTransaksiPage() {
-  const { id } = useParams()
-  const transaction = getTransactionById(id)
+interface DetailTransaksiModalProps {
+  transaction: CashFlowTransaction
+  onClose: () => void
+}
 
+export function DetailTransaksiModal({ transaction, onClose }: DetailTransaksiModalProps) {
   const [copiedRef, setCopiedRef] = useState(false)
   const [copiedLink, setCopiedLink] = useState(false)
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onClose()
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+      document.body.style.overflow = previousOverflow
+    }
+  }, [onClose])
 
   useEffect(() => {
     if (!copiedRef) return
@@ -66,28 +80,18 @@ export function DetailTransaksiPage() {
   }
 
   return (
-    <div className="flex w-full flex-col p-4 sm:p-8 lg:px-16 lg:pb-16">
-      <div className="flex w-full flex-col pb-1.5">
-        <Link
-          className="inline-flex w-fit items-center gap-2 text-sm leading-5 font-medium text-[#004ac6] transition-colors hover:text-[#0040b3] print:hidden"
-          to="/admin/laporan-arus-kas"
-        >
-          <ArrowLeft className="h-3 w-3" aria-hidden="true" />
-          Kembali ke Laporan Arus Kas
-        </Link>
-      </div>
-
-      <header className="flex w-full flex-col gap-1 pb-4">
-        <h1 className="text-2xl leading-8 font-semibold tracking-[-0.24px] text-[#121c2a]">
-          Detail Transaksi
-        </h1>
-        <p className="text-sm leading-5 text-[#737686]">
-          Informasi lengkap dan validasi rincian mutasi transaksi kas.
-        </p>
-      </header>
-
-      <section aria-labelledby="receipt-title" className="flex w-full flex-col items-start">
-        <article className="flex w-full max-w-[672px] flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-[0px_1px_2px_#0000000d]">
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto bg-[#121c2a66] p-4 sm:items-center"
+      onClick={onClose}
+    >
+      <div
+        aria-labelledby="receipt-title"
+        aria-modal="true"
+        className="relative my-auto w-full max-w-[672px]"
+        onClick={(event) => event.stopPropagation()}
+        role="dialog"
+      >
+        <article className="flex w-full flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-[0px_8px_24px_#00000014]">
           <header className="flex w-full flex-col items-start gap-4 border-b border-[#d1fae5] bg-gradient-to-r from-[#ecfdf5] via-[#f0fdf4]/70 to-[#ecfdf5] px-8 py-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="inline-flex items-center gap-3">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#7ffc97] shadow-[0px_1px_2px_#0000000d]">
@@ -106,11 +110,22 @@ export function DetailTransaksiPage() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-2 rounded-xl border border-[#c3c6d780] bg-white/90 px-3 py-1.5">
-              <ShieldCheck className="h-4 w-4 text-[#737686]" aria-hidden="true" />
-              <span className="text-[11px] leading-[14px] font-semibold tracking-[0.44px] whitespace-nowrap text-[#737686]">
-                Terverifikasi Sistem
-              </span>
+            <div className="flex items-center gap-3">
+              <div className="inline-flex items-center gap-2 rounded-xl border border-[#c3c6d780] bg-white/90 px-3 py-1.5">
+                <ShieldCheck className="h-4 w-4 text-[#737686]" aria-hidden="true" />
+                <span className="text-[11px] leading-[14px] font-semibold tracking-[0.44px] whitespace-nowrap text-[#737686]">
+                  Terverifikasi Sistem
+                </span>
+              </div>
+              <button
+                aria-label="Tutup detail transaksi"
+                autoFocus
+                className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[#006329] transition-colors hover:bg-white/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#004ac6]"
+                onClick={onClose}
+                type="button"
+              >
+                <X className="h-4 w-4" aria-hidden="true" />
+              </button>
             </div>
           </header>
 
@@ -127,7 +142,7 @@ export function DetailTransaksiPage() {
                   </strong>
                   <button
                     aria-label="Salin nomor referensi transaksi"
-                    className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:bg-[#f8f9ff] print:hidden"
+                    className="flex h-8 w-8 items-center justify-center rounded transition-colors hover:bg-[#f8f9ff]"
                     onClick={handleCopyReference}
                     type="button"
                   >
@@ -261,7 +276,7 @@ export function DetailTransaksiPage() {
             </section>
           </div>
 
-          <footer className="flex w-full flex-col items-start gap-4 border-t border-[#c3c6d799] bg-[#e6eeff] px-8 py-5 sm:flex-row sm:items-center sm:justify-between print:hidden">
+          <footer className="flex w-full flex-col items-start gap-4 border-t border-[#c3c6d799] bg-[#e6eeff] px-8 py-5 sm:flex-row sm:items-center sm:justify-between">
             <button
               className="inline-flex h-12 items-center justify-center gap-2.5 rounded-xl bg-[#2563eb] px-6 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#1d4ed8]"
               onClick={() => window.print()}
@@ -306,7 +321,7 @@ export function DetailTransaksiPage() {
             </div>
           </footer>
         </article>
-      </section>
+      </div>
     </div>
   )
 }

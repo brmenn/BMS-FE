@@ -8,7 +8,6 @@ import { StudentDashboardPage } from '@/features/dashboard/pages/StudentDashboar
 import { StaffDashboardPage } from '@/features/dashboard/pages/StaffDashboardPage'
 import { AdminDashboardPage } from '@/features/dashboard/pages/AdminDashboardPage'
 import { AdminTabunganPage } from '@/features/dashboard/pages/AdminTabunganPage'
-import { AdminLayout } from '@/components/layout/AdminLayout'
 import { DetailPinjamanPage } from '@/features/pinjaman/pages/DetailPinjamanPage'
 import { PembayaranPinjamanPage } from '@/features/pinjaman/pages/PembayaranPinjamanPage'
 import { PenarikanPage } from '@/features/penarikan/pages/PenarikanPage'
@@ -22,7 +21,6 @@ import { SuperAdminDashboardPage } from '@/features/super-admin/pages/SuperAdmin
 import { SuperAdminUserManagementPage } from '@/features/super-admin/pages/SuperAdminUserManagementPage'
 import { LaporanArusKasPage } from '@/features/dashboard/pages/LaporanArusKasPage'
 import { LaporanPetugasPiketPage } from '@/features/dashboard/pages/LaporanPetugasPiketPage'
-import { DetailTransaksiPage } from '@/features/laporan-arus-kas/pages/DetailTransaksiPage'
 
 export function AppRoutes() {
   return (
@@ -61,9 +59,6 @@ export function AppRoutes() {
       <Route path="/admin/tabungan" element={<AdminTabunganPage />} />
       <Route path="/admin/laporan-arus-kas" element={<LaporanArusKasPage />} />
       <Route path="/admin/laporan-petugas-piket" element={<LaporanPetugasPiketPage />} />
-      <Route element={<AdminLayout />}>
-        <Route path="/admin/laporan-arus-kas/transaksi/:id" element={<DetailTransaksiPage />} />
-      </Route>
 
       {/* Akuntansi */}
       <Route path="/akuntansi" element={<Navigate to="/akuntansi/isi-jurnal" replace />} />

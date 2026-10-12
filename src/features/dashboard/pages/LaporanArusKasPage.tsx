@@ -12,6 +12,8 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
+import { DetailTransaksiModal } from '@/features/laporan-arus-kas/components/DetailTransaksiModal'
+import type { CashFlowTransaction } from '@/features/laporan-arus-kas/data/transactions'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 import { adminItems } from '../components/admin-sidebar-items'
@@ -65,6 +67,86 @@ const TRANSACTIONS: ArusKasTrx[] = Array.from({ length: 48 }, (_, i) => {
     petugas: 'Admin (Siti R.)',
   }
 })
+
+const DETAIL_NAMES: Record<Kelompok, string[]> = {
+  Siswa: [
+    'Ahmad Fauzan',
+    'Budi Santoso',
+    'Rina Wulandari',
+    'Dewi Lestari',
+    'Fajar Nugroho',
+    'Nadia Safitri',
+    'Bagas Pratama',
+    'Citra Ayu',
+  ],
+  Guru: [
+    'Siti Aminah',
+    'Rahmat Hidayat',
+    'Dian Puspita',
+    'Agus Setiawan',
+    'Maya Kartika',
+    'Hendra Wijaya',
+    'Lestari Ningsih',
+    'Bambang Sutrisno',
+  ],
+}
+
+const DETAIL_TYPE_LABEL: Record<Kategori, string> = {
+  Setoran: 'Setoran Tabungan',
+  Cicilan: 'Pembayaran Cicilan',
+  Penarikan: 'Penarikan Tabungan',
+}
+
+const DETAIL_METHOD_NOTE: Record<Metode, string> = {
+  Cash: 'Kasir Sekolah • Kwitansi',
+  Transfer: 'Bank Rakyat Indonesia (BRI) • Ref',
+  'Transfer BSI': 'Bank Syariah Indonesia (BSI) • Ref',
+  Payroll: 'Payroll Bank Mandiri • Ref',
+}
+
+function buildTransactionDetail(tx: ArusKasTrx, index: number): CashFlowTransaction {
+  const isMasuk = tx.amount >= 0
+  const names = DETAIL_NAMES[tx.kelompok]
+  const name = names[index % names.length]
+  const seq = index + 1
+  const transactionNote =
+    tx.kategori === 'Cicilan'
+      ? `Angsuran Pinjaman Ke-${(index % 12) + 1}`
+      : tx.kategori === 'Setoran'
+        ? 'Setoran Tunai Tabungan Bulanan'
+        : 'Penarikan Tabungan Sukarela'
+
+  return {
+    id: tx.code,
+    reference: tx.code,
+    amount: Math.abs(tx.amount),
+    direction: isMasuk ? 'masuk' : 'keluar',
+    dateLabel: tx.date,
+    userName: name,
+    userMeta:
+      tx.kelompok === 'Siswa'
+        ? `NIS: 2023${String(seq).padStart(3, '0')} • Siswa`
+        : `NIP: 1982${String(seq).padStart(3, '0')} • Guru Tetap`,
+    group: tx.kelompok === 'Guru' ? 'Guru/Karyawan' : 'Siswa',
+    transactionType: DETAIL_TYPE_LABEL[tx.kategori],
+    transactionNote,
+    paidNote: tx.kategori === 'Penarikan' ? '(Sesuai Jumlah Penarikan)' : '(Lunas Sesuai Tagihan)',
+    method: tx.metode === 'Cash' ? 'tunai' : 'transfer',
+    methodLabel: tx.metode,
+    methodNote: `${DETAIL_METHOD_NOTE[tx.metode]}: ${
+      tx.metode === 'Cash' ? 'KW' : 'REF'
+    }-2026-${String(seq).padStart(3, '0')}`,
+    bookedAt: `${tx.date}, 10:15 WIB`,
+    bookedNote: isMasuk
+      ? 'Tercatat di Jurnal Penerimaan Kas'
+      : 'Tercatat di Jurnal Pengeluaran Kas',
+    officerName: tx.petugas,
+    officerMeta: '(Siti Rahmawati, S.E. - Kasir Pusat)',
+    officerTerminal: 'Terminal Kasir 01',
+    hash: `HASH: ${tx.code.replace('TRX-', '')}-2026-BMS-OCTGEN`,
+    status: 'BERHASIL',
+  }
+}
 
 const KATEGORI_OPTIONS = ['Semua Kategori', 'Setoran', 'Cicilan', 'Penarikan'] as const
 const KELOMPOK_OPTIONS = ['Semua Kelompok', 'Siswa', 'Guru'] as const
@@ -291,6 +373,7 @@ export function LaporanArusKasPage() {
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [downloadModule, setDownloadModule] = useState('Arus Kas')
   const [downloadFormat, setDownloadFormat] = useState<'pdf' | 'xlsx'>('pdf')
+  const [detailTransaction, setDetailTransaction] = useState<CashFlowTransaction | null>(null)
 
   const visible = TRANSACTIONS.filter((tx) => {
     const day = dayOfMonth(tx.date)
@@ -658,6 +741,9 @@ export function LaporanArusKasPage() {
                   <button
                     className="flex h-9 items-center gap-1.5 rounded-xl border border-solid border-[#c3c6d7] bg-white px-3 text-xs font-semibold leading-4 tracking-[0.24px] text-[#121c2a] transition-colors hover:bg-[#f8f9ff]"
                     type="button"
+                    onClick={() => {
+                      if (visible[0]) setDetailTransaction(buildTransactionDetail(visible[0], 0))
+                    }}
                   >
                     <span
                       aria-hidden="true"
@@ -781,6 +867,11 @@ export function LaporanArusKasPage() {
                           <button
                             className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-semibold leading-4 tracking-[0.24px] text-[#004ac6] transition-colors hover:bg-[#eff4ff]"
                             type="button"
+                            onClick={() =>
+                              setDetailTransaction(
+                                buildTransactionDetail(tx, (safePage - 1) * PAGE_SIZE + index),
+                              )
+                            }
                           >
                             <span
                               aria-hidden="true"
@@ -1245,6 +1336,13 @@ export function LaporanArusKasPage() {
           </div>
         )
       }
+
+      {detailTransaction && (
+        <DetailTransaksiModal
+          transaction={detailTransaction}
+          onClose={() => setDetailTransaction(null)}
+        />
+      )}
       </div>
     </div>
   )
