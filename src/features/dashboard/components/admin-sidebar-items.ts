@@ -8,5 +8,5 @@ export const adminItems: SidebarItem[] = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: dashboardIcon },
   { to: '/admin/laporan-arus-kas', label: 'Laporan Arus Kas', icon: arusKasIcon },
   { label: 'Laporan Tabungan Siswa', icon: tabunganIcon },
-  { label: 'Laporan Petugas Piket', icon: ClipboardList },
+  { to: '/admin/laporan-petugas-piket', label: 'Laporan Petugas Piket', icon: ClipboardList },
 ]

@@ -21,6 +21,7 @@ import { TabunganSiswaPage } from '@/features/siswa/pages/TabunganSiswaPage'
 import { SuperAdminDashboardPage } from '@/features/super-admin/pages/SuperAdminDashboardPage'
 import { SuperAdminUserManagementPage } from '@/features/super-admin/pages/SuperAdminUserManagementPage'
 import { LaporanArusKasPage } from '@/features/dashboard/pages/LaporanArusKasPage'
+import { LaporanPetugasPiketPage } from '@/features/dashboard/pages/LaporanPetugasPiketPage'
 import { DetailTransaksiPage } from '@/features/laporan-arus-kas/pages/DetailTransaksiPage'
 
 export function AppRoutes() {
@@ -57,8 +58,9 @@ export function AppRoutes() {
       {/* Admin */}
       <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
       <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-<Route path="/admin/tabungan" element={<AdminTabunganPage />} />
+      <Route path="/admin/tabungan" element={<AdminTabunganPage />} />
       <Route path="/admin/laporan-arus-kas" element={<LaporanArusKasPage />} />
+      <Route path="/admin/laporan-petugas-piket" element={<LaporanPetugasPiketPage />} />
       <Route element={<AdminLayout />}>
         <Route path="/admin/laporan-arus-kas/transaksi/:id" element={<DetailTransaksiPage />} />
       </Route>
