@@ -7,6 +7,6 @@ import type { SidebarItem } from './sidebar-items'
 export const adminItems: SidebarItem[] = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: dashboardIcon },
   { to: '/admin/laporan-arus-kas', label: 'Laporan Arus Kas', icon: arusKasIcon },
-  { label: 'Laporan Tabungan Siswa', icon: tabunganIcon },
+  { to: '/admin/tabungan', label: 'Laporan Tabungan Siswa', icon: tabunganIcon },
   { to: '/admin/laporan-petugas-piket', label: 'Laporan Petugas Piket', icon: ClipboardList },
 ]
