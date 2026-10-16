@@ -769,6 +769,12 @@
   background-color: #ffffff;
   border: 1px solid #c3c6d780;
   border-radius: 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.download-modal::-webkit-scrollbar {
+  display: none;
 }
 
 .modal-header {
