@@ -1,5 +1,8 @@
 import { CheckCircle2, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { StudentPhoto } from './StudentPhoto'
+import avatar from '@/assets/logo/avatar.png'
+import lumba from '@/assets/logo/lumba.png'
 
 const TESTIMONIALS = [
   {
@@ -8,6 +11,7 @@ const TESTIMONIALS = [
     initials: 'AP',
     name: 'Adinda Putri',
     role: 'Siswa XII RPL 1',
+    avatar: lumba,
     avatarClassName: 'bg-[#dbe1ff] text-[#00174b]',
   },
   {
@@ -16,6 +20,7 @@ const TESTIMONIALS = [
     initials: 'AD',
     name: 'Bpk. Drs. H. Ahmad Dahlan, M.Pd.',
     role: 'Guru Pembina',
+    avatar,
     avatarClassName: 'bg-[#dce1ff] text-[#071747]',
   },
   {
@@ -24,6 +29,7 @@ const TESTIMONIALS = [
     initials: 'SR',
     name: 'Ibu Siti Rahmawati',
     role: 'Wali Murid',
+    avatar,
     avatarClassName: 'bg-[#7ffc97] text-[#002109]',
   },
   {
@@ -32,6 +38,7 @@ const TESTIMONIALS = [
     initials: 'FR',
     name: 'Fajar Ramadhan',
     role: 'Siswa XI AKL 2',
+    avatar: lumba,
     avatarClassName: 'bg-[#ffe6d5] text-[#4a1d00]',
   },
   {
@@ -40,6 +47,7 @@ const TESTIMONIALS = [
     initials: 'NW',
     name: 'Ibu Nur Wulandari',
     role: 'Bendahara Koperasi',
+    avatar,
     avatarClassName: 'bg-[#d3f5e6] text-[#00301d]',
   },
   {
@@ -48,6 +56,7 @@ const TESTIMONIALS = [
     initials: 'RH',
     name: 'Raka Hermawan',
     role: 'Siswa X TKJ 1',
+    avatar: lumba,
     avatarClassName: 'bg-[#e8dcff] text-[#23005a]',
   },
 ]
@@ -123,14 +132,16 @@ export function TestimonialSection() {
                     </div>
 
                     <div className="flex w-full items-center gap-3 border-t border-[#c3c6d74c] pt-4">
-                      <span
-                        className={cn(
-                          'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold',
+                      <StudentPhoto
+                        src={testimonial.avatar}
+                        alt={`Foto profil ${testimonial.name}`}
+                        initials={testimonial.initials}
+                        className="h-10 w-10 rounded-full"
+                        fallbackClassName={cn(
+                          'rounded-full text-sm font-bold',
                           testimonial.avatarClassName,
                         )}
-                      >
-                        {testimonial.initials}
-                      </span>
+                      />
                       <span className="flex min-w-0 flex-col items-start">
                         <span className="text-sm font-semibold leading-5 text-[#121c2a]">
                           {testimonial.name}
