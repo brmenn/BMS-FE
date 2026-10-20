@@ -73,15 +73,6 @@ export function StudentDashboardPage() {
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-3">
-                <button
-                  className="flex items-center gap-2 rounded-xl bg-white px-5 py-2.5 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#eff6ff]"
-                  type="button"
-                >
-                  <ArrowDownToLine className="h-4 w-4 text-[#2563eb]" aria-hidden="true" />
-                  <span className="text-base font-semibold leading-6 text-[#2563eb]">
-                    Setor Tabungan
-                  </span>
-                </button>
                 <Link
                   className="flex items-center gap-2 rounded-xl border border-solid border-white/40 px-5 py-2.5 backdrop-blur-[2px] transition-colors hover:bg-white/10"
                   to="/siswa/penarikan"

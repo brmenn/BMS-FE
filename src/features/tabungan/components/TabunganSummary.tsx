@@ -1,12 +1,6 @@
 import { Wallet } from 'lucide-react'
 
-interface TabunganSummaryProps {
-    onSetorClick: () => void
-}
-
-export function TabunganSummary({
-    onSetorClick,
-}: TabunganSummaryProps) {
+export function TabunganSummary() {
   return (
     <div className="saving-summary-card">
 
@@ -40,19 +34,6 @@ export function TabunganSummary({
 
 
       <div className="saving-line" />
-
-
-      <div className="saving-buttons">
-
-        <button 
-        className="deposit-button"
-        onClick={onSetorClick}
-        >
-          ⊕ &nbsp; Setor Tabungan
-        </button>
-
-
-      </div>
 
 
       <div className="saving-security">

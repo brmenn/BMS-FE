@@ -196,13 +196,6 @@ export function StaffDashboardPage() {
           <section className="flex w-full flex-col rounded-2xl border border-solid border-[#e2e8f0] bg-white p-6 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a]">
             <div className="flex flex-wrap items-center justify-center gap-4">
               <button
-                className="flex h-12 items-center gap-2.5 rounded-xl bg-[#2563eb] px-8 shadow-[0px_2px_4px_-2px_#0000001a,0px_4px_6px_-1px_#0000001a] transition-colors hover:bg-[#1d4ed8]"
-                type="button"
-              >
-                <ArrowDownToLine className="h-4 w-4 text-white" aria-hidden="true" />
-                <span className="text-sm font-medium leading-5 text-white">Setor Tabungan</span>
-              </button>
-              <button
                 className="flex h-12 items-center gap-2.5 rounded-xl border border-solid border-[#c3c6d74c] bg-[#eff4ff] px-7 transition-colors hover:bg-[#e0eaff]"
                 type="button"
               >

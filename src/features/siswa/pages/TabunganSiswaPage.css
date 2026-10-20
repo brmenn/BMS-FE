@@ -318,41 +318,6 @@
   opacity: 0.9;
 }
 
-.siswa-btn-setor {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 24px;
-  flex-shrink: 0;
-
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-
-  background: #ffffff;
-  color: #2563eb;
-  font-family: inherit;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 24px;
-  white-space: nowrap;
-
-  box-shadow:
-    0 1px 2px -1px rgba(0, 0, 0, 0.1),
-    0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.siswa-btn-setor:hover {
-  background: #f0f6ff;
-}
-
-.siswa-btn-setor-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* ============ RIWAYAT ============ */
 .siswa-riwayat {
   display: flex;
@@ -695,7 +660,6 @@
 
 /* ============ FOCUS & RESPONSIVE ============ */
 .siswa-profile-btn:focus-visible,
-.siswa-btn-setor:focus-visible,
 .siswa-detail-btn:focus-visible,
 .siswa-filter-btn:focus-visible,
 .siswa-icon-btn:focus-visible,

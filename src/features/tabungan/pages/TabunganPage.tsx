@@ -10,7 +10,6 @@ import { TabunganSummary } from '../components/TabunganSummary'
 import { DepositStatus } from '../components/DepositStatus'
 import { TransactionTable } from '../components/TransactionTable'
 import type { Transaction } from '../components/TransactionTable'
-import { SetorTabunganModal } from '../components/SetorTabunganModal'
 import { ReceiptModal } from '../components/ReceiptModal'
 import type { ReceiptData } from '../components/receipt-data'
 import { DEFAULT_RECEIPT } from '../components/receipt-data'
@@ -44,7 +43,6 @@ function buildReceipt(tx: Transaction): ReceiptData {
 }
 
 export function TabunganPage() {
-  const [showSetorModal, setShowSetorModal] = useState(false)
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
 
   return (
@@ -80,9 +78,7 @@ export function TabunganPage() {
           {/* CARD ATAS */}
           <div className="top-cards">
 
-            <TabunganSummary 
-            onSetorClick={() => setShowSetorModal(true)}
-            />
+            <TabunganSummary />
 
             <DepositStatus
             onReceiptClick={() => setReceiptData(DEFAULT_RECEIPT)}
@@ -94,12 +90,6 @@ export function TabunganPage() {
           <TransactionTable
             onReceiptClick={(transaction) => setReceiptData(buildReceipt(transaction))}
             />
-
-          {showSetorModal && (
-        <SetorTabunganModal
-            onClose={() => setShowSetorModal(false)}
-        />
-        )}
 
         {receiptData && (
         <ReceiptModal

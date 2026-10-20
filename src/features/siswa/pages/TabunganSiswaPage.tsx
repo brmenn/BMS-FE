@@ -6,7 +6,6 @@ import {
   ChevronRight,
   CreditCard,
   PiggyBank,
-  Plus,
   Receipt,
   User,
   Wallet,
@@ -16,7 +15,6 @@ import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar
 import dashboardIcon from '@/assets/icon/dashboard.svg'
 import tabunganIcon from '@/assets/icon/tabungan.svg'
 import penarikanIcon from '@/assets/icon/penarikan.svg'
-import { SetorTabunganModal } from '../components/SetorTabunganModal'
 import './TabunganSiswaPage.css'
 
 const NAV_ITEMS: SidebarItem[] = [
@@ -159,7 +157,6 @@ type FilterKey = (typeof FILTERS)[number]['key']
 export function TabunganSiswaPage() {
   const [filter, setFilter] = useState<FilterKey>('semua')
   const [page, setPage] = useState(1)
-  const [showSetorModal, setShowSetorModal] = useState(false)
 
   const visible = TRANSACTIONS.filter(
     (tx) => filter === 'semua' || tx.jenis === filter,
@@ -217,17 +214,6 @@ export function TabunganSiswaPage() {
                     </span>
                   </div>
                 </div>
-
-                <button
-                  className="siswa-btn-setor"
-                  type="button"
-                  onClick={() => setShowSetorModal(true)}
-                >
-                  <span className="siswa-btn-setor-icon" aria-hidden="true">
-                    <Plus size={14} />
-                  </span>
-                  <span>Setor Tabungan</span>
-                </button>
               </div>
             </section>
 
@@ -399,11 +385,6 @@ export function TabunganSiswaPage() {
           </div>
         </main>
       </div>
-      {showSetorModal && (
-        <SetorTabunganModal
-          onClose={() => setShowSetorModal(false)}
-        />
-      )}
     </div>
   )
 }
