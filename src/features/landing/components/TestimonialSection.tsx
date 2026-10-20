@@ -26,6 +26,30 @@ const TESTIMONIALS = [
     role: 'Wali Murid',
     avatarClassName: 'bg-[#7ffc97] text-[#002109]',
   },
+  {
+    quote:
+      '"Setiap transaksi tercatat otomatis, laporan kas koperasi jadi rapi tanpa perhitungan manual."',
+    initials: 'FR',
+    name: 'Fajar Ramadhan',
+    role: 'Siswa XI AKL 2',
+    avatarClassName: 'bg-[#ffe6d5] text-[#4a1d00]',
+  },
+  {
+    quote:
+      '"Riwayat setor dan tarik uang jelas semua, tidak ada lagi selisih kas di akhir bulan."',
+    initials: 'NW',
+    name: 'Ibu Nur Wulandari',
+    role: 'Bendahara Koperasi',
+    avatarClassName: 'bg-[#d3f5e6] text-[#00301d]',
+  },
+  {
+    quote:
+      '"Notifikasinya cepat, siswa langsung tahu saldo tabungannya bertambah setelah setor."',
+    initials: 'RH',
+    name: 'Raka Hermawan',
+    role: 'Siswa X TKJ 1',
+    avatarClassName: 'bg-[#e8dcff] text-[#23005a]',
+  },
 ]
 
 export function TestimonialSection() {
@@ -69,35 +93,58 @@ export function TestimonialSection() {
           </div>
         </div>
 
-        <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-3">
-          {TESTIMONIALS.map((testimonial) => (
-            <article
-              key={testimonial.name}
-              className="flex flex-col items-start justify-between gap-6 rounded-2xl border border-[#c3c6d766] bg-white p-6 shadow-[0px_1px_2px_#0000000d]"
-            >
-              <div className="flex w-full flex-col items-start gap-3">
-                <StarRating />
-                <p className="text-sm italic leading-[22.8px] text-[#121c2a]">{testimonial.quote}</p>
-              </div>
+        <div className="group relative w-full overflow-hidden" aria-label="Carousel ulasan pengguna">
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#dfdfdf] to-transparent"
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#dfdfdf] to-transparent"
+            aria-hidden="true"
+          />
 
-              <div className="flex w-full items-center gap-3 border-t border-[#c3c6d74c] pt-4">
-                <span
-                  className={cn(
-                    'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold',
-                    testimonial.avatarClassName,
-                  )}
-                >
-                  {testimonial.initials}
-                </span>
-                <span className="flex min-w-0 flex-col items-start">
-                  <span className="text-sm font-semibold leading-5 text-[#121c2a]">
-                    {testimonial.name}
-                  </span>
-                  <span className="text-xs leading-[18px] text-[#434655]">{testimonial.role}</span>
-                </span>
+          <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none">
+            {[0, 1].map((copy) => (
+              <div
+                key={copy}
+                aria-hidden={copy === 1}
+                className="flex w-max gap-6 pr-6"
+              >
+                {TESTIMONIALS.map((testimonial) => (
+                  <article
+                    key={testimonial.name}
+                    className="flex w-[320px] shrink-0 flex-col justify-between gap-6 rounded-2xl border border-[#c3c6d766] bg-white p-6 shadow-[0px_1px_2px_#0000000d] sm:w-[360px]"
+                  >
+                    <div className="flex w-full flex-col items-start gap-3">
+                      <StarRating />
+                      <p className="text-sm italic leading-[22.8px] text-[#121c2a]">
+                        {testimonial.quote}
+                      </p>
+                    </div>
+
+                    <div className="flex w-full items-center gap-3 border-t border-[#c3c6d74c] pt-4">
+                      <span
+                        className={cn(
+                          'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold',
+                          testimonial.avatarClassName,
+                        )}
+                      >
+                        {testimonial.initials}
+                      </span>
+                      <span className="flex min-w-0 flex-col items-start">
+                        <span className="text-sm font-semibold leading-5 text-[#121c2a]">
+                          {testimonial.name}
+                        </span>
+                        <span className="text-xs leading-[18px] text-[#434655]">
+                          {testimonial.role}
+                        </span>
+                      </span>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </article>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
