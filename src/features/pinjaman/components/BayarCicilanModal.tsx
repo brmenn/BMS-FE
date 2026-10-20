@@ -13,6 +13,7 @@ import {
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { formatMoney } from '@/lib/format'
 
 type PaymentScope = 'full' | 'principal' | 'interest'
 type PaymentChannel = 'cash' | 'transfer'
@@ -70,6 +71,12 @@ const CHANNEL_OPTIONS: ChannelOption[] = [
     account: 'BSI - 7109283921 (Ahmad Dahlan)',
   },
 ]
+
+const TOTAL_TAGIHAN = 420_000
+const ADMIN_FEE_SAME_BANK = 5_000
+const ADMIN_FEE_OTHER_BANK = 10_000
+const ADMIN_FEE_STEP = 10_000_000
+const ADMIN_FEE_MULTIPLIER = Math.max(1, Math.ceil(TOTAL_TAGIHAN / ADMIN_FEE_STEP))
 
 export function BayarCicilanModal({ onClose }: { onClose: () => void }) {
   const [scope, setScope] = useState<PaymentScope>('full')
@@ -250,6 +257,15 @@ export function BayarCicilanModal({ onClose }: { onClose: () => void }) {
                   </button>
                 )
               })}
+            </div>
+
+            <div className="flex items-start gap-2 rounded-lg border border-[#c3c6d733] bg-[#f8f9ff] px-3 py-2.5">
+              <Info className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#2563eb]" aria-hidden="true" />
+              <p className="text-xs leading-[18px] text-[#434655]">
+                {channel === 'cash'
+                  ? 'Pembayaran cash di loket kasir — tanpa biaya admin.'
+                  : `Biaya admin transfer: ${formatMoney(ADMIN_FEE_SAME_BANK)} sesama bank BTN, ${formatMoney(ADMIN_FEE_OTHER_BANK)} bank lain. Berlaku kelipatan per ${formatMoney(ADMIN_FEE_STEP)} dari total tagihan (×${ADMIN_FEE_MULTIPLIER} untuk tagihan ${formatMoney(TOTAL_TAGIHAN)}).`}
+              </p>
             </div>
           </div>
 
