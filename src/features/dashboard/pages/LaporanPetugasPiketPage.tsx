@@ -669,9 +669,9 @@ export function LaporanPetugasPiketPage() {
                         <span className="block text-xs leading-[18px] text-[#737686]">{l.rol}</span>
                       </td>
                       <td className="px-4 py-6">
-                        <span className="inline-flex rounded-md bg-[#dee9fc] px-2.5 py-1 text-xs font-medium leading-[18px] text-[#434655]">
-                          {l.kelas}
-                        </span>
+<span className="inline-flex whitespace-nowrap rounded-md bg-[#dee9fc] px-2.5 py-1 text-xs font-medium leading-[18px] text-[#434655]">
+                            {l.kelas}
+                          </span>
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-1.5">

@@ -127,7 +127,7 @@
       {
         "id": "TRX-002",
         "user": "Budi",
-        "meta": "NIP: 19840212 • Guru Produktif Mesin",
+        "meta": "NBM: 1048155 • Guru Produktif Mesin",
         "type": "Cicilan",
         "group": "Guru/Karyawan",
         "amount": "Rp 420.000",
@@ -157,7 +157,7 @@
       {
         "id": "TRX-005",
         "user": "Dewi Susanti, M.Pd.",
-        "meta": "NIP: 19780519 • Staf Tata Usaha",
+        "meta": "NBM: 1048168 • Staf Tata Usaha",
         "type": "Setoran",
         "group": "Guru/Karyawan",
         "amount": "Rp 1.000.000",

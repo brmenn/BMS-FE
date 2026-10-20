@@ -88,7 +88,7 @@ export const SUPER_ADMIN_USERS: SuperAdminUser[] = [
   {
     id: 'USR-1001',
     name: 'Drs. Ahmad Fauzan, M.Pd.',
-    identity: 'NIP: 19780512 200312 1 002',
+    identity: 'NBM: 1048102',
     email: 'ahmad@mail.com',
     username: '@ahmadfauzan',
     role: 'Guru',
@@ -183,7 +183,7 @@ export const SUPER_ADMIN_USERS: SuperAdminUser[] = [
   {
     id: 'USR-1008',
     name: 'Drs. Bambang Suryadi',
-    identity: 'NIP: 19750314 199903 2 004',
+    identity: 'NBM: 1048143',
     email: 'bambang@mail.com',
     username: '@bambangsuryadi',
     role: 'Guru',
@@ -194,7 +194,7 @@ export const SUPER_ADMIN_USERS: SuperAdminUser[] = [
   {
     id: 'USR-1009',
     name: 'Lestari Ningsih, S.Pd.',
-    identity: 'NIP: 19821109 200812 2 006',
+    identity: 'NBM: 1048187',
     email: 'ningsih@mail.com',
     username: '@lestariningsih',
     role: 'Guru',

@@ -203,7 +203,7 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
                     className={inputClass}
                     id="create-identity"
                     onChange={(event) => setIdentity(event.target.value)}
-                    placeholder="19820415 200801 1 015"
+                    placeholder="Masukkan 10 digit NISN"
                     value={identity}
                   />
                 </div>

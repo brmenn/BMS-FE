@@ -34,7 +34,7 @@ const ROLE_PROFILES: Record<string, RoleProfile> = {
     name: 'Drs. Ahmad Fauzan, M.Pd.',
     initials: 'AF',
     roleLabel: 'Guru (Pendidik Tetap)',
-    identity: 'NIP: 19780512 200312 1 002',
+    identity: 'NBM: 1048102',
     email: 'ahmad@mail.com',
     phone: '+62 812-3456-7891',
     status: 'Aktif',

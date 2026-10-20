@@ -128,7 +128,7 @@ export function RegisterPage() {
                   />
                   <UserTypeOption
                     active={!isStudent}
-                    description="NBM / NUPTK / ID Staf / TU"
+                    description="NBM / ID Staf / TU"
                     label="Guru & Karyawan"
                     onClick={() => setUserType('GURU_KARYAWAN')}
                   />
@@ -148,7 +148,7 @@ export function RegisterPage() {
                     </h2>
                   </div>
                   <span className="rounded-full bg-[#004ac6]/10 px-2 py-0.5 text-[11px] font-medium leading-[14px] tracking-[0.44px] text-[#004ac6]">
-                    {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi GTK / NUPTK'}
+                    {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi GTK'}
                   </span>
                 </div>
 
@@ -186,17 +186,17 @@ export function RegisterPage() {
                   </div>
                 ) : (
                   <div className="flex w-full flex-col gap-1">
-                    <FieldLabel label="NBM / NUPTK" required />
+                    <FieldLabel label="NBM" required />
                     <Input
-                      aria-label="NBM / NUPTK"
+                      aria-label="NBM"
                       icon={<IdCard className="h-4 w-4" />}
                       inputMode="numeric"
                       onChange={(event) => setEmployeeNumber(event.target.value)}
-                      placeholder="Masukkan 18 digit NBM atau 16 digit NUPTK"
+                      placeholder="Masukkan 18 digit NBM"
                       required
                       value={employeeNumber}
                     />
-                    <HintText>Nomor Baku Muhammadiyah atau NUPTK aktif</HintText>
+                    <HintText>Nomor Baku Muhammadiyah (NBM) aktif</HintText>
                     <FieldError>{errors.employee_number}</FieldError>
                   </div>
                 )}

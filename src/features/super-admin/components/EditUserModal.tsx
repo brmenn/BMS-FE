@@ -195,7 +195,7 @@ export function EditUserModal({ user, onClose, onSubmit }: EditUserModalProps) {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <label className={labelClass} htmlFor="edit-identity">
-                  Nomor Induk (NBM / NUPTK)
+                  Nomor Induk (NBM)
                 </label>
                 <div className="relative">
                   <IdCard className={fieldIconClass} aria-hidden="true" />
@@ -203,7 +203,7 @@ export function EditUserModal({ user, onClose, onSubmit }: EditUserModalProps) {
                     className={inputClass}
                     id="edit-identity"
                     onChange={(event) => setIdentity(event.target.value)}
-                    placeholder="19820415 200801 1 015"
+                    placeholder="Masukkan 18 digit NBM"
                     value={identity}
                   />
                 </div>
@@ -219,7 +219,7 @@ export function EditUserModal({ user, onClose, onSubmit }: EditUserModalProps) {
                     className={inputClass}
                     id="edit-rekening"
                     onChange={(event) => setRekening(event.target.value)}
-                    placeholder="19820415 200801 1 015"
+                    placeholder="Masukkan nomor rekening tabungan"
                     value={rekening}
                   />
                 </div>
