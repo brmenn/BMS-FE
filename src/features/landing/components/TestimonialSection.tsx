@@ -63,39 +63,41 @@ const TESTIMONIALS = [
 
 export function TestimonialSection() {
   return (
-    <section className="w-full bg-[#dfdfdf] pt-16 sm:pt-20" id="ulasan">
+    <section className="w-full bg-white pt-16 sm:pt-20" id="ulasan">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-4 pb-16 sm:px-8 sm:pb-20">
-        <header className="flex w-full max-w-[672px] flex-col items-center gap-2 text-center">
-          <h2 className="text-2xl font-bold leading-[38px] tracking-[-0.45px] text-black sm:text-[30px]">
+        <header className="flex w-full max-w-[736px] flex-col items-center gap-2 text-center">
+          <h2 className="text-[28px] leading-[36px] font-bold tracking-[-0.49px] text-[#121c2a] sm:text-[32.9px] sm:leading-[41.7px]">
             Rating &amp; Ulasan Pengguna
           </h2>
-          <p className="text-base leading-6 text-black">
+          <p className="text-base leading-6 text-[#434655] sm:text-[17.5px] sm:leading-[26.3px]">
             Dipercaya oleh siswa, guru pembimbing, dan wali murid SMKS Muhammadiyah 1 Genteng.
           </p>
         </header>
 
-        <div className="flex w-full max-w-[768px] flex-col items-start gap-6 rounded-2xl border border-[#c3c6d799] bg-white px-6 pb-6 pt-8 shadow-[0px_1px_2px_#0000000d] sm:gap-8 sm:px-8 sm:pb-8 sm:pt-10 md:flex-row md:items-center md:justify-between">
+        <div className="flex w-full max-w-[842px] flex-col items-start gap-6 rounded-[18px] border-[1.1px] border-[#c3c6d799] bg-white p-6 shadow-[10px_16px_12px_#00000040] sm:p-8 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-5">
             <span className="flex items-baseline">
-              <span className="text-[48px] font-bold leading-[48px] text-[#121c2a]">4.9</span>
-              <span className="text-xl leading-7 text-[#434655]">/5</span>
+              <span className="text-5xl leading-[52.6px] font-bold text-[#121c2a]">4.9</span>
+              <span className="text-xl leading-[30.7px] font-normal text-[#434655]">/5</span>
             </span>
 
-            <span className="flex flex-col items-start gap-2">
+            <span className="flex flex-col items-start gap-1">
               <StarRating />
-              <span className="text-sm font-semibold leading-5 text-[#121c2a]">
+              <span className="text-sm leading-[21.9px] font-semibold text-[#121c2a]">
                 Berdasarkan 850+ Siswa &amp; Pengguna
               </span>
             </span>
           </div>
 
-          <div className="flex w-full items-center gap-3 border-t border-[#c3c6d766] pt-6 md:w-auto md:border-l md:border-t-0 md:pl-8 md:pt-0">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#7ffc97]">
-              <CheckCircle2 className="h-4 w-4 text-[#006329]" aria-hidden="true" />
+          <div className="flex w-full items-center gap-3 border-t border-[#c3c6d766] pt-6 md:w-auto md:border-t-0 md:border-l md:pt-0 md:pl-8">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#7ffc97]">
+              <CheckCircle2 className="h-[18px] w-[18px] text-[#006329]" aria-hidden="true" />
             </span>
             <span className="flex flex-col items-start">
-              <span className="text-xl font-bold leading-7 tracking-[-0.1px] text-[#006329]">99.4%</span>
-              <span className="text-xs leading-[18px] text-[#434655]">
+              <span className="text-xl leading-[30.7px] font-bold tracking-[-0.11px] text-[#006329]">
+                99.4%
+              </span>
+              <span className="text-[13px] leading-[19.7px] text-[#434655]">
                 Transaksi Terverifikasi Tepat Waktu
               </span>
             </span>
@@ -104,29 +106,25 @@ export function TestimonialSection() {
 
         <div className="group relative w-full overflow-hidden" aria-label="Carousel ulasan pengguna">
           <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#dfdfdf] to-transparent"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent"
             aria-hidden="true"
           />
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#dfdfdf] to-transparent"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent"
             aria-hidden="true"
           />
 
           <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none">
             {[0, 1].map((copy) => (
-              <div
-                key={copy}
-                aria-hidden={copy === 1}
-                className="flex w-max gap-6 pr-6"
-              >
+              <div key={copy} aria-hidden={copy === 1} className="flex w-max gap-8 pr-8">
                 {TESTIMONIALS.map((testimonial) => (
                   <article
                     key={testimonial.name}
-                    className="flex w-[320px] shrink-0 flex-col justify-between gap-6 rounded-2xl border border-[#c3c6d766] bg-white p-6 shadow-[0px_1px_2px_#0000000d] sm:w-[360px]"
+                    className="flex w-[320px] shrink-0 flex-col justify-between gap-6 rounded-[18px] border-[1.1px] border-[#c3c6d766] bg-white p-7 shadow-[10px_16px_12px_#00000040] sm:w-[360px]"
                   >
                     <div className="flex w-full flex-col items-start gap-3">
                       <StarRating />
-                      <p className="text-sm italic leading-[22.8px] text-[#121c2a]">
+                      <p className="text-[15.3px] italic leading-[24.9px] text-[#121c2a]">
                         {testimonial.quote}
                       </p>
                     </div>
@@ -136,17 +134,17 @@ export function TestimonialSection() {
                         src={testimonial.avatar}
                         alt={`Foto profil ${testimonial.name}`}
                         initials={testimonial.initials}
-                        className="h-10 w-10 rounded-full"
+                        className="h-11 w-11 rounded-full"
                         fallbackClassName={cn(
-                          'rounded-full text-sm font-bold',
+                          'rounded-full text-[15.3px] font-bold',
                           testimonial.avatarClassName,
                         )}
                       />
                       <span className="flex min-w-0 flex-col items-start">
-                        <span className="text-sm font-semibold leading-5 text-[#121c2a]">
+                        <span className="text-[15.3px] leading-[21.9px] font-semibold text-[#121c2a]">
                           {testimonial.name}
                         </span>
-                        <span className="text-xs leading-[18px] text-[#434655]">
+                        <span className="text-[13px] leading-[19.7px] text-[#434655]">
                           {testimonial.role}
                         </span>
                       </span>

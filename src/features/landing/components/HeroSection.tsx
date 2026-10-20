@@ -6,7 +6,7 @@ import { StudentPhoto } from './StudentPhoto'
 export function HeroSection() {
   return (
     <section className="w-full border-b border-[#e5e7eb] bg-white" id="beranda">
-      <div className="mx-auto grid w-full max-w-[1160px] grid-cols-1 items-center gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-12">
+      <div className="mx-auto grid w-full max-w-[1160px] grid-cols-1 items-center gap-10 px-4 pt-14 pb-24 sm:px-6 sm:pt-16 sm:pb-28 lg:grid-cols-12 lg:gap-x-12 lg:gap-y-12 lg:pb-36">
         <div className="lg:col-start-2 lg:col-end-5">
           <StudentPhoto
             alt="Adinda Putri, siswa kelas XII RPL 1"
@@ -21,8 +21,10 @@ export function HeroSection() {
           </h1>
 
           <p className="max-w-[620px] text-base leading-[26px] text-[#64748b] sm:text-[18.5px] sm:leading-[30.1px]">
-            Platform digital untuk membantu siswa dan sekolah mengelola tabungan, transaksi, dan
-            pengajuan penarikan secara lebih teratur.
+            BMS (Bimbingan Manajemen Siswa) adalah platform digital yang dirancang untuk memudahkan
+            pengelolaan administrasi dan keuangan secara terintegrasi. BMS membantu pengguna mengelola
+            tabungan, penarikan dana, pinjaman, serta informasi tagihan siswa dalam satu sistem yang
+            praktis, transparan, dan efisien.
           </p>
 
           <div className="flex w-full flex-col items-start gap-3 sm:w-auto sm:flex-row sm:items-center">

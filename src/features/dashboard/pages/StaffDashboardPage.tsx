@@ -52,7 +52,7 @@ export function StaffDashboardPage() {
       <DashboardSidebar items={navItems} logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Guru & Karyawan" />
-        <main className="flex w-full max-w-[1030px] flex-col gap-8 p-8">
+        <main className="flex w-full flex-col gap-8 p-8">
           <section className="flex w-full flex-wrap items-center gap-4 rounded-2xl border border-solid border-[#f59e0b4c] bg-[#f59e0b1a] p-5 shadow-[0px_1px_3px_#d977060f]">
             <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3.5">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f59e0b33] shadow-[0px_1px_2px_#0000000d]">

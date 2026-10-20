@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import logoKet from '@/assets/logo/logoKet.png'
 
 const NAV_ITEMS = [
@@ -10,13 +11,44 @@ const NAV_ITEMS = [
   { label: 'Rating', href: '#ulasan' },
 ]
 
+const HEADER_OFFSET = 100
+
 export function LandingHeader() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [activeNav, setActiveNav] = useState('#beranda')
+  const [activeNav, setActiveNav] = useState(NAV_ITEMS[0].href)
+
+  useEffect(() => {
+    const updateActiveSection = () => {
+      let current = NAV_ITEMS[0].href
+      let closestTop = Number.NEGATIVE_INFINITY
+
+      for (const item of NAV_ITEMS) {
+        const section = document.querySelector<HTMLElement>(item.href)
+        if (!section) continue
+
+        const top = section.getBoundingClientRect().top
+        if (top <= HEADER_OFFSET && top > closestTop) {
+          closestTop = top
+          current = item.href
+        }
+      }
+
+      setActiveNav(current)
+    }
+
+    updateActiveSection()
+    window.addEventListener('scroll', updateActiveSection, { passive: true })
+    window.addEventListener('resize', updateActiveSection)
+
+    return () => {
+      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('resize', updateActiveSection)
+    }
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b-2 border-[#e5e7eb] bg-white shadow-[0px_6px_2px_#0000000d]">
-      <div className="mx-auto flex h-[69px] w-full max-w-[1160px] items-center justify-between gap-6 px-4 sm:px-6">
+    <header className="sticky top-0 z-50 w-full border-b-2 border-[#e5e7eb] bg-white shadow-[0px_6px_2px_#00000026]">
+      <div className="relative mx-auto flex h-[69px] w-full max-w-[1160px] items-center justify-between gap-6 px-4 sm:px-6">
         <a
           className="-ml-3 flex shrink-0 items-center sm:-ml-5"
           href="#beranda"
@@ -29,13 +61,19 @@ export function LandingHeader() {
           />
         </a>
 
-        <nav className="hidden items-center gap-7 md:flex" aria-label="Navigasi utama">
+        <nav
+          aria-label="Navigasi utama"
+          className="absolute top-1/2 left-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-7 md:flex"
+        >
           {NAV_ITEMS.map((item) => (
             <a
               key={item.href}
-              className={`text-sm leading-[21px] transition-colors hover:text-[#2563eb] ${
-                item.href === activeNav ? 'font-semibold text-[#2563eb]' : 'font-medium text-[#334155]'
-              }`}
+              className={cn(
+                'text-center text-sm leading-[21px] transition-colors hover:text-[#2563eb]',
+                item.href === activeNav
+                  ? 'font-semibold text-[#2563eb]'
+                  : 'font-medium text-[#334155]',
+              )}
               href={item.href}
               onClick={() => setActiveNav(item.href)}
             >
@@ -44,13 +82,7 @@ export function LandingHeader() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-6 md:flex">
-          <Link
-            className="text-[13px] font-medium leading-[19.5px] text-[#334155] transition-colors hover:text-[#2563eb]"
-            to="/register"
-          >
-            Register
-          </Link>
+        <div className="hidden items-center md:flex">
           <Link
             className="flex h-9 items-center justify-center rounded-lg border border-[#e5e7eb] bg-[#2961ef] px-4 text-[13px] font-medium leading-[19.5px] text-white transition-colors hover:bg-[#1d4ed8]"
             to="/login"
@@ -78,11 +110,12 @@ export function LandingHeader() {
           {NAV_ITEMS.map((item) => (
             <a
               key={item.href}
-              className={`w-full rounded-lg px-3 py-2 text-sm transition-colors hover:bg-[#eff4ff] ${
+              className={cn(
+                'w-full rounded-lg px-3 py-2 text-center text-sm transition-colors hover:bg-[#eff4ff]',
                 item.href === activeNav
                   ? 'font-semibold text-[#2563eb]'
-                  : 'font-medium text-[#334155]'
-              }`}
+                  : 'font-medium text-[#334155]',
+              )}
               href={item.href}
               onClick={() => {
                 setActiveNav(item.href)
@@ -93,16 +126,9 @@ export function LandingHeader() {
             </a>
           ))}
 
-          <div className="mt-3 flex w-full items-center gap-3">
+          <div className="mt-3 flex w-full items-center">
             <Link
-              className="flex h-9 flex-1 items-center justify-center rounded-lg border border-[#e5e7eb] px-4 text-[13px] font-medium text-[#334155]"
-              to="/register"
-              onClick={() => setMenuOpen(false)}
-            >
-              Register
-            </Link>
-            <Link
-              className="flex h-9 flex-1 items-center justify-center rounded-lg bg-[#2961ef] px-4 text-[13px] font-medium text-white"
+              className="flex h-9 w-full items-center justify-center rounded-lg bg-[#2961ef] px-4 text-[13px] font-medium text-white"
               to="/login"
               onClick={() => setMenuOpen(false)}
             >

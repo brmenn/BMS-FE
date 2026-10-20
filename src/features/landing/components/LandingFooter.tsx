@@ -3,10 +3,10 @@ import logoKet from '@/assets/logo/logoKet.png'
 import maps from '@/assets/logo/maps.png'
 
 const INFO_LINKS = [
+  { label: 'Beranda', href: '#beranda' },
+  { label: 'Fitur', href: '#fitur' },
   { label: 'Tentang BMS', href: '#tentang' },
-  { label: 'Bantuan', href: '#fitur' },
-  { label: 'Kebijakan Privasi', href: '#tentang' },
-  { label: 'Ketentuan Penggunaan', href: '#tentang' },
+  { label: 'Testimoni', href: '#ulasan' },
 ]
 
 const SOCIAL_LINKS = [

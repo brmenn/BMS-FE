@@ -34,7 +34,7 @@ const TRANSACTIONS = [
 
 export function DashboardPreview() {
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-[#cacaca] bg-[#fdfdfd] shadow-[0px_1px_2px_#0000000d]">
+    <div className="w-full overflow-hidden rounded-xl border border-[#cacaca] bg-[#fdfdfd] shadow-[10px_15px_30px_#00000033]">
       <div className="flex items-center gap-1.5 self-stretch bg-[#0074e9] px-4 py-2.5" aria-hidden="true">
         <span className="h-2.5 w-2.5 rounded-full bg-white" />
         <span className="h-2.5 w-2.5 rounded-full bg-white" />
