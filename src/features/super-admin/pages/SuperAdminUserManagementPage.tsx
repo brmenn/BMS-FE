@@ -8,7 +8,6 @@ import {
   Eye,
   KeyRound,
   ListFilter,
-  Pencil,
   RotateCcw,
   Search,
   ShieldCheck,
@@ -22,7 +21,6 @@ import { cn } from '@/lib/utils'
 import { SuperAdminSidebar } from '../components/SuperAdminSidebar'
 import { SuperAdminTopbar } from '../components/SuperAdminTopbar'
 import { CreateUserModal, type CreateUserValue } from '../components/CreateUserModal'
-import { EditUserModal, type EditUserValue } from '../components/EditUserModal'
 import { UserDetailModal } from '../components/UserDetailModal'
 import { ResetPasswordModal } from '../components/ResetPasswordModal'
 import { DeactivateUserModal } from '../components/DeactivateUserModal'
@@ -45,13 +43,13 @@ import {
 
 const PAGE_SIZE = 6
 const MENU_WIDTH = 192
-const MENU_HEIGHT = 184
+const MENU_HEIGHT = 128
 
 type RoleFilter = 'all' | SuperAdminUserRole
 type StatusFilter = 'all' | SuperAdminUserStatus
 
 interface DialogState {
-  mode: 'create' | 'edit' | 'view' | 'reset' | 'deactivate'
+  mode: 'create' | 'view' | 'reset' | 'deactivate'
   user?: SuperAdminUser
 }
 
@@ -312,28 +310,6 @@ export function SuperAdminUserManagementPage() {
     setNotice(
       `Akun ${value.name} (${value.role}) berhasil dibuat. Kredensial dikirim ke ${value.phone}.`,
     )
-  }
-
-  const handleEditUser = (value: EditUserValue) => {
-    if (!dialog?.user) return
-
-    setUsers((prev) =>
-      prev.map((user) =>
-        user.id === dialog.user?.id
-          ? {
-              ...user,
-              name: value.name,
-              email: value.email,
-              phone: value.phone,
-              identity: value.identity,
-              role: value.role,
-              initials: getInitials(value.name),
-            }
-          : user,
-      ),
-    )
-    setNotice(`Data ${value.name} berhasil diperbarui.`)
-    setDialog(null)
   }
 
   const rangeStart = filtered.length === 0 ? 0 : startIndex + 1
@@ -801,20 +777,6 @@ export function SuperAdminUserManagementPage() {
             </button>
             <button
               className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left transition-colors hover:bg-[#f8f9ff]"
-              onClick={() => {
-                setMenu(null)
-                setDialog({ mode: 'edit', user: menuUser })
-              }}
-              role="menuitem"
-              type="button"
-            >
-              <Pencil className="h-4 w-4 shrink-0 text-[#334155]" aria-hidden="true" />
-              <span className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#334155]">
-                Edit User
-              </span>
-            </button>
-            <button
-              className="flex w-full items-center gap-2.5 px-3.5 py-2 text-left transition-colors hover:bg-[#f8f9ff]"
               onClick={() => handleResetPassword(menuUser)}
               role="menuitem"
               type="button"
@@ -874,23 +836,11 @@ export function SuperAdminUserManagementPage() {
       ) : null}
 
       {dialog?.mode === 'view' && dialog.user ? (
-        <UserDetailModal
-          onClose={() => setDialog(null)}
-          onEdit={() => setDialog({ mode: 'edit', user: dialog.user })}
-          user={dialog.user}
-        />
+        <UserDetailModal onClose={() => setDialog(null)} user={dialog.user} />
       ) : null}
 
       {dialog?.mode === 'create' ? (
         <CreateUserModal onClose={() => setDialog(null)} onSubmit={handleCreateUser} />
-      ) : null}
-
-      {dialog?.mode === 'edit' && dialog.user ? (
-        <EditUserModal
-          onClose={() => setDialog(null)}
-          onSubmit={handleEditUser}
-          user={dialog.user}
-        />
       ) : null}
 
       {notice ? (

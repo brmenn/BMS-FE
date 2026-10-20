@@ -9,10 +9,9 @@ import {
 interface UserDetailModalProps {
   user: SuperAdminUser
   onClose: () => void
-  onEdit: () => void
 }
 
-export function UserDetailModal({ user, onClose, onEdit }: UserDetailModalProps) {
+export function UserDetailModal({ user, onClose }: UserDetailModalProps) {
   const { roleLabel, phone, info, activities } = resolveUserDetail(user)
 
   return (
@@ -75,22 +74,13 @@ export function UserDetailModal({ user, onClose, onEdit }: UserDetailModalProps)
                   <h3 className="text-lg font-semibold leading-[26px] text-[#121c2a]">
                     Informasi Akademik &amp; Kepegawaian
                   </h3>
-                  <div className="flex items-center gap-2.5">
-                    <button
-                      className="rounded-[9px] border border-[#c3c6d7] bg-white px-3 py-1.5 text-[11px] font-medium leading-[15px] text-[#121c2a] transition-colors hover:bg-[#f8f9ff]"
-                      onClick={onClose}
-                      type="button"
-                    >
-                      Kembali
-                    </button>
-                    <button
-                      className="rounded-[9px] bg-[#2563eb] px-3.5 py-1.5 text-[11px] font-medium leading-[15px] text-white shadow-[0px_1px_2px_#0000000d] transition hover:brightness-[0.98]"
-                      onClick={onEdit}
-                      type="button"
-                    >
-                      Edit Akun
-                    </button>
-                  </div>
+                  <button
+                    className="rounded-[9px] border border-[#c3c6d7] bg-white px-3 py-1.5 text-[11px] font-medium leading-[15px] text-[#121c2a] transition-colors hover:bg-[#f8f9ff]"
+                    onClick={onClose}
+                    type="button"
+                  >
+                    Kembali
+                  </button>
                 </div>
 
                 <div className="grid gap-4 sm:grid-cols-2">
