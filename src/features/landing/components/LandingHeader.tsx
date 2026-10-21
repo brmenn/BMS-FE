@@ -47,7 +47,7 @@ export function LandingHeader() {
   }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b-2 border-[#e5e7eb] bg-white shadow-[0px_6px_2px_#00000026]">
+    <header className="sticky top-0 z-50 w-full border-b-2 border-[#e5e7eb] bg-white shadow-[0px_2px_4px_#00000017]">
       <div className="relative mx-auto flex h-[69px] w-full max-w-[1160px] items-center justify-between gap-6 px-4 sm:px-6">
         <a
           className="-ml-3 flex shrink-0 items-center sm:-ml-5"
