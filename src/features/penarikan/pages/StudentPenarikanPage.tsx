@@ -1,8 +1,10 @@
 import { useState, type FormEvent } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Banknote, CheckCircle2, Info, RefreshCw, Send } from 'lucide-react'
 import { formatMoney, formatNumber } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import { DashboardSidebar } from '@/features/dashboard/components/DashboardSidebar'
+import { AkuntansiSidebar } from '@/features/dashboard/components/AkuntansiSidebar'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
 import { StudentBalanceCard } from '@/features/dashboard/components/StudentBalanceCard'
 import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
@@ -50,6 +52,7 @@ const STATUS_STYLES: Record<WithdrawalStatus, string> = {
 }
 
 export function StudentPenarikanPage() {
+  const isAkuntansi = useLocation().pathname.startsWith('/akuntansi')
   const [nominal, setNominal] = useState('100000')
   const [selectedRecord, setSelectedRecord] = useState<WithdrawalRecord | null>(null)
   const loading = useSimulatedLoading()
@@ -64,9 +67,9 @@ export function StudentPenarikanPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar logo />
+      {isAkuntansi ? <AkuntansiSidebar /> : <DashboardSidebar logo />}
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar role="Siswa" />
+        <DashboardTopbar role={isAkuntansi ? 'Akuntansi' : 'Siswa'} />
         <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 p-8">
           {loading ? (
             <PageSkeleton variant="detail" />

@@ -1,4 +1,4 @@
-import { SlidersHorizontal, UserPlus, ArrowRight, TrendingUp } from 'lucide-react'
+import { UserPlus, ArrowRight, TrendingUp } from 'lucide-react'
 import { SuperAdminSidebar } from '../components/SuperAdminSidebar'
 import { SuperAdminTopbar } from '../components/SuperAdminTopbar'
 import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
@@ -108,14 +108,6 @@ export function SuperAdminDashboardPage() {
               </h1>
             </div>
             <div className="flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                className="flex h-11 items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 shadow-[0px_1px_2px_#0000000d] hover:brightness-[0.98]"
-              >
-               
-<SlidersHorizontal className="h-4 w-4 shrink-0 text-[#121c2a]" aria-hidden="true" />
-                <span className="text-sm font-medium leading-5 text-[#121c2a]">Konfigurasi Sistem</span>
-              </button>
               <button
                 type="button"
                 className="flex h-11 items-center gap-2 rounded-xl bg-[#2563eb] px-5 shadow-[0px_2px_4px_-2px_#3b82f633,0px_4px_6px_-1px_#3b82f633] hover:brightness-[0.98]"

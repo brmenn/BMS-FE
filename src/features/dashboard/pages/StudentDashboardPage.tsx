@@ -1,15 +1,17 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { ArrowDownToLine, ArrowUpFromLine, ChevronRight, Clock, Info, TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import dashboardPlaceholder from '@/placeholders/dashboard.json'
 import { DashboardSidebar } from '../components/DashboardSidebar'
+import { AkuntansiSidebar } from '../components/AkuntansiSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 import { PageSkeleton } from '../components/PageSkeleton'
 import { StudentBalanceCard } from '../components/StudentBalanceCard'
 
 export function StudentDashboardPage() {
+  const isAkuntansi = useLocation().pathname.startsWith('/akuntansi')
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
     queryFn: async () => {
@@ -21,9 +23,9 @@ export function StudentDashboardPage() {
   const statusLabel = (status: string) => (status === 'BERHASIL' ? 'Berhasil' : 'Selesai')
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar logo />
+      {isAkuntansi ? <AkuntansiSidebar /> : <DashboardSidebar logo />}
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar role="Siswa" />
+        <DashboardTopbar role={isAkuntansi ? 'Akuntansi' : 'Siswa'} />
         <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 p-8">
           {isLoading ? (
             <PageSkeleton variant="dashboard" />

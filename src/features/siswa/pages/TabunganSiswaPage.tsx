@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -7,6 +8,7 @@ import {
   Receipt,
 } from 'lucide-react'
 import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
+import { AkuntansiSidebar } from '@/features/dashboard/components/AkuntansiSidebar'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
 import { StudentBalanceCard } from '@/features/dashboard/components/StudentBalanceCard'
 import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
@@ -154,6 +156,7 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]['key']
 
 export function TabunganSiswaPage() {
+  const isAkuntansi = useLocation().pathname.startsWith('/akuntansi')
   const [filter, setFilter] = useState<FilterKey>('semua')
   const [page, setPage] = useState(1)
   const loading = useSimulatedLoading()
@@ -167,12 +170,12 @@ export function TabunganSiswaPage() {
   return (
     <div className="siswa-page">
       {/* SIDEBAR */}
-      <DashboardSidebar items={NAV_ITEMS} logo />
+      {isAkuntansi ? <AkuntansiSidebar /> : <DashboardSidebar items={NAV_ITEMS} logo />}
 
       {/* AREA KANAN */}
       <div className="siswa-main lg:pl-64">
         {/* HEADER */}
-        <DashboardTopbar role="Siswa" />
+        <DashboardTopbar role={isAkuntansi ? 'Akuntansi' : 'Siswa'} />
 
         {/* CONTENT */}
         <main className="siswa-content">

@@ -62,6 +62,9 @@ export function AppRoutes() {
 
       {/* Akuntansi */}
       <Route path="/akuntansi" element={<Navigate to="/akuntansi/isi-jurnal" replace />} />
+      <Route path="/akuntansi/dashboard" element={<StudentDashboardPage />} />
+      <Route path="/akuntansi/tabungan" element={<TabunganSiswaPage />} />
+      <Route path="/akuntansi/penarikan" element={<StudentPenarikanPage />} />
       <Route path="/akuntansi/isi-jurnal" element={<IsiJurnalPage />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />

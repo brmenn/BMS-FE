@@ -1,10 +1,9 @@
 import { useRef, useState, type DragEvent } from 'react'
 import {
-  BookOpen,
   CalendarClock,
-  ChevronDown,
   Eye,
   ImagePlus,
+  Lock,
   RotateCcw,
   Save,
   Trash2,
@@ -12,17 +11,10 @@ import {
   User,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
+import { AkuntansiSidebar } from '@/features/dashboard/components/AkuntansiSidebar'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
 import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
-import logoAK from '@/assets/logo/logoAK.png'
-
-const NAV_ITEMS: SidebarItem[] = [
-  { to: '/akuntansi/isi-jurnal', label: 'Isi Jurnal', icon: BookOpen },
-]
-
-const CLASS_OPTIONS = ['XI AKL 1', 'XI AKL 2', 'X AKL 1', 'X AKL 2', 'XII AKL 1']
 
 const INITIAL_DESCRIPTION =
   'Penerimaan setoran kas tabungan wajib dan sukarela siswa kelas XI AKL 1 melalui loket utama Mini Bank SMK Muhi beserta pencatatan administrasi buku tabungan.'
@@ -31,8 +23,8 @@ const MAX_DESCRIPTION = 250
 
 export function IsiJurnalPage() {
   const fileInputRef = useRef<HTMLInputElement>(null)
-  const [nama, setNama] = useState('Adinda Nur Safitri')
-  const [kelas, setKelas] = useState('XI AKL 1')
+  const FIXED_NAME = 'Adinda Nur Safitri'
+  // shortcut: nama & NISN petugas bersifat tetap (identitas terkunci), sesuaikan jika kelak dari data session
   const [description, setDescription] = useState(INITIAL_DESCRIPTION)
   const loading = useSimulatedLoading()
   const [fileName, setFileName] = useState<string | null>('bukti_setoran_XI_AKL1_02okt.jpg')
@@ -53,8 +45,6 @@ export function IsiJurnalPage() {
   }
 
   const handleReset = () => {
-    setNama('')
-    setKelas('XI AKL 1')
     setDescription('')
     setFileName(null)
     setPreviewUrl(null)
@@ -67,7 +57,7 @@ export function IsiJurnalPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar items={NAV_ITEMS} logo logoSrc={logoAK} logoClassName="h-16 w-16" />
+      <AkuntansiSidebar />
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Akuntansi" />
 
@@ -137,13 +127,12 @@ export function IsiJurnalPage() {
                     <User className="h-3 w-3" />
                   </span>
                   <input
-                    className="h-12 w-full rounded-xl border border-[#c3c6d7] bg-[#eff4ff] pr-4 pl-10 text-sm text-[#434655] outline-none focus:border-[#2563eb]"
+                    className="h-12 w-full cursor-default rounded-xl border border-[#c3c6d7] bg-[#eff4ff] pr-4 pl-10 text-sm text-[#434655] outline-none"
                     id="nama-petugas"
                     name="nama-petugas"
-                    onChange={(event) => setNama(event.target.value)}
-                    placeholder="Masukkan nama lengkap"
+                    readOnly
                     type="text"
-                    value={nama}
+                    value={FIXED_NAME}
                   />
                 </div>
               </div>
@@ -151,25 +140,20 @@ export function IsiJurnalPage() {
               <div className="flex flex-col gap-1.5 sm:justify-end">
                 <label
                   className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#121c2a]"
-                  htmlFor="id-petugas"
+                  htmlFor="kelas-petugas"
                 >
-                  NISN / ID Petugas Piket
+                  Kelas
                 </label>
                 <div className="relative flex h-12 items-center">
-                  <select
-                    className="h-12 w-full cursor-pointer appearance-none rounded-xl border border-[#c3c6d7] bg-[#eff4ff] pr-10 pl-4 text-sm text-[#121c2a] outline-none focus:border-[#2563eb]"
-                    id="id-petugas"
-                    name="id-petugas"
-                    onChange={(event) => setKelas(event.target.value)}
-                    value={kelas}
-                  >
-                    {CLASS_OPTIONS.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
+                  <input
+                    className="h-12 w-full cursor-default rounded-xl border border-[#c3c6d7] bg-[#eff4ff] pr-4 pl-4 text-sm text-[#434655] outline-none"
+                    id="kelas-petugas"
+                    name="kelas-petugas"
+                    readOnly
+                    type="text"
+                    value="XI AKL 1"
+                  />
+                  <Lock
                     aria-hidden="true"
                     className="pointer-events-none absolute right-3.5 h-4 w-4 text-[#737686]"
                   />

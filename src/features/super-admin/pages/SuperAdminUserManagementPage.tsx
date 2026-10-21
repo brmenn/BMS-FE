@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type MouseEvent } from 'react'
 import {
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
   CircleCheck,
@@ -426,7 +427,7 @@ export function SuperAdminUserManagementPage() {
                 />
               </div>
 
-              <div className="w-[160px]">
+              <div className="relative w-[160px]">
                 <select
                   aria-label="Filter role"
                   className={selectClass}
@@ -440,9 +441,13 @@ export function SuperAdminUserManagementPage() {
                     </option>
                   ))}
                 </select>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-[#737686]"
+                />
               </div>
 
-              <div className="w-[160px]">
+              <div className="relative w-[160px]">
                 <select
                   aria-label="Filter status"
                   className={selectClass}
@@ -456,6 +461,10 @@ export function SuperAdminUserManagementPage() {
                     </option>
                   ))}
                 </select>
+                <ChevronDown
+                  aria-hidden="true"
+                  className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-[#737686]"
+                />
               </div>
 
               <div className="flex items-center gap-2">
