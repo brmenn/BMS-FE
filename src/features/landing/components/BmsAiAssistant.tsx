@@ -56,7 +56,7 @@ export function BmsAiAssistant() {
 function AssistantPanel({ onClose }: { onClose: () => void }) {
   return (
     <section
-      aria-label="BMS AI Assistant"
+      aria-label="Asisten AI BMS"
       className="fixed right-4 bottom-24 z-[95] flex h-[480px] max-h-[calc(100vh-7.5rem)] w-[360px] flex-col items-start overflow-hidden rounded-3xl border border-[#c3c6d799] bg-white shadow-[0px_20px_25px_-5px_#0000001a] print:hidden max-[452px]:w-[calc(100vw-32px)]"
     >
       {/* HEADER */}
@@ -69,13 +69,13 @@ function AssistantPanel({ onClose }: { onClose: () => void }) {
           <div className="flex flex-col items-start">
             <div className="flex items-center gap-2">
               <span className="font-jakarta text-[15px] font-bold leading-5 whitespace-nowrap text-white">
-                BMS AI Assistant
+                Asisten AI BMS
               </span>
               <span
                 aria-label="Status layanan: online"
                 className="rounded bg-[#ffffff33] px-1.5 py-0.5 font-jakarta text-[10px] font-bold leading-[14px] tracking-[0.5px] text-[#eeefff]"
               >
-                ONLINE
+                DARING
               </span>
             </div>
 
@@ -86,7 +86,7 @@ function AssistantPanel({ onClose }: { onClose: () => void }) {
         </div>
 
         <button
-          aria-label="Tutup BMS AI Assistant"
+          aria-label="Tutup Asisten AI BMS"
           className="flex h-7 w-7 cursor-pointer items-center justify-center rounded-lg text-white transition-colors hover:bg-white/15"
           onClick={onClose}
           type="button"
@@ -105,12 +105,12 @@ function AssistantPanel({ onClose }: { onClose: () => void }) {
 
         <div className="flex flex-col gap-5">
           {/* BOT SELAMAT DATANG */}
-          <article aria-label="Pesan dari BMS Virtual Assistant" className="flex items-start gap-2.5">
+          <article aria-label="Pesan dari Asisten Virtual BMS" className="flex items-start gap-2.5">
             <BotAvatar />
 
             <div className="flex max-w-[280px] flex-col items-start gap-1">
               <div className="w-full rounded-tl-[2px] rounded-2xl border border-[#c3c6d766] bg-white p-3">
-                <p className="font-jakarta text-xs leading-4 text-[#004ac6]">BMS Virtual Assistant</p>
+                <p className="font-jakarta text-xs leading-4 text-[#004ac6]">Asisten Virtual BMS</p>
                 <p className="pt-1 font-jakarta text-xs leading-[19.5px] text-[#121c2a]">
                   Halo! Saya Asisten Virtual Bank Mini Sekolah (BMS). Ada yang bisa saya bantu terkait
                   informasi tabungan, penarikan, atau pembukaan rekening siswa?
@@ -159,7 +159,7 @@ function AssistantPanel({ onClose }: { onClose: () => void }) {
           </article>
 
           {/* JAWABAN BOT */}
-          <article aria-label="Jawaban dari BMS Virtual Assistant" className="flex items-start gap-2.5">
+          <article aria-label="Jawaban dari Asisten Virtual BMS" className="flex items-start gap-2.5">
             <BotAvatar initial="P" />
 
             <div className="flex max-w-[280px] flex-col items-start gap-1">

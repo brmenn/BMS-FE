@@ -94,7 +94,7 @@ export function NewPasswordPage() {
                   <input
                     aria-describedby="password-requirements"
                     autoComplete="new-password"
-                    className="flex h-12 w-full items-center rounded-xl border border-solid border-slate-200 bg-white px-4 pr-12 text-sm font-normal text-[#121c2a] outline-none transition-all placeholder:text-[#737686] focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                    className="field-focus flex h-12 w-full items-center rounded-xl border border-solid border-slate-200 bg-white px-4 pr-12 text-sm font-normal text-[#121c2a] outline-none transition-all placeholder:text-[#737686] focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                     id="new-password"
                     name="password"
                     onChange={(event) => setPassword(event.target.value)}
@@ -116,12 +116,12 @@ export function NewPasswordPage() {
 
               <div className="flex w-full flex-col items-start gap-1.5">
                 <label className="text-sm font-medium leading-5 text-[#121c2a]" htmlFor="confirm-password">
-                  Konfirmasi Password
+                  Konfirmasi Kata Sandi
                 </label>
                 <div className="relative w-full">
                   <input
                     autoComplete="new-password"
-                    className="flex h-12 w-full items-center rounded-xl border border-solid border-slate-200 bg-white px-4 pr-12 text-sm font-normal text-[#121c2a] outline-none transition-all placeholder:text-[#737686] focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
+                    className="field-focus flex h-12 w-full items-center rounded-xl border border-solid border-slate-200 bg-white px-4 pr-12 text-sm font-normal text-[#121c2a] outline-none transition-all placeholder:text-[#737686] focus:border-blue-600 focus:ring-2 focus:ring-blue-100"
                     id="confirm-password"
                     name="confirmation"
                     onChange={(event) => setConfirmation(event.target.value)}

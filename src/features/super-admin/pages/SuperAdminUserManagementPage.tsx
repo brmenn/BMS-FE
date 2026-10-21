@@ -19,13 +19,13 @@ import {
   UserX,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { SuperAdminSidebar } from '../components/SuperAdminSidebar'
-import { SuperAdminTopbar } from '../components/SuperAdminTopbar'
-import { CreateUserModal, type CreateUserValue } from '../components/CreateUserModal'
-import { UserDetailModal } from '../components/UserDetailModal'
-import { ResetPasswordModal } from '../components/ResetPasswordModal'
-import { DeactivateUserModal } from '../components/DeactivateUserModal'
-import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { SuperAdminSidebar } from '@/components/roles/super-admin/SuperAdminSidebar'
+import { SuperAdminTopbar } from '@/components/roles/super-admin/SuperAdminTopbar'
+import { CreateUserModal, type CreateUserValue } from '@/components/roles/super-admin/CreateUserModal'
+import { UserDetailModal } from '@/components/roles/super-admin/UserDetailModal'
+import { ResetPasswordModal } from '@/components/roles/super-admin/ResetPasswordModal'
+import { DeactivateUserModal } from '@/components/roles/super-admin/DeactivateUserModal'
+import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import {
   ROLE_AVATAR_CLASS,
@@ -42,7 +42,7 @@ import {
   type SuperAdminUser,
   type SuperAdminUserRole,
   type SuperAdminUserStatus,
-} from '../data/users'
+} from '@/components/roles/super-admin/users'
 
 const PAGE_SIZE = 6
 const MENU_WIDTH = 192
@@ -429,7 +429,7 @@ export function SuperAdminUserManagementPage() {
 
               <div className="relative w-[160px]">
                 <select
-                  aria-label="Filter role"
+                  aria-label="Filter Peran"
                   className={selectClass}
                   onChange={(event) => setRole(event.target.value as RoleFilter)}
                   value={role}
@@ -542,7 +542,7 @@ export function SuperAdminUserManagementPage() {
 
           <section className="flex flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-[0px_1px_2px_#0000000d]">
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[1000px] border-collapse text-left">
+              <table className="table-stagger w-full min-w-[1000px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-[#c3c6d7] bg-[#eff4ff]">
                     <th className="w-[52px] px-6 py-4" scope="col">
@@ -775,7 +775,7 @@ export function SuperAdminUserManagementPage() {
           />
           <div
             aria-label={`Menu aksi ${menuUser.name}`}
-            className="fixed z-40 flex w-48 flex-col rounded-xl border border-[#c3c6d7] bg-white py-2 shadow-[0px_8px_10px_-6px_#0000001a,0px_20px_25px_-5px_#0000001a]"
+            className="slide-down fixed z-40 flex w-48 flex-col rounded-xl border border-[#c3c6d7] bg-white py-2 shadow-[0px_8px_10px_-6px_#0000001a,0px_20px_25px_-5px_#0000001a]"
             role="menu"
             style={{ top: menu.top, left: menu.left }}
           >

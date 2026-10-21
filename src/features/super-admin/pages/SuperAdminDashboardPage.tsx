@@ -1,7 +1,7 @@
 import { UserPlus, ArrowRight, TrendingUp } from 'lucide-react'
-import { SuperAdminSidebar } from '../components/SuperAdminSidebar'
-import { SuperAdminTopbar } from '../components/SuperAdminTopbar'
-import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { SuperAdminSidebar } from '@/components/roles/super-admin/SuperAdminSidebar'
+import { SuperAdminTopbar } from '@/components/roles/super-admin/SuperAdminTopbar'
+import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
 const roleData = [
@@ -208,7 +208,7 @@ export function SuperAdminDashboardPage() {
             </div>
           </section>
 
-          <section className="grid gap-5 lg:grid-cols-2">
+          <section className="grid gap-5 lg:grid-cols-2 stagger-children stagger-children">
             <article className="flex flex-col gap-5 rounded-2xl border border-[#c3c6d7b2] bg-white p-6 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a]">
               <div className="flex flex-col gap-1">
                 <h2 className="text-lg font-bold leading-6 text-[#121c2a]">Pengguna Berdasarkan Role</h2>
@@ -255,7 +255,7 @@ export function SuperAdminDashboardPage() {
                   Agregasi data kas dan perbankan mini bank sekolah
                 </p>
               </div>
-              <div className="grid gap-4 sm:grid-cols-2">
+              <div className="grid gap-4 sm:grid-cols-2 stagger-children stagger-children">
                 {financeData.map((item) => (
                   <article
                     key={item.title}

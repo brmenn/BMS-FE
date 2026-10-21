@@ -57,7 +57,7 @@ export function LoginPage() {
               </label>
               <div className="relative flex h-12 w-full items-center overflow-hidden rounded-xl border border-solid border-[#c3c6d766] bg-white pl-11 pr-4 transition-all focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100">
                 <input
-                  aria-label="Username"
+                  aria-label="Nama Pengguna"
                   autoComplete="username"
                   className="w-full border-none bg-transparent p-0 text-sm font-normal text-[#121c2a] outline-none placeholder:text-[#737686]"
                   id="username"
@@ -91,7 +91,7 @@ export function LoginPage() {
 
               <div className="relative flex h-12 w-full items-center overflow-hidden rounded-xl border border-solid border-[#c3c6d766] bg-white pl-11 pr-12 transition-all focus-within:border-blue-600 focus-within:ring-2 focus-within:ring-blue-100">
                 <input
-                  aria-label="Password"
+                  aria-label="Kata Sandi"
                   autoComplete="current-password"
                   className="w-full border-none bg-transparent p-0 text-sm font-normal text-[#121c2a] outline-none placeholder:text-[#737686]"
                   id="password"

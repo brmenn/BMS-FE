@@ -7,15 +7,15 @@ import {
   ChevronRight,
   Receipt,
 } from 'lucide-react'
-import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
-import { AkuntansiSidebar } from '@/features/dashboard/components/AkuntansiSidebar'
-import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
-import { StudentBalanceCard } from '@/features/dashboard/components/StudentBalanceCard'
-import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { DashboardSidebar, type SidebarItem } from '@/components/dashboard/DashboardSidebar'
+import { AkuntansiSidebar } from '@/components/dashboard/AkuntansiSidebar'
+import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
+import { StudentBalanceCard } from '@/components/dashboard/StudentBalanceCard'
+import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
-import dashboardIcon from '@/assets/icon/dashboard.svg'
-import tabunganIcon from '@/assets/icon/tabungan.svg'
-import penarikanIcon from '@/assets/icon/penarikan.svg'
+import dashboardIcon from '@/assets/icon/nav/dashboard.svg'
+import tabunganIcon from '@/assets/icon/nav/tabungan.svg'
+import penarikanIcon from '@/assets/icon/nav/penarikan.svg'
 import './TabunganSiswaPage.css'
 
 const NAV_ITEMS: SidebarItem[] = [
@@ -225,7 +225,7 @@ export function TabunganSiswaPage() {
 
               <div className="siswa-table-card">
                 <div className="siswa-table-wrap">
-                  <table className="siswa-table" role="table" aria-label="Daftar transaksi tabungan">
+                  <table className="siswa-table table-stagger" role="table" aria-label="Daftar transaksi tabungan">
                     <thead>
                       <tr>
                         <th scope="col">Jenis Transaksi</th>

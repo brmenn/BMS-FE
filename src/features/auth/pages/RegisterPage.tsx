@@ -215,7 +215,7 @@ export function RegisterPage() {
                   <FieldError>{errors.full_name}</FieldError>
                 </div>
 
-                <Field error={errors.email} label="Email" required>
+                <Field error={errors.email} label="Alamat Email" required>
                   <Input
                     icon={<Mail className="h-4 w-4" />}
                     inputMode="email"
@@ -253,7 +253,7 @@ export function RegisterPage() {
                   </HintText>
                 </div>
 
-                <Field error={errors.password} label="Password" required>
+                <Field error={errors.password} label="Kata Sandi" required>
                   <PasswordInput
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="Minimal 8 karakter"
@@ -263,7 +263,7 @@ export function RegisterPage() {
                   />
                 </Field>
 
-                <Field error={errors.password_confirmation} label="Konfirmasi Password" required>
+                <Field error={errors.password_confirmation} label="Konfirmasi Kata Sandi" required>
                   <PasswordInput
                     onChange={(event) => setPasswordConfirmation(event.target.value)}
                     placeholder="Ulangi password"

@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
-import { DashboardSidebar } from '@/features/dashboard/components/DashboardSidebar'
-import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
-import { adminItems } from '@/features/dashboard/components/admin-sidebar-items'
+import { DashboardSidebar } from '@/components/dashboard/DashboardSidebar'
+import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
+import { adminItems } from '@/components/dashboard/admin-sidebar-items'
 
 export function AdminLayout() {
   return (

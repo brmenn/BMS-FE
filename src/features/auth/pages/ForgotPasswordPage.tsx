@@ -63,9 +63,9 @@ export function ForgotPasswordPage() {
                   Masukkan email
                 </label>
                 <input
-                  aria-label="Email"
+                  aria-label="Alamat Email"
                   autoComplete="email"
-                  className="flex h-12 w-full items-center justify-center rounded-xl border border-solid border-slate-200 bg-white px-4 text-sm font-normal text-[#121c2a] outline-none transition-all placeholder:text-[#737686] focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
+                  className="field-focus flex h-12 w-full items-center justify-center rounded-xl border border-solid border-slate-200 bg-white px-4 text-sm font-normal text-[#121c2a] outline-none transition-all placeholder:text-[#737686] focus:border-blue-600 focus:ring-1 focus:ring-blue-600"
                   id="email"
                   inputMode="email"
                   name="email"

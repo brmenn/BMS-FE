@@ -1,11 +1,11 @@
 import { Outlet } from 'react-router-dom'
-import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
-import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
-import dashboardIcon from '@/assets/icon/dashboard.svg'
-import tabunganIcon from '@/assets/icon/tabungan.svg'
-import penarikanIcon from '@/assets/icon/penarikan.svg'
-import pinjamanIcon from '@/assets/icon/pinjaman.svg'
-import pembayaranPinjamanIcon from '@/assets/icon/pembayaran-pinjaman.svg'
+import { DashboardSidebar, type SidebarItem } from '@/components/dashboard/DashboardSidebar'
+import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
+import dashboardIcon from '@/assets/icon/nav/dashboard.svg'
+import tabunganIcon from '@/assets/icon/nav/tabungan.svg'
+import penarikanIcon from '@/assets/icon/nav/penarikan.svg'
+import pinjamanIcon from '@/assets/icon/nav/pinjaman.svg'
+import pembayaranPinjamanIcon from '@/assets/icon/nav/pembayaran-pinjaman.svg'
 
 const NAV_ITEMS: SidebarItem[] = [
   { to: '/guru/dashboard', label: 'Dashboard', icon: dashboardIcon },
