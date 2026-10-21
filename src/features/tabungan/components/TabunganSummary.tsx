@@ -1,4 +1,5 @@
-import { Copy, ShieldCheck, Wallet } from 'lucide-react'
+import { Copy, ShieldCheck } from 'lucide-react'
+import walletPlusBlue from '@/assets/icon/wallet-plus-blue.svg'
 
 const BALANCE = 'Rp 4.500.000'
 const ACCOUNT_NO = 'GKR-001234'
@@ -12,10 +13,11 @@ export function TabunganSummary() {
         className="pointer-events-none absolute -right-8 -bottom-8 h-48 w-48 rounded-full bg-[#004ac6]/5 blur-[20px]"
       />
       {/* Watermark wallet */}
-      <Wallet
+      <img
+        alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute top-4 right-4 h-[90px] w-[95px] text-[#004ac6]/5"
-        strokeWidth={1}
+        className="pointer-events-none absolute top-4 right-6 h-[150px] w-[160px] opacity-[0.04]"
+        src={walletPlusBlue}
       />
 
       <div className="relative flex flex-col gap-4 pb-2">
