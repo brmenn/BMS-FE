@@ -16,6 +16,8 @@ import { DetailTransaksiModal } from '@/features/laporan-arus-kas/components/Det
 import type { CashFlowTransaction } from '@/features/laporan-arus-kas/data/transactions'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
+import { PageSkeleton } from '../components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import { adminItems } from '../components/admin-sidebar-items'
 import filterKasIcon from '@/assets/icon/filter-kas.svg'
 import iconSearch from '@/assets/icon/icon-search.svg'
@@ -371,6 +373,7 @@ export function LaporanArusKasPage() {
   const [page, setPage] = useState(1)
   const [period, setPeriod] = useState<PeriodKey>('bulan')
   const [showDownloadModal, setShowDownloadModal] = useState(false)
+  const loading = useSimulatedLoading()
   const [downloadModule, setDownloadModule] = useState('Arus Kas')
   const [downloadFormat, setDownloadFormat] = useState<'pdf' | 'xlsx'>('pdf')
   const [detailTransaction, setDetailTransaction] = useState<CashFlowTransaction | null>(null)
@@ -470,11 +473,15 @@ export function LaporanArusKasPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar items={adminItems} logo logoClassName="h-16 w-auto" />
+      <DashboardSidebar items={adminItems} logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar brand="BMS" role="Admin" />
+        <DashboardTopbar role="Admin" />
 
-        <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6 sm:p-8">
+        <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 p-8">
+          {loading ? (
+            <PageSkeleton variant="report" hasFilters />
+          ) : (
+            <>
           {/* HEADER */}
           <header className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-1">
@@ -1124,7 +1131,8 @@ export function LaporanArusKasPage() {
 
             {periodBar}
           </section>
-        
+            </>
+          )}
         </main>
 
         {/* POP-UP DOWNLOAD LAPORAN */}

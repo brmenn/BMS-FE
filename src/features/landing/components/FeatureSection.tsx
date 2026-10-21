@@ -10,6 +10,7 @@ import {
   Wallet,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Reveal } from './Reveal'
 
 const FEATURES: { badge: string; icon: LucideIcon; title: string; description: string; action: string }[] =
   [
@@ -93,20 +94,22 @@ export function FeatureSection() {
   return (
     <section className="w-full border-b border-[#e5e7eb] bg-white py-16 lg:py-20" id="fitur">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col items-center gap-12 px-4 sm:px-6">
-        <div className="flex max-w-[672px] flex-col items-center gap-3 text-center">
-          <span className="inline-flex items-center gap-1 rounded-full bg-[#e9ddff] px-2 py-1 shadow-[0px_1px_2px_#0000000d]">
-            <Sparkles className="h-3.5 w-3.5 text-[#23005c]" aria-hidden="true" />
-            <span className="font-jakarta text-xs leading-4 font-semibold tracking-[0.6px] text-[#23005c]">
-              FITUR UNGGULAN SEKOLAH
+        <Reveal>
+          <div className="flex max-w-[672px] flex-col items-center gap-3 text-center">
+            <span className="inline-flex items-center gap-1 rounded-full bg-[#e9ddff] px-2 py-1 shadow-[0px_1px_2px_#0000000d]">
+              <Sparkles className="h-3.5 w-3.5 text-[#23005c]" aria-hidden="true" />
+              <span className="font-jakarta text-xs leading-4 font-semibold tracking-[0.6px] text-[#23005c]">
+                FITUR UNGGULAN SEKOLAH
+              </span>
             </span>
-          </span>
-          <h2 className="font-jakarta text-[32px] leading-[40px] font-bold tracking-[-1px] text-[#0b1c30] sm:text-[40px] sm:leading-[48px]">
-            Fitur Utama
-          </h2>
-          <p className="font-jakarta text-base leading-6 text-[#434655]">
-            Fitur sederhana untuk kebutuhan transaksi tabungan siswa.
-          </p>
-        </div>
+            <h2 className="font-jakarta text-[32px] leading-[40px] font-bold tracking-[-1px] text-[#0b1c30] sm:text-[40px] sm:leading-[48px]">
+              Fitur Utama
+            </h2>
+            <p className="font-jakarta text-base leading-6 text-[#434655]">
+              Fitur sederhana untuk kebutuhan transaksi tabungan siswa.
+            </p>
+          </div>
+        </Reveal>
 
         <div className="grid w-full grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((feature, index) => {
@@ -114,10 +117,8 @@ export function FeatureSection() {
             const Visual = VISUALS[index] ?? HistoryVisual
 
             return (
-              <article
-                key={feature.title}
-                className="flex flex-1 flex-col overflow-hidden rounded-2xl bg-white shadow-[15px_20px_20px_-4px_#00000033,0px_10px_15px_-3px_#0000001a] transition-shadow hover:shadow-[18px_24px_24px_-4px_#00000040,0px_12px_18px_-3px_#0000001a]"
-              >
+              <Reveal key={feature.title} className="h-full" delay={index * 140}>
+                <article className="flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow-[15px_20px_20px_-4px_#00000033,0px_10px_15px_-3px_#0000001a] transition-shadow hover:shadow-[18px_24px_24px_-4px_#00000040,0px_12px_18px_-3px_#0000001a]">
                 <span className="h-2 w-full shrink-0 bg-[#003ea8]" aria-hidden="true" />
 
                 <div className="flex flex-1 flex-col p-6">
@@ -153,7 +154,8 @@ export function FeatureSection() {
                     <ArrowRight className="h-3.5 w-3.5 text-white" aria-hidden="true" />
                   </button>
                 </div>
-              </article>
+                </article>
+              </Reveal>
             )
           })}
         </div>

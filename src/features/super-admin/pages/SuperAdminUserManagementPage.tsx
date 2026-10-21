@@ -24,6 +24,8 @@ import { CreateUserModal, type CreateUserValue } from '../components/CreateUserM
 import { UserDetailModal } from '../components/UserDetailModal'
 import { ResetPasswordModal } from '../components/ResetPasswordModal'
 import { DeactivateUserModal } from '../components/DeactivateUserModal'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import {
   ROLE_AVATAR_CLASS,
   ROLE_BADGE_CLASS,
@@ -165,6 +167,7 @@ export function SuperAdminUserManagementPage() {
   const [page, setPage] = useState(1)
   const [menu, setMenu] = useState<MenuState | null>(null)
   const [dialog, setDialog] = useState<DialogState | null>(null)
+  const loading = useSimulatedLoading()
   const [notice, setNotice] = useState<string | null>(null)
 
   useEffect(() => {
@@ -322,7 +325,11 @@ export function SuperAdminUserManagementPage() {
       <div className="flex min-h-screen flex-col lg:pl-64">
         <SuperAdminTopbar />
 
-        <main className="mx-auto flex w-full max-w-[1360px] flex-col gap-6 p-6 sm:p-8">
+        <main className="mx-auto flex w-full max-w-[1360px] flex-col gap-6 p-8">
+          {loading ? (
+            <PageSkeleton variant="list" hasFilters />
+          ) : (
+            <>
           <section className="flex flex-col gap-4 border-b border-[#dee9fcb2] pb-3 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex flex-col gap-1">
               <h1 className="text-2xl leading-8 font-semibold tracking-[-0.6px] text-[#121c2a]">
@@ -743,6 +750,8 @@ export function SuperAdminUserManagementPage() {
               </div>
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
 

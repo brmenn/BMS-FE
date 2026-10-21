@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { CalendarDays } from 'lucide-react'
+import './TabunganPage.css'
 import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
 import dashboardIcon from '@/assets/icon/dashboard.svg'
@@ -13,7 +15,8 @@ import type { Transaction } from '../components/TransactionTable'
 import { ReceiptModal } from '../components/ReceiptModal'
 import type { ReceiptData } from '../components/receipt-data'
 import { DEFAULT_RECEIPT } from '../components/receipt-data'
-import './TabunganPage.css'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
 const NAV_ITEMS: SidebarItem[] = [
   { to: '/guru/dashboard', label: 'Dashboard', icon: dashboardIcon },
@@ -24,12 +27,8 @@ const NAV_ITEMS: SidebarItem[] = [
 ]
 
 function buildReceipt(tx: Transaction): ReceiptData {
-  const signed = tx.amount.startsWith('-')
-    ? `- ${tx.amount.slice(1)}`
-    : `+ ${tx.amount.slice(1)}`
-  const bare = tx.amount.startsWith('+') || tx.amount.startsWith('-')
-    ? tx.amount.slice(1)
-    : tx.amount
+  const bare = tx.amount.slice(1).trim()
+  const signed = `${tx.amount.startsWith('-') ? '-' : '+'} ${bare}`
 
   return {
     ...DEFAULT_RECEIPT,
@@ -44,64 +43,57 @@ function buildReceipt(tx: Transaction): ReceiptData {
 
 export function TabunganPage() {
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
+  const loading = useSimulatedLoading()
 
   return (
-    <div className="tabungan-page">
-
-      {/* SIDEBAR */}
+    <div className="min-h-screen w-full bg-[#f8f9ff]">
       <DashboardSidebar items={NAV_ITEMS} logo />
 
-      {/* AREA KANAN */}
-      <main className="tabungan-main lg:pl-64">
-
-        {/* HEADER */}
+      <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Guru & Karyawan" />
 
-        {/* CONTENT */}
-        <section className="tabungan-content">
-
-          {/* TITLE */}
-          <div className="tabungan-heading">
-
-            <div>
-              <h1>Tabungan</h1>
-              <p>Kelola saldo dan riwayat tabungan Anda.</p>
+        <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 p-8">
+          {loading ? (
+            <PageSkeleton variant="detail" hasFilters />
+          ) : (
+            <>
+          {/* HEADER */}
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="flex flex-col gap-0.5">
+              <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
+                Tabungan
+              </h1>
+              <p className="text-sm leading-5 text-[#434655]">
+                Kelola saldo dan riwayat tabungan Anda.
+              </p>
             </div>
 
-            <button className="semester-button">
-            ▣ &nbsp; Semester Ganjil TA 2026/2027
-            </button>
-
+            <div className="inline-flex items-center gap-2 rounded-xl border border-[#c3c6d7]/30 bg-white px-3.5 py-1.5 shadow-[0px_1px_2px_#0000000d]">
+              <CalendarDays className="h-[13.5px] w-[13.5px] shrink-0 text-[#434655]" aria-hidden="true" />
+              <span className="text-xs font-semibold leading-4 tracking-[0.24px] whitespace-nowrap text-[#434655]">
+                Semester Ganjil TA 2026/2027
+              </span>
+            </div>
           </div>
 
-
-          {/* CARD ATAS */}
-          <div className="top-cards">
-
+          {/* BENTO GRID */}
+          <div className="grid grid-cols-12 gap-6 lg:grid-rows-[338px]">
             <TabunganSummary />
-
-            <DepositStatus
-            onReceiptClick={() => setReceiptData(DEFAULT_RECEIPT)}
-            />
+            <DepositStatus onReceiptClick={() => setReceiptData(DEFAULT_RECEIPT)} />
           </div>
-
 
           {/* RIWAYAT */}
           <TransactionTable
             onReceiptClick={(transaction) => setReceiptData(buildReceipt(transaction))}
-            />
+          />
 
-        {receiptData && (
-        <ReceiptModal
-            data={receiptData}
-            onClose={() => setReceiptData(null)}
-        />
-        )}
-
-        </section>
-
-      </main>
-
+        {receiptData ? (
+          <ReceiptModal data={receiptData} onClose={() => setReceiptData(null)} />
+        ) : null}
+            </>
+          )}
+        </main>
+      </div>
     </div>
   )
 }

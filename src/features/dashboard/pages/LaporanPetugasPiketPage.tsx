@@ -12,6 +12,8 @@ import { cn } from '@/lib/utils'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
 import { adminItems } from '../components/admin-sidebar-items'
+import { PageSkeleton } from '../components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import {
   DetailLaporanPiketModal,
   type LaporanPiketDetail as LaporanPiket,
@@ -255,6 +257,7 @@ export function LaporanPetugasPiketPage() {
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [selected, setSelected] = useState<LaporanPiket | null>(null)
+  const loading = useSimulatedLoading()
 
   const visible = LAPORAN.filter((l) => {
     const day = dayOfMonth(l.tanggal)
@@ -408,11 +411,15 @@ export function LaporanPetugasPiketPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar items={adminItems} logo logoClassName="h-16 w-auto" />
+      <DashboardSidebar items={adminItems} logo variant="admin" />
       <div className="flex min-h-screen flex-col lg:pl-64">
-        <DashboardTopbar brand="BMS" role="Admin" />
+        <DashboardTopbar role="Admin" />
 
-        <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6 sm:p-8">
+        <main className="mx-auto flex w-full max-w-[1360px] flex-col gap-7 p-8">
+          {loading ? (
+            <PageSkeleton variant="report" hasFilters />
+          ) : (
+            <>
           {/* HEADER */}
           <header className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="flex flex-col gap-1">
@@ -775,6 +782,8 @@ export function LaporanPetugasPiketPage() {
               </div>
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
 

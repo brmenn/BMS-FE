@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ChevronDown } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import avatar from '@/assets/logo/avatar.png'
 import { ProfilePopover } from './ProfilePopover'
 import { getRoleProfile } from './role-profiles'
@@ -16,7 +17,7 @@ export function DashboardTopbar({ role, brand }: DashboardTopbarProps) {
   const profile = getRoleProfile(role)
 
   return (
-    <header className="relative sticky top-0 z-10 flex h-16 w-full items-center justify-between gap-4 border-b border-solid border-[#c3c6d7] bg-white px-6 shadow-[0px_1px_2px_#0000000d]">
+    <header className="relative sticky top-0 z-30 flex h-16 w-full items-center justify-between gap-4 border-b border-solid border-[#c3c6d7] bg-white px-6 shadow-[0px_1px_2px_#0000000d] print:hidden">
       <div className="flex min-w-0 items-center gap-2">
         <p className="truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-xl sm:leading-7">
           {brand ? (
@@ -42,14 +43,10 @@ export function DashboardTopbar({ role, brand }: DashboardTopbarProps) {
           onClick={() => setOpen((prev) => !prev)}
           type="button"
         >
-          <img
-            alt="Profil"
-            className="h-7 w-7 rounded-full object-cover"
-            src={avatar}
-          />
+          <img alt="Profil" className="h-7 w-7 rounded-full object-cover" src={avatar} />
           <ChevronDown
-            className={cn('hidden h-4 w-4 transition-transform sm:block', open && 'rotate-180')}
             aria-hidden="true"
+            className={cn('hidden h-4 w-4 transition-transform sm:block', open && 'rotate-180')}
           />
         </button>
 
@@ -57,8 +54,4 @@ export function DashboardTopbar({ role, brand }: DashboardTopbarProps) {
       </div>
     </header>
   )
-}
-
-function cn(...classes: (string | boolean | undefined | null)[]) {
-  return classes.filter(Boolean).join(' ')
 }

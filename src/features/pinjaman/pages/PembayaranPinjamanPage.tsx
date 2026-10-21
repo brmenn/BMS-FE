@@ -20,6 +20,8 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { BayarCicilanModal } from '@/features/pinjaman/components/BayarCicilanModal'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
 interface PaymentMethod {
   label: string
@@ -70,10 +72,16 @@ const INSTALLMENTS: InstallmentRow[] = [
 export function PembayaranPinjamanPage() {
   const [selected, setSelected] = useState<InstallmentRow | null>(null)
   const [payOpen, setPayOpen] = useState(false)
+  const loading = useSimulatedLoading()
 
   return (
     <div className="flex flex-col gap-6">
       <h1 className="sr-only">Pembayaran Pinjaman</h1>
+
+      {loading ? (
+        <PageSkeleton variant="detail" />
+      ) : (
+        <>
 
       <section
         aria-labelledby="tagihan-heading"
@@ -165,6 +173,8 @@ export function PembayaranPinjamanPage() {
       {selected ? <ReceiptModal row={selected} onClose={() => setSelected(null)} /> : null}
 
       {payOpen ? <BayarCicilanModal onClose={() => setPayOpen(false)} /> : null}
+        </>
+      )}
     </div>
   )
 }

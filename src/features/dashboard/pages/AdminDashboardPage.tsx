@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import {
   ArrowDownRight,
   ArrowRight,
@@ -6,43 +6,53 @@ import {
   Bell,
   CalendarDays,
   ChevronDown,
-  CircleAlert,
-  CreditCard,
-  HandCoins,
-  Landmark,
-  Plus,
   ReceiptText,
   TrendingUp,
-  Wallet,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import dashboardAdminPlaceholder from '@/placeholders/dashboard-admin.json'
+import arrowTopRightIcon from '@/assets/icon/arrow-top-right.svg'
+import arrowBottomRightIcon from '@/assets/icon/arrow-bottom-right.svg'
+import calendarClockIcon from '@/assets/icon/calendar-clock.svg'
+import calendarClockMoneyIcon from '@/assets/icon/calendar-clock-money.svg'
+import calendarXIcon from '@/assets/icon/calendar-x.svg'
+import walletPlusIcon from '@/assets/icon/wallet-plus.svg'
+import userBoardIcon from '@/assets/icon/user-board.svg'
+import buildingIcon from '@/assets/icon/building.svg'
+import briefcaseIcon from '@/assets/icon/briefcase.svg'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { adminItems } from '../components/admin-sidebar-items'
 import { DashboardTopbar } from '../components/DashboardTopbar'
+import { PageSkeleton } from '../components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
 const dashboard = dashboardAdminPlaceholder
 
-const summaryIcons = [Wallet, TrendingUp, CreditCard, Landmark] as const
+const summaryIcons = [
+  { src: walletPlusIcon, width: '16px' },
+  { src: userBoardIcon, width: '21px' },
+  { src: buildingIcon, width: '21px' },
+  { src: briefcaseIcon, width: '19px' },
+] as const
 
 const attentionTone = {
   amber: {
     card: 'border-[#fde68a] bg-gradient-to-r from-[#fffbeb]/40 to-white',
-    iconBox: 'bg-[#fef3c7] text-[#b45309]',
+    iconBox: 'bg-[#fef3c7]',
     label: 'text-[#b45309]',
-    Icon: CircleAlert,
+    icon: calendarClockIcon,
   },
   blue: {
     card: 'border-[#c3c6d7cc] bg-gradient-to-r from-[#eff4ff]/40 to-white',
-    iconBox: 'bg-[#eff4ff] text-[#004ac6]',
+    iconBox: 'bg-[#eff4ff]',
     label: 'text-[#004ac6]',
-    Icon: HandCoins,
+    icon: calendarClockMoneyIcon,
   },
   red: {
     card: 'border-[#fecaca] bg-gradient-to-r from-[#fef2f2]/40 to-white',
-    iconBox: 'bg-[#fee2e2] text-[#ba1a1a]',
+    iconBox: 'bg-[#fee2e2]',
     label: 'text-[#ba1a1a]',
-    Icon: ReceiptText,
+    icon: calendarXIcon,
   },
 } as const
 
@@ -51,19 +61,19 @@ const aggregateTone = {
     box: 'border-[#2563eb1a] bg-[#eff4ff]',
     label: 'text-[#737686]',
     value: 'text-[#004ac6]',
-    Icon: ArrowUpRight,
+    icon: arrowTopRightIcon,
   },
   amber: {
     box: 'border-[#fde68a99] bg-[#fffbeb]',
     label: 'text-[#737686]',
     value: 'text-[#ff8c00]',
-    Icon: ArrowDownRight,
+    icon: arrowBottomRightIcon,
   },
   green: {
     box: 'border-[#bbf7d0] bg-[#f0fdf4]',
     label: 'text-[#737686]',
     value: 'text-[#006329]',
-    Icon: Plus,
+    icon: walletPlusIcon,
   },
 } as const
 
@@ -78,6 +88,18 @@ const amountTone = {
   amber: 'text-[#b45309]',
   neutral: 'text-[#121c2a]',
 } as const
+
+const maskStyle = (src: string): CSSProperties => ({
+  backgroundColor: 'currentColor',
+  maskImage: `url("${src}")`,
+  WebkitMaskImage: `url("${src}")`,
+  maskRepeat: 'no-repeat',
+  WebkitMaskRepeat: 'no-repeat',
+  maskPosition: 'center',
+  WebkitMaskPosition: 'center',
+  maskSize: 'contain',
+  WebkitMaskSize: 'contain',
+})
 
 const toPercent = (value: number, max: number) => ((value / max) * 100).toFixed(2) + '%'
 
@@ -114,6 +136,7 @@ const toSmoothPath = (values: number[], max: number) => {
 export function AdminDashboardPage() {
   const [activeRange, setActiveRange] = useState(dashboard.cashflow.activeRange)
   const [activePoint, setActivePoint] = useState<number | null>(null)
+  const loading = useSimulatedLoading()
 
   const masukLinePath = toSmoothPath(
     dashboard.cashflow.data.map((point) => point.masuk),
@@ -135,6 +158,10 @@ export function AdminDashboardPage() {
         <DashboardTopbar role="Admin" />
 
         <main className="mx-auto flex w-full max-w-[1360px] flex-col gap-7 p-8">
+          {loading ? (
+            <PageSkeleton variant="dashboard" hasFilters />
+          ) : (
+            <>
           {/* SECTION HEADER */}
           <header className="flex flex-wrap items-center justify-between gap-6 pb-1">
             <div className="flex flex-col gap-1">
@@ -158,27 +185,20 @@ export function AdminDashboardPage() {
                   {dashboard.admin.dateLabel}
                 </span>
               </div>
-              <button
-                className="inline-flex items-center gap-2 rounded-xl bg-[#2563eb] px-5 py-3 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#1d4ed8]"
-                type="button"
-              >
-                <Plus className="h-3 w-3 text-white" aria-hidden="true" />
-                <span className="text-sm font-medium leading-5 text-white">Transaksi Baru</span>
-              </button>
             </div>
           </header>
 
           {/* SUMMARY CARDS */}
           <section className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
             {dashboard.summaryCards.map((card, index) => {
-              const Icon = summaryIcons[index] ?? Wallet
+              const icon = summaryIcons[index] ?? summaryIcons[0]
 
               return (
                 <div
                   className="flex h-[188px] flex-col items-start justify-between rounded-2xl border border-[#c3c6d7] bg-white p-6 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a]"
                   key={card.id}
                 >
-                  <div className="flex w-full items-center justify-between">
+                  <div className="flex w-full items-start justify-between">
                     {'labelLines' in card && card.labelLines ? (
                       <span className="text-xs font-semibold leading-4 tracking-[0.6px] text-[#737686]">
                         {card.labelLines.map((line) => (
@@ -192,8 +212,13 @@ export function AdminDashboardPage() {
                         {card.label}
                       </span>
                     )}
+
                     <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#eff4ff]">
-                      <Icon className="h-[15px] w-[15px] text-[#2563eb]" aria-hidden="true" />
+                      <span
+                        aria-hidden="true"
+                        className="h-[18px] text-[#2563eb]"
+                        style={{ ...maskStyle(icon.src), width: icon.width }}
+                      />
                     </span>
                   </div>
 
@@ -243,7 +268,6 @@ export function AdminDashboardPage() {
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
               {dashboard.attention.items.map((item) => {
                 const tone = attentionTone[item.tone as keyof typeof attentionTone]
-                const Icon = tone.Icon
 
                 return (
                   <div
@@ -254,10 +278,17 @@ export function AdminDashboardPage() {
                     key={item.id}
                   >
                     <div className="flex items-center gap-4">
-                      <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl">
-                        <span className={cn('flex h-full w-full items-center justify-center rounded-xl', tone.iconBox)}>
-                          <Icon className="h-5 w-5" aria-hidden="true" />
-                        </span>
+                      <span
+                        className={cn(
+                          'flex h-12 w-[46px] shrink-0 items-center justify-center rounded-xl',
+                          tone.iconBox,
+                        )}
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={cn('h-[20px] w-[21px]', tone.label)}
+                          style={maskStyle(tone.icon)}
+                        />
                       </span>
                       <div className="flex flex-col gap-0.5">
                         <span className={cn('text-[11px] font-bold leading-[14px] tracking-[0.55px]', tone.label)}>
@@ -341,7 +372,7 @@ export function AdminDashboardPage() {
             </div>
 
             <div className="flex flex-col px-4 pt-6 pb-2">
-              <div className="flex items-center justify-between border-b border-[#c3c6d766] px-2 pb-2">
+              <div className="flex items-center justify-between border-b border-[#c3c6d766] px-2 pb-3">
                 {dashboard.cashflow.data.map((point, index) => {
                   const isActive = activePoint === index
 
@@ -362,7 +393,7 @@ export function AdminDashboardPage() {
                 })}
               </div>
 
-              <div className="relative h-[176px]">
+              <div className="relative mt-7 h-[176px]">
                 <div className="pointer-events-none absolute inset-0 flex flex-col justify-between opacity-20">
                   {[0, 1, 2, 3].map((line) => (
                     <span className="h-px w-full border-b border-[#c3c6d7]" key={line} />
@@ -483,7 +514,7 @@ export function AdminDashboardPage() {
             <div className="flex flex-wrap items-center gap-4 pt-2">
               {dashboard.cashflow.aggregate.map((item) => {
                 const tone = aggregateTone[item.tone as keyof typeof aggregateTone]
-                const Icon = tone.Icon
+                const Icon = tone.icon
 
                 return (
                   <div
@@ -501,7 +532,11 @@ export function AdminDashboardPage() {
                         {item.value}
                       </span>
                     </div>
-                    <Icon className="h-[15px] w-[15px] shrink-0 text-[#737686]" aria-hidden="true" />
+                    <span
+                      aria-hidden="true"
+                      className={cn('h-[15px] w-[15px] shrink-0', tone.value)}
+                      style={maskStyle(Icon)}
+                    />
                   </div>
                 )
               })}
@@ -606,6 +641,8 @@ export function AdminDashboardPage() {
               </div>
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Check, CreditCard, Landmark, ShieldCheck, Wallet } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Reveal } from './Reveal'
 
 const LEDGER_ROWS: {
   title: string
@@ -61,23 +62,26 @@ export function AdvantageSection() {
   return (
     <section className="w-full bg-white py-16 lg:py-20" id="keunggulan">
       <div className="mx-auto flex w-full max-w-[1280px] flex-col gap-12 px-4 sm:px-6">
-        <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
-          <div className="flex flex-col items-start gap-1.5">
-            <span className="text-xs font-semibold leading-4 tracking-[0.6px] text-[#004ac6]">
-              PILAR UTAMA SISTEM
-            </span>
-            <h2 className="text-[24px] leading-8 font-bold tracking-[-0.6px] text-[#121c2a] sm:text-[30px] sm:leading-[38px] sm:tracking-[-0.75px]">
-              Kemudahan Ekosistem Kasir & Siswa
-            </h2>
+        <Reveal>
+          <div className="flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-end">
+            <div className="flex flex-col items-start gap-1.5">
+              <span className="text-xs font-semibold leading-4 tracking-[0.6px] text-[#004ac6]">
+                PILAR UTAMA SISTEM
+              </span>
+              <h2 className="text-[24px] leading-8 font-bold tracking-[-0.6px] text-[#121c2a] sm:text-[30px] sm:leading-[38px] sm:tracking-[-0.75px]">
+                Kemudahan Ekosistem Kasir & Siswa
+              </h2>
+            </div>
+            <p className="max-w-[448px] text-sm leading-5 text-[#434655]">
+              Dirancang sesuai SOP akuntansi kejuruan untuk menjamin integritas buku kas sekolah tanpa
+              kerumitan administrasi.
+            </p>
           </div>
-          <p className="max-w-[448px] text-sm leading-5 text-[#434655]">
-            Dirancang sesuai SOP akuntansi kejuruan untuk menjamin integritas buku kas sekolah tanpa
-            kerumitan administrasi.
-          </p>
-        </div>
+        </Reveal>
 
         <div className="grid w-full grid-cols-1 gap-8 lg:grid-cols-3">
-          <BentoCard label="Sistem Ledger" title="Transaksi Lebih Teratur">
+          <Reveal className="h-full" delay={140}>
+            <BentoCard label="Sistem Ledger" title="Transaksi Lebih Teratur">
             <p className="text-sm leading-[22.8px] text-[#434655]">
               Catat dan pantau aktifitas tabungan dengan jelas dan akurat.
             </p>
@@ -118,13 +122,15 @@ export function AdvantageSection() {
             </div>
             <BulletList items={FEATURE_BULLETS.ledger} />
           </BentoCard>
+          </Reveal>
 
-          <BentoCard
-            accent
-            label="Multi-Platform"
-            tag="FAVORIT USER"
-            title="Informasi Saldo"
-          >
+          <Reveal className="h-full" delay={280}>
+            <BentoCard
+              accent
+              label="Multi-Platform"
+              tag="FAVORIT USER"
+              title="Informasi Saldo"
+            >
             <p className="text-sm leading-[22.8px] text-[#434655]">
               Siswa dapat melihat saldo tabungan mereka dengan mudah kapan saja.
             </p>
@@ -156,9 +162,11 @@ export function AdvantageSection() {
               </div>
             </div>
             <BulletList items={BALANCE_BULLETS} />
-          </BentoCard>
+            </BentoCard>
+          </Reveal>
 
-          <BentoCard label="SOP Terbimbing" title="Proses Penarikan">
+          <Reveal className="h-full" delay={420}>
+            <BentoCard label="SOP Terbimbing" title="Proses Penarikan">
             <p className="text-sm leading-[22.8px] text-[#434655]">
               Pengajuan penarikan dana dapat dipantau status verifikasinya.
             </p>
@@ -210,7 +218,8 @@ export function AdvantageSection() {
               </div>
             </div>
             <BulletList items={FEATURE_BULLETS.withdrawal} />
-          </BentoCard>
+            </BentoCard>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -233,7 +242,7 @@ function BentoCard({
   return (
     <article
       className={cn(
-        'relative flex flex-1 flex-col overflow-hidden rounded-2xl bg-white p-8 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a]',
+        'relative flex h-full flex-1 flex-col overflow-hidden rounded-2xl bg-white p-8 shadow-[0px_1px_2px_-1px_#1725540a,0px_1px_3px_#1725540a]',
         accent ? 'border-2 border-[#004ac633]' : 'border border-[#c3c6d7b2]',
       )}
     >

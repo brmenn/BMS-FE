@@ -1,14 +1,14 @@
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
-  Bell,
   CheckCircle2,
+  ChevronDown,
   LayoutDashboard,
   PiggyBank,
   Wallet,
 } from 'lucide-react'
-import { StudentPhoto } from './StudentPhoto'
 import logoKet from '@/assets/logo/logoKet.png'
+import avatar from '@/assets/logo/avatar.png'
 import screenshot from '@/assets/logo/screenshot.png'
 
 const SIDEBAR_MAIN = [
@@ -35,7 +35,10 @@ const TRANSACTIONS = [
 export function DashboardPreview() {
   return (
     <div className="w-full overflow-hidden rounded-xl border border-[#cacaca] bg-[#fdfdfd] shadow-[10px_15px_30px_#00000033]">
-      <div className="flex items-center gap-1.5 self-stretch bg-[#0074e9] px-4 py-2.5" aria-hidden="true">
+      <div
+        className="flex items-center gap-1.5 self-stretch border-b border-white bg-[#0074e9] px-4 py-2.5"
+        aria-hidden="true"
+      >
         <span className="h-2.5 w-2.5 rounded-full bg-white" />
         <span className="h-2.5 w-2.5 rounded-full bg-white" />
         <span className="h-2.5 w-2.5 rounded-full bg-white" />
@@ -47,7 +50,7 @@ export function DashboardPreview() {
             <div className="-mx-4 -mt-4 flex h-[57px] w-[calc(100%_+_2rem)] items-center justify-center border-b border-[#c3c6d7] px-4">
               <img
                 alt="Logo Bank Mini Sekolah"
-                className="h-11 w-auto object-contain"
+                className="h-6 w-auto object-contain"
                 src={logoKet}
               />
             </div>
@@ -61,34 +64,19 @@ export function DashboardPreview() {
         </aside>
 
         <div className="flex min-w-0 flex-1 flex-col gap-4 bg-[#fafaff] p-4 sm:p-5">
-          <div className="-mx-4 -mt-4 flex flex-col gap-3 border-b border-[#c3c6d7] bg-white px-4 py-3 shadow-[0px_1px_2px_#0000000d] sm:-mx-5 sm:-mt-5 sm:px-5">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="inline-flex items-center gap-2">
-                <span className="text-[17px] font-bold leading-6 text-[#121c2a]">BMS Siswa</span>
-                <span className="rounded-full bg-[#dbe1ff] px-2 py-0.5 text-[9px] font-semibold leading-3 text-[#004ac6]">
-                  SMK Muhi
-                </span>
-              </div>
+          <div className="-mx-4 -mt-4 flex h-14 min-w-0 items-center justify-between gap-4 border-b border-solid border-[#c3c6d7] bg-white px-4 shadow-[0px_1px_2px_#0000000d] sm:-mx-5 sm:-mt-5 sm:px-5">
+            <p className="min-w-0 truncate text-base font-bold tracking-[-0.5px] text-[#121c2a] sm:text-lg sm:leading-7">
+              Siswa&nbsp;&nbsp;|&nbsp;&nbsp;SMKS Muhammadiyah 1 Genteng
+            </p>
 
-              <div className="inline-flex items-center gap-3">
-                <span className="relative flex items-center justify-center" aria-hidden="true">
-                  <Bell className="h-4 w-4 text-[#434655]" />
-                  <span className="absolute right-0 top-0 h-1.5 w-1.5 rounded-full bg-[#ba1a1a] ring-2 ring-white" />
-                </span>
-                <span className="h-6 w-px bg-[#c3c6d7]" />
-                <StudentPhoto
-                  alt="Adinda Putri"
-                  className="h-8 w-8 rounded-[10px] text-[12px] ring-2 ring-[#004ac6]/20"
-                  fallbackClassName="text-xs"
-                />
-                <span className="flex flex-col items-start">
-                  <span className="text-[12px] font-semibold leading-4 text-[#121c2a]">Adinda Putri</span>
-                  <span className="text-[9px] font-semibold leading-3 text-[#434655]">
-                    XII RPL 1 • NISN 00642189
-                  </span>
-                </span>
-              </div>
-            </div>
+            <span className="flex shrink-0 items-center gap-2 rounded-xl border border-solid border-[#c3c6d766] bg-white px-3 py-1.5">
+              <img
+                alt="Profil Adinda Putri"
+                className="h-7 w-7 rounded-full object-cover"
+                src={avatar}
+              />
+              <ChevronDown className="h-4 w-4 text-[#434655]" aria-hidden="true" />
+            </span>
           </div>
 
           <div className="flex flex-col items-start gap-1">
@@ -101,6 +89,11 @@ export function DashboardPreview() {
           <div className="relative flex flex-col gap-5 overflow-hidden rounded-2xl bg-[#2563eb] p-5 shadow-[0px_2px_4px_-2px_#0000001a,0px_4px_6px_-1px_#0000001a] sm:p-8">
             <div
               className="pointer-events-none absolute right-0 top-0 h-56 w-56 rounded-full bg-white/[0.05] blur-2xl"
+              aria-hidden="true"
+            />
+            <Wallet
+              className="pointer-events-none absolute -right-6 -bottom-8 h-36 w-36 text-white/[0.08]"
+              strokeWidth={1}
               aria-hidden="true"
             />
 

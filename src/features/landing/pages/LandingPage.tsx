@@ -1,5 +1,6 @@
 import { AboutSection } from '../components/AboutSection'
 import { AdvantageSection } from '../components/AdvantageSection'
+import { BmsAiAssistant } from '../components/BmsAiAssistant'
 import { FeatureSection } from '../components/FeatureSection'
 import { HeroSection } from '../components/HeroSection'
 import { LandingFooter } from '../components/LandingFooter'
@@ -18,6 +19,7 @@ export function LandingPage() {
         <TestimonialSection />
       </main>
       <LandingFooter />
+      <BmsAiAssistant />
     </div>
   )
 }

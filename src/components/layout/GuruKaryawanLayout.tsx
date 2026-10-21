@@ -23,7 +23,7 @@ export function GuruKaryawanLayout() {
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Guru & Karyawan" />
 
-        <main className="flex w-full max-w-[1280px] flex-1 flex-col gap-6 p-6 sm:p-8">
+        <main className="mx-auto flex w-full max-w-[1280px] flex-1 flex-col gap-6 p-8">
           <Outlet />
         </main>
       </div>

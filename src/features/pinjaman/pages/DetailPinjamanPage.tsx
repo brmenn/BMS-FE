@@ -1,131 +1,130 @@
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import type { LucideIcon } from 'lucide-react'
 import {
+  ArrowRight,
   Banknote,
-  CalendarDays,
+  CheckCircle2,
   ChevronRight,
-  CircleCheck,
-  ClipboardList,
+  CircleDashed,
   Clock3,
-  FileText,
+  HandCoins,
   TrendingDown,
-  TrendingUp,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import {
+  RiwayatPinjamanModal,
+  type RiwayatPinjamanRecord,
+} from '../components/RiwayatPinjamanModal'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
-type PaymentStatus = 'lunas' | 'menunggu'
-
-interface SummaryCard {
-  label: string
-  labelClassName?: string
-  icon: LucideIcon
-  iconBoxClassName: string
-  amount: string
-  amountClassName: string
-  caption?: string
-  status?: string
-}
-
-const SUMMARY_CARDS: SummaryCard[] = [
-  {
-    label: 'Jumlah Pinjaman',
-    labelClassName: 'bg-[#fffbeb] text-[#b45309]',
-    icon: Banknote,
-    iconBoxClassName: 'bg-[#eff6ff] text-[#2563eb]',
-    amount: 'Rp 8.000.000',
-    amountClassName: 'text-[#0f172a]',
-    status: 'Disetujui & Dicairkan penuh',
-  },
-  {
-    label: 'Sisa Tagihan',
-    icon: TrendingDown,
-    iconBoxClassName: 'bg-[#fef2f2] text-[#ef4444]',
-    amount: 'Rp 6.200.000',
-    amountClassName: 'text-[#ef4444]',
-    caption: '16 Cicilan tersisa s/d 2028',
-  },
-]
-
-const LOAN_DETAILS: Array<{ label: string; value: string }> = [
-  { label: 'Jumlah pinjaman', value: 'Rp 8.000.000' },
-  { label: 'Tenor', value: '24 bulan' },
-  { label: 'Cicilan per bulan', value: 'Rp 420.000' },
-  { label: 'Bunga', value: '1%' },
-  { label: 'Tanggal mulai', value: '10 Jan 2026' },
-  { label: 'Jatuh tempo berikutnya', value: '10 Okt 2026' },
-]
-
-interface ScheduleRow {
-  month: string
-  dueDate: string
-  installment: string
-  status: PaymentStatus
-}
-
-const SCHEDULE_ROWS: ScheduleRow[] = [
-  { month: 'Oktober 2026', dueDate: '10 Okt 2026', installment: 'Rp 420.000', status: 'lunas' },
-  { month: 'November 2026', dueDate: '10 Nov 2026', installment: 'Rp 420.000', status: 'menunggu' },
-  { month: 'Desember 2026', dueDate: '10 Des 2026', installment: 'Rp 420.000', status: 'menunggu' },
-]
+type HistoryStatus = 'lunas' | 'menunggu' | 'belum-lunas'
 
 interface HistoryRow {
+  id: string
   date: string
   amount: string
-  status: PaymentStatus
+  status: HistoryStatus
+  actionLabel: string
+  actionTone: 'primary' | 'success' | 'danger'
 }
 
 const HISTORY_ROWS: HistoryRow[] = [
-  { date: '10 Sep 2026', amount: 'Rp 420.000', status: 'lunas' },
-  { date: '10 Agu 2026', amount: 'Rp 420.000', status: 'lunas' },
-  { date: '10 Jul 2026', amount: 'Rp 420.000', status: 'lunas' },
+  {
+    id: 'HST-2026-10',
+    date: '10 Okt 2026',
+    amount: 'Rp 420.000',
+    status: 'menunggu',
+    actionLabel: 'Lihat Status',
+    actionTone: 'primary',
+  },
+  {
+    id: 'HST-2026-09',
+    date: '10 Sep 2026',
+    amount: 'Rp 420.000',
+    status: 'lunas',
+    actionLabel: 'Lihat Detail',
+    actionTone: 'success',
+  },
+  {
+    id: 'HST-2026-08',
+    date: '10 Agu 2026',
+    amount: 'Rp 420.000',
+    status: 'belum-lunas',
+    actionLabel: 'Bayar Sekarang',
+    actionTone: 'danger',
+  },
+  {
+    id: 'HST-2026-07',
+    date: '10 Jul 2026',
+    amount: 'Rp 420.000',
+    status: 'lunas',
+    actionLabel: 'Lihat Detail',
+    actionTone: 'success',
+  },
+  {
+    id: 'HST-2026-06',
+    date: '10 Jun 2026',
+    amount: 'Rp 420.000',
+    status: 'lunas',
+    actionLabel: 'Lihat Detail',
+    actionTone: 'success',
+  },
+  {
+    id: 'HST-2026-05',
+    date: '10 Mei 2026',
+    amount: 'Rp 420.000',
+    status: 'lunas',
+    actionLabel: 'Lihat Detail',
+    actionTone: 'success',
+  },
+  {
+    id: 'HST-2026-04',
+    date: '10 Apr 2026',
+    amount: 'Rp 420.000',
+    status: 'lunas',
+    actionLabel: 'Lihat Detail',
+    actionTone: 'success',
+  },
 ]
 
-const STATUS_META: Record<PaymentStatus, { label: string; icon: LucideIcon; className: string }> = {
+const STATUS_META: Record<
+  HistoryStatus,
+  { label: string; icon: LucideIcon; badgeClass: string; iconClass: string }
+> = {
+  menunggu: {
+    label: 'Menunggu Konfirmasi',
+    icon: Clock3,
+    badgeClass: 'bg-[#fef3c7]/60',
+    iconClass: 'text-[#d97706]',
+  },
   lunas: {
     label: 'Lunas',
-    icon: CircleCheck,
-    className: 'bg-[#d1fae5]/70 text-[#059669]',
+    icon: CheckCircle2,
+    badgeClass: 'bg-[#d1fae5]/70',
+    iconClass: 'text-[#059669]',
   },
-  menunggu: {
-    label: 'Menunggu',
-    icon: Clock3,
-    className: 'bg-[#fef3c7]/60 text-[#d97706]',
+  'belum-lunas': {
+    label: 'Belum Lunas',
+    icon: CircleDashed,
+    badgeClass: 'bg-[#fec7c7]/60',
+    iconClass: 'text-[#d90606]',
   },
 }
+
+const ACTION_TONE: Record<HistoryRow['actionTone'], string> = {
+  primary: 'bg-[#2563eb] text-white hover:bg-[#1d4ed8]',
+  success: 'bg-[#059669] text-white hover:bg-[#047857]',
+  danger: 'bg-[#dc2626] text-white hover:bg-[#b91c1c]',
+}
+
+const QUOTA_PERCENT = 20
 
 const cardShell =
-  'relative w-full rounded-2xl border border-[#f1f5f9] bg-white p-6 shadow-[0px_2px_12px_-4px_rgba(30,41,59,0.04)]'
+  'rounded-2xl border border-[#f1f5f9] bg-white shadow-[2px_4px_4px_rgba(0,0,0,0.25)]'
 
-function SectionHeader({
-  icon: Icon,
-  title,
-  actionLabel,
-}: {
-  icon: LucideIcon
-  title: string
-  actionLabel?: string
-}) {
-  return (
-    <div className="flex flex-wrap items-center justify-between gap-3">
-      <div className="flex items-center gap-2.5">
-        <span className="flex h-6 w-6 items-center justify-center rounded bg-[#eff6ff] text-[#2563eb]">
-          <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-        </span>
-        <h2 className="text-sm font-bold leading-5 text-[#1e293b]">{title}</h2>
-      </div>
-      {actionLabel ? (
-        <a
-          href="#"
-          className="inline-flex items-center gap-1 text-xs font-semibold leading-4 text-[#2563eb] hover:underline"
-        >
-          {actionLabel}
-          <ChevronRight className="h-3 w-3" aria-hidden="true" />
-        </a>
-      ) : null}
-    </div>
-  )
-}
-
-function StatusBadge({ status }: { status: PaymentStatus }) {
+function StatusBadge({ status }: { status: HistoryStatus }) {
   const meta = STATUS_META[status]
   const Icon = meta.icon
 
@@ -133,199 +132,225 @@ function StatusBadge({ status }: { status: PaymentStatus }) {
     <span
       className={cn(
         'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold leading-4',
-        meta.className,
+        meta.badgeClass,
       )}
     >
-      <Icon className="h-3 w-3" aria-hidden="true" />
-      {meta.label}
+      <Icon className={cn('h-3 w-3', meta.iconClass)} aria-hidden="true" />
+      <span className={meta.iconClass}>{meta.label}</span>
     </span>
   )
 }
 
-function SummaryCard({ card }: { card: SummaryCard }) {
-  const Icon = card.icon
+function QuotaDonut() {
+  const radius = 52
+  const circumference = 2 * Math.PI * radius
+  const dash = (QUOTA_PERCENT / 100) * circumference
 
   return (
-    <article className={cn(cardShell, 'flex flex-col gap-3')}>
-      <div className="flex items-center justify-between gap-3">
-        <span
-          className={cn(
-            'inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold leading-4',
-            card.labelClassName ?? 'font-semibold text-[#64748b]',
-          )}
-        >
-          {card.label}
-        </span>
-        <span
-          className={cn(
-            'flex h-7 w-7 shrink-0 items-center justify-center rounded-lg',
-            card.iconBoxClassName,
-          )}
-        >
-          <Icon className="h-3.5 w-3.5" aria-hidden="true" />
-        </span>
-      </div>
-
-      <p className={cn('text-xl font-bold leading-7', card.amountClassName)}>{card.amount}</p>
-
-      {card.status ? (
-        <p className="flex items-center gap-1.5 text-[11px] font-semibold leading-4 text-[#059669]">
-          <CircleCheck className="h-3 w-3" aria-hidden="true" />
-          {card.status}
-        </p>
-      ) : null}
-      {card.caption ? (
-        <p className="text-[11px] font-medium leading-4 text-[#64748b]">{card.caption}</p>
-      ) : null}
-    </article>
+    <div
+      className="relative flex h-[120px] w-[120px] shrink-0 flex-col items-center justify-center"
+      role="img"
+      aria-label={`${QUOTA_PERCENT}% kuota tersisa`}
+    >
+      <svg className="absolute inset-0 h-[120px] w-[120px] -rotate-90" viewBox="0 0 120 120">
+        <circle
+          cx="60"
+          cy="60"
+          fill="none"
+          r={radius}
+          stroke="#e2e8f0"
+          strokeWidth="12"
+        />
+        <circle
+          cx="60"
+          cy="60"
+          fill="none"
+          r={radius}
+          stroke="#2563eb"
+          strokeDasharray={`${dash} ${circumference - dash}`}
+          strokeLinecap="round"
+          strokeWidth="12"
+        />
+      </svg>
+      <span className="text-[24px] font-bold leading-7 text-[#0f172a]">{QUOTA_PERCENT}%</span>
+      <span className="text-xs font-medium leading-4 text-[#64748b]">tersisa</span>
+    </div>
   )
 }
 
 export function DetailPinjamanPage() {
+  const navigate = useNavigate()
+  const [selectedRecord, setSelectedRecord] = useState<RiwayatPinjamanRecord | null>(null)
+  const loading = useSimulatedLoading()
+
+  const handleAction = (row: HistoryRow) => {
+    if (row.status === 'belum-lunas') {
+      navigate('/guru/pembayaran-pinjaman')
+      return
+    }
+
+    setSelectedRecord(row)
+  }
+
   return (
     <div className="flex flex-col gap-6">
-      <section aria-label="Ringkasan pinjaman" className="grid gap-5 lg:grid-cols-2">
-        <article className={cn(cardShell, 'flex min-h-[248px] flex-col justify-between gap-6')}>
-          <div className="flex items-center justify-between gap-3">
-            <h1 className="text-xl font-bold leading-6 text-[#64748b]">Sudah Dibayar (8 Cicilan)</h1>
-            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#eff6ff] text-[#2563eb]">
-              <FileText className="h-4 w-4" aria-hidden="true" />
-            </span>
+      {loading ? (
+        <PageSkeleton variant="report" />
+      ) : (
+        <>
+      {/* KARTU RINGKASAN */}
+      <section aria-label="Ringkasan pinjaman" className="flex flex-col gap-5 lg:flex-row lg:items-stretch">
+        <article
+          className={cn(
+            cardShell,
+            'relative flex min-h-[300px] flex-1 flex-col overflow-hidden p-6',
+          )}
+        >
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute -right-9 -bottom-16 h-[203px] w-[208px] rounded-full bg-[#004ac6]/20 blur-[20px]"
+          />
+
+          <div className="relative flex flex-col gap-1">
+            <h1 className="text-xl font-bold leading-6 text-[#64748b]">
+              Sisa Tagihan &amp; Kuota Pinjaman
+            </h1>
+            <p className="text-[30px] font-bold leading-9 tracking-[-0.75px] text-[#0f172a]">
+              Rp 6.200.000
+            </p>
           </div>
 
-          <p className="text-[30px] font-bold leading-9 tracking-[-0.75px] text-[#0f172a]">
-            Rp 3.000.000
-          </p>
+          <div className="relative mt-8 flex items-end justify-between gap-4">
+            <div className="flex flex-col gap-1.5">
+              <p className="text-base font-bold leading-6 text-[#64748b]">
+                Kuota Pinjaman Tersisa
+              </p>
+              <p className="text-[26px] font-bold leading-8 tracking-[-0.5px] text-[#0f172a]">
+                Rp 2.000.000
+              </p>
+              <p className="text-xs font-medium leading-4 text-[#64748b]">
+                Limit kuota Rp 10.000.000
+              </p>
+            </div>
 
-          <div
-            className="flex items-center gap-3"
-            role="progressbar"
-            aria-label="Progress pembayaran"
-            aria-valuenow={38.5}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuetext="38,5%"
-          >
-            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#ecfdf5] text-[#10b981]">
-              <TrendingUp className="h-3.5 w-3.5" aria-hidden="true" />
-            </span>
-            <span className="h-3 flex-1 overflow-hidden rounded-full bg-[#e0e3e6]">
-              <span className="block h-full w-[38.5%] rounded-full bg-[#10b981]" />
-            </span>
-            <span className="text-xs font-bold leading-4 text-[#334155]">38,5%</span>
+            <QuotaDonut />
           </div>
         </article>
 
-        <div className="flex flex-col gap-4">
-          {SUMMARY_CARDS.map((card) => (
-            <SummaryCard key={card.label} card={card} />
-          ))}
+        <div className="flex flex-1 flex-col gap-4">
+          <article className={cn(cardShell, 'flex flex-1 flex-col justify-between gap-3 p-5')}>
+            <div className="flex items-center justify-between gap-3">
+              <span className="inline-flex rounded-full bg-[#fffbeb] px-2.5 py-0.5 text-xs font-semibold leading-4 text-[#b45309]">
+                Jumlah Pinjaman
+              </span>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#eff6ff]">
+                <Banknote className="h-4 w-4 text-[#2563eb]" aria-hidden="true" />
+              </span>
+            </div>
+
+            <p className="text-xl font-bold leading-7 text-[#0f172a]">Rp 8.000.000</p>
+
+            <p className="flex items-center gap-1.5 text-[11px] font-semibold leading-4 text-[#059669]">
+              <CheckCircle2 className="h-3 w-3" aria-hidden="true" />
+              Disetujui &amp; Dicairkan penuh
+            </p>
+          </article>
+
+          <article className={cn(cardShell, 'flex flex-1 flex-col justify-center gap-1 p-5')}>
+            <div className="flex items-center justify-between gap-3">
+              <span className="text-xs font-semibold leading-4 text-[#64748b]">Sisa Tagihan</span>
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fef2f2]">
+                <TrendingDown className="h-4 w-4 text-[#ef4444]" aria-hidden="true" />
+              </span>
+            </div>
+
+            <p className="text-xl font-bold leading-7 text-[#ef4444]">Rp 6.200.000</p>
+            <p className="text-[11px] font-medium leading-4 text-[#64748b]">
+              16 Cicilan tersisa s/d 2028
+            </p>
+          </article>
         </div>
       </section>
 
-      <section aria-labelledby="detail-pinjaman-heading" className={cn(cardShell, 'flex flex-col gap-5')}>
-        <SectionHeader icon={FileText} title="Detail Pinjaman" />
-        <h2 id="detail-pinjaman-heading" className="sr-only">
-          Detail Pinjaman
-        </h2>
+      {/* RIWAYAT PEMBAYARAN */}
+      <section aria-labelledby="riwayat-heading" className={cn(cardShell, 'flex flex-col gap-5 p-6')}>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="flex h-6 w-6 items-center justify-center rounded bg-[#eff6ff]">
+              <HandCoins className="h-3.5 w-3.5 text-[#2563eb]" aria-hidden="true" />
+            </span>
+            <h2 className="text-sm font-bold leading-5 text-[#1e293b]" id="riwayat-heading">
+              Riwayat Pinjaman
+            </h2>
+          </div>
 
-        <dl className="flex w-full max-w-xl flex-col">
-          {LOAN_DETAILS.map((row) => (
-            <div key={row.label} className="flex items-center py-1.5">
-              <dt className="w-48 shrink-0 text-sm font-medium leading-5 text-[#64748b]">
-                {row.label}
-              </dt>
-              <span className="w-4 shrink-0 text-center text-sm text-[#94a3b8]" aria-hidden="true">
-                :
-              </span>
-              <dd className="text-sm font-semibold leading-5 text-[#1e293b]">{row.value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+          <Link
+            className="inline-flex items-center gap-1 text-xs font-semibold leading-4 text-[#2563eb] hover:underline"
+            to="/guru/pembayaran-pinjaman"
+          >
+            Lihat Semua Riwayat
+            <ChevronRight className="h-3 w-3" aria-hidden="true" />
+          </Link>
+        </div>
 
-      <section aria-labelledby="jadwal-pembayaran-heading" className={cn(cardShell, 'flex flex-col gap-4')}>
-        <SectionHeader icon={CalendarDays} title="Jadwal Pembayaran" actionLabel="Lihat Semua Jadwal" />
-        <h2 id="jadwal-pembayaran-heading" className="sr-only">
-          Jadwal Pembayaran
-        </h2>
-
-        <div className="-mx-6 overflow-x-auto px-6">
+        <div className="overflow-x-auto border-t border-[#3737374c]">
           <table className="w-full min-w-[560px] border-collapse text-left">
             <thead>
-              <tr className="border-b border-[#f1f5f9]">
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
-                  Bulan
-                </th>
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
-                  Jatuh Tempo
-                </th>
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
-                  Cicilan
-                </th>
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
-                  Status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {SCHEDULE_ROWS.map((row) => (
-                <tr key={row.month} className="border-b border-[#f8fafc] last:border-b-0">
-                  <td className="px-4 py-4 text-sm font-semibold leading-5 text-[#1e293b]">
-                    {row.month}
-                  </td>
-                  <td className="px-4 py-4 text-sm font-medium leading-5 text-[#475569]">
-                    {row.dueDate}
-                  </td>
-                  <td className="px-4 py-4 text-sm font-medium leading-5 text-[#334155]">
-                    {row.installment}
-                  </td>
-                  <td className="px-4 py-4">
-                    <StatusBadge status={row.status} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section aria-labelledby="riwayat-pembayaran-heading" className={cn(cardShell, 'flex flex-col gap-4')}>
-        <SectionHeader
-          icon={ClipboardList}
-          title="Riwayat Pembayaran"
-          actionLabel="Lihat Semua Riwayat"
-        />
-        <h2 id="riwayat-pembayaran-heading" className="sr-only">
-          Riwayat Pembayaran
-        </h2>
-
-        <div className="-mx-6 overflow-x-auto px-6">
-          <table className="w-full min-w-[480px] border-collapse text-left">
-            <thead>
-              <tr className="border-b border-[#f1f5f9]">
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
+              <tr className="border-b border-[#3737374c]">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-sm font-bold leading-5 text-[#535353]"
+                >
                   Tanggal
                 </th>
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-center text-sm font-bold leading-5 text-[#535353]"
+                >
                   Jumlah
                 </th>
-                <th scope="col" className="px-4 py-3 text-sm font-bold leading-5 text-[#94a3b8]">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-center text-sm font-bold leading-5 text-[#535353]"
+                >
                   Status
+                </th>
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-center text-sm font-bold leading-5 text-[#535353]"
+                >
+                  Action
                 </th>
               </tr>
             </thead>
             <tbody>
               {HISTORY_ROWS.map((row) => (
-                <tr key={row.date} className="border-b border-[#f8fafc] last:border-b-0">
+                <tr key={row.id} className="border-b border-[#f8fafc] last:border-b-0">
                   <td className="px-4 py-4 text-sm font-medium leading-5 text-[#334155]">
                     {row.date}
                   </td>
-                  <td className="px-4 py-4 text-sm font-medium leading-5 text-[#334155]">
+                  <td className="px-4 py-4 text-center text-sm font-medium leading-5 text-[#334155]">
                     {row.amount}
                   </td>
                   <td className="px-4 py-4">
-                    <StatusBadge status={row.status} />
+                    <div className="flex justify-center">
+                      <StatusBadge status={row.status} />
+                    </div>
+                  </td>
+                  <td className="px-4 py-4">
+                    <div className="flex justify-center">
+                      <button
+                        className={cn(
+                          'inline-flex h-[30px] items-center justify-center gap-1 rounded-[8px] px-3 text-[11px] font-extrabold leading-4 shadow-[0px_0.63px_1.26px_rgba(0,0,0,0.05)] transition-colors',
+                          ACTION_TONE[row.actionTone],
+                        )}
+                        onClick={() => handleAction(row)}
+                        type="button"
+                      >
+                        {row.actionLabel}
+                        <ArrowRight className="h-3 w-3" aria-hidden="true" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -333,6 +358,19 @@ export function DetailPinjamanPage() {
           </table>
         </div>
       </section>
+
+      {selectedRecord ? (
+        <RiwayatPinjamanModal
+          onClose={() => setSelectedRecord(null)}
+          onPay={() => {
+            setSelectedRecord(null)
+            navigate('/guru/pembayaran-pinjaman')
+          }}
+          record={selectedRecord}
+        />
+      ) : null}
+        </>
+      )}
     </div>
   )
 }

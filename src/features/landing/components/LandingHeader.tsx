@@ -56,7 +56,7 @@ export function LandingHeader() {
         >
           <img
             alt="Logo Bank Mini Sekolah"
-            className="h-11 w-auto object-contain sm:h-16"
+            className="h-6 w-auto object-contain sm:h-6"
             src={logoKet}
           />
         </a>
@@ -84,7 +84,7 @@ export function LandingHeader() {
 
         <div className="hidden items-center md:flex">
           <Link
-            className="flex h-9 items-center justify-center rounded-lg border border-[#e5e7eb] bg-[#2961ef] px-4 text-[13px] font-medium leading-[19.5px] text-white transition-colors hover:bg-[#1d4ed8]"
+            className="flex h-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#2961ef] px-6 text-[15px] font-medium leading-[22px] text-white transition-colors hover:bg-[#1d4ed8]"
             to="/login"
           >
             Masuk

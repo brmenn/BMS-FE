@@ -1,5 +1,6 @@
 import { CheckCircle2, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Reveal } from './Reveal'
 import { StudentPhoto } from './StudentPhoto'
 import avatar from '@/assets/logo/avatar.png'
 import lumba from '@/assets/logo/lumba.png'
@@ -74,37 +75,43 @@ export function TestimonialSection() {
           </p>
         </header>
 
-        <div className="flex w-full max-w-[842px] flex-col items-start gap-6 rounded-[18px] border-[1.1px] border-[#c3c6d799] bg-white p-6 shadow-[10px_16px_12px_#00000040] sm:p-8 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-5">
-            <span className="flex items-baseline">
-              <span className="text-5xl leading-[52.6px] font-bold text-[#121c2a]">4.9</span>
-              <span className="text-xl leading-[30.7px] font-normal text-[#434655]">/5</span>
-            </span>
-
-            <span className="flex flex-col items-start gap-1">
-              <StarRating />
-              <span className="text-sm leading-[21.9px] font-semibold text-[#121c2a]">
-                Berdasarkan 850+ Siswa &amp; Pengguna
+        <Reveal delay={100}>
+          <div className="flex w-full max-w-[842px] flex-col items-start gap-6 rounded-[18px] border-[1.1px] border-[#c3c6d799] bg-white p-6 shadow-[10px_16px_12px_#00000040] sm:p-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex items-center gap-5">
+              <span className="flex items-baseline">
+                <span className="text-5xl leading-[52.6px] font-bold text-[#121c2a]">4.9</span>
+                <span className="text-xl leading-[30.7px] font-normal text-[#434655]">/5</span>
               </span>
-            </span>
+
+              <span className="flex flex-col items-start gap-1">
+                <StarRating />
+                <span className="text-sm leading-[21.9px] font-semibold text-[#121c2a]">
+                  Berdasarkan 850+ Siswa &amp; Pengguna
+                </span>
+              </span>
+            </div>
+
+            <div className="flex w-full items-center gap-3 border-t border-[#c3c6d766] pt-6 md:w-auto md:border-t-0 md:border-l md:pt-0 md:pl-8">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#7ffc97]">
+                <CheckCircle2 className="h-[18px] w-[18px] text-[#006329]" aria-hidden="true" />
+              </span>
+              <span className="flex flex-col items-start">
+                <span className="text-xl leading-[30.7px] font-bold tracking-[-0.11px] text-[#006329]">
+                  99.4%
+                </span>
+                <span className="text-[13px] leading-[19.7px] text-[#434655]">
+                  Transaksi Terverifikasi Tepat Waktu
+                </span>
+              </span>
+            </div>
           </div>
+        </Reveal>
 
-          <div className="flex w-full items-center gap-3 border-t border-[#c3c6d766] pt-6 md:w-auto md:border-t-0 md:border-l md:pt-0 md:pl-8">
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#7ffc97]">
-              <CheckCircle2 className="h-[18px] w-[18px] text-[#006329]" aria-hidden="true" />
-            </span>
-            <span className="flex flex-col items-start">
-              <span className="text-xl leading-[30.7px] font-bold tracking-[-0.11px] text-[#006329]">
-                99.4%
-              </span>
-              <span className="text-[13px] leading-[19.7px] text-[#434655]">
-                Transaksi Terverifikasi Tepat Waktu
-              </span>
-            </span>
-          </div>
-        </div>
-
-        <div className="group relative w-full overflow-hidden" aria-label="Carousel ulasan pengguna">
+        <Reveal delay={250}>
+          <div
+            className="group relative -my-8 w-full overflow-hidden py-8"
+            aria-label="Carousel ulasan pengguna"
+          >
           <div
             className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent"
             aria-hidden="true"
@@ -154,7 +161,8 @@ export function TestimonialSection() {
               </div>
             ))}
           </div>
-        </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )

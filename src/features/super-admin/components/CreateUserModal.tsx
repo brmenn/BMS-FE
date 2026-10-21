@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ChevronDown,
   CreditCard,
@@ -66,6 +66,33 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [roleOpen, setRoleOpen] = useState(false)
+  const roleRef = useRef<HTMLDivElement>(null)
+
+  const isStudent = role === 'Siswa'
+
+  useEffect(() => {
+    const { body } = document
+    const previousOverflow = body.style.overflow
+    body.style.overflow = 'hidden'
+
+    return () => {
+      body.style.overflow = previousOverflow
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!roleOpen) return
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (roleRef.current && !roleRef.current.contains(event.target as Node)) {
+        setRoleOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', handlePointerDown)
+    return () => document.removeEventListener('pointerdown', handlePointerDown)
+  }, [roleOpen])
 
   const handleSubmit = () => {
     const nextErrors: Record<string, string> = {}
@@ -92,11 +119,13 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
     })
   }
 
+  const identityLabel = isStudent ? 'Nomor Induk (NISN)' : 'Nomor Induk (NBM / NUPTK)'
+
   return (
     <div
       aria-labelledby="create-user-title"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden p-4"
       role="dialog"
     >
       <button
@@ -106,8 +135,8 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
         type="button"
       />
 
-      <div className="relative flex max-h-[90vh] w-full max-w-[608px] flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-2xl">
-        <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-6">
+      <div className="relative flex max-h-[90vh] w-full max-w-[560px] origin-center scale-[0.86] flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-2xl">
+        <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-6 [&::-webkit-scrollbar]:hidden">
           <div className="flex items-center gap-2.5 border-b border-[#c3c6d7] pb-4">
             <UserPlus className="h-5 w-5 shrink-0 text-[#004ac6]" aria-hidden="true" />
             <div className="flex min-w-0 flex-col">
@@ -162,7 +191,7 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
                     className={cn(inputClass, errors.email && 'border-[#ba1a1a]')}
                     id="create-email"
                     onChange={(event) => setEmail(event.target.value)}
-                    placeholder="nama@smkmuhi.sch.id"
+                    placeholder="bambang.sudiro@smkmuhi.sch.id"
                     type="email"
                     value={email}
                   />
@@ -192,64 +221,102 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
               </div>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="flex flex-col gap-1.5">
-                <label className={labelClass} htmlFor="create-identity">
-                  Nomor Induk (NISN)
-                </label>
-                <div className="relative">
-                  <IdCard className={fieldIconClass} aria-hidden="true" />
-                  <input
-                    className={inputClass}
-                    id="create-identity"
-                    onChange={(event) => setIdentity(event.target.value)}
-                    placeholder="Masukkan 10 digit NISN"
-                    value={identity}
-                  />
+            {isStudent ? (
+              <>
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="flex flex-col gap-1.5">
+                    <label className={labelClass} htmlFor="create-identity">
+                      {identityLabel}
+                    </label>
+                    <div className="relative">
+                      <IdCard className={fieldIconClass} aria-hidden="true" />
+                      <input
+                        className={inputClass}
+                        id="create-identity"
+                        onChange={(event) => setIdentity(event.target.value)}
+                        placeholder="Masukkan 10 digit NISN"
+                        value={identity}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-1.5">
+                    <label className={labelClass} htmlFor="create-class">
+                      Kelas
+                    </label>
+                    <div className="relative">
+                      <GraduationCap className={fieldIconClass} aria-hidden="true" />
+                      <select
+                        className={cn(inputClass, 'appearance-none pr-9')}
+                        id="create-class"
+                        onChange={(event) => setClassName(event.target.value)}
+                        value={className}
+                      >
+                        {CLASS_OPTIONS.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown
+                        aria-hidden="true"
+                        className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-[#737686]"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelClass} htmlFor="create-rekening">
+                    Nomor Rekening ( Opsional )
+                  </label>
+                  <div className="relative">
+                    <CreditCard className={fieldIconClass} aria-hidden="true" />
+                    <input
+                      className={inputClass}
+                      id="create-rekening"
+                      onChange={(event) => setRekening(event.target.value)}
+                      placeholder="19820415 200801 1 015"
+                      value={rekening}
+                    />
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelClass} htmlFor="create-identity">
+                    {identityLabel}
+                  </label>
+                  <div className="relative">
+                    <IdCard className={fieldIconClass} aria-hidden="true" />
+                    <input
+                      className={inputClass}
+                      id="create-identity"
+                      onChange={(event) => setIdentity(event.target.value)}
+                      placeholder="19820415 200801 1 015"
+                      value={identity}
+                    />
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-1.5">
+                  <label className={labelClass} htmlFor="create-rekening">
+                    Nomor Rekening ( Opsional )
+                  </label>
+                  <div className="relative">
+                    <CreditCard className={fieldIconClass} aria-hidden="true" />
+                    <input
+                      className={inputClass}
+                      id="create-rekening"
+                      onChange={(event) => setRekening(event.target.value)}
+                      placeholder="19820415 200801 1 015"
+                      value={rekening}
+                    />
+                  </div>
                 </div>
               </div>
-
-              <div className="flex flex-col gap-1.5">
-                <label className={labelClass} htmlFor="create-class">
-                  Kelas
-                </label>
-                <div className="relative">
-                  <GraduationCap className={fieldIconClass} aria-hidden="true" />
-                  <select
-                    className={cn(inputClass, 'appearance-none pr-9')}
-                    id="create-class"
-                    onChange={(event) => setClassName(event.target.value)}
-                    value={className}
-                  >
-                    {CLASS_OPTIONS.map((option) => (
-                      <option key={option} value={option}>
-                        {option}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown
-                    aria-hidden="true"
-                    className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-[#737686]"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-1.5">
-              <label className={labelClass} htmlFor="create-rekening">
-                Nomor Rekening ( Opsional )
-              </label>
-              <div className="relative">
-                <CreditCard className={fieldIconClass} aria-hidden="true" />
-                <input
-                  className={inputClass}
-                  id="create-rekening"
-                  onChange={(event) => setRekening(event.target.value)}
-                  placeholder="19820415 200801 1 015"
-                  value={rekening}
-                />
-              </div>
-            </div>
+            )}
 
             <div className="grid gap-4 pt-1 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
@@ -319,36 +386,98 @@ export function CreateUserModal({ onClose, onSubmit }: CreateUserModalProps) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label className={labelClass} htmlFor="create-role">
-                Role Pengguna &amp; Hak Akses
-              </label>
-              <div className="relative">
-                <User className={fieldIconClass} aria-hidden="true" />
-                <select
-                  className={cn(inputClass, 'appearance-none pr-9 font-semibold')}
-                  id="create-role"
-                  onChange={(event) => setRole(event.target.value as SuperAdminUserRole)}
-                  value={role}
-                >
-                  {USER_ROLE_OPTIONS.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-                <ChevronDown
-                  aria-hidden="true"
-                  className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-[#737686]"
-                />
+            {isStudent ? (
+              <div className="flex flex-col gap-1.5">
+                <label className={labelClass} htmlFor="create-role">
+                  Role Pengguna &amp; Hak Akses
+                </label>
+                <div className="relative">
+                  <User className={fieldIconClass} aria-hidden="true" />
+                  <select
+                    className={cn(inputClass, 'appearance-none pr-9 font-semibold')}
+                    id="create-role"
+                    onChange={(event) => setRole(event.target.value as SuperAdminUserRole)}
+                    value={role}
+                  >
+                    {USER_ROLE_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown
+                    aria-hidden="true"
+                    className="pointer-events-none absolute top-1/2 right-3.5 h-4 w-4 -translate-y-1/2 text-[#737686]"
+                  />
+                </div>
+                <div className="flex items-center gap-2 pt-0.5">
+                  <span className="text-sm font-semibold leading-5 text-[#121c2a]">{role}</span>
+                  <span className="rounded bg-[#dee9fc] px-2 py-0.5 text-[10px] leading-5 text-[#434655]">
+                    {ROLE_GROUP[role]}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center gap-2 pt-0.5">
-                <span className="text-sm font-semibold leading-5 text-[#121c2a]">{role}</span>
-                <span className="rounded bg-[#dee9fc] px-2 py-0.5 text-[10px] leading-5 text-[#434655]">
-                  {ROLE_GROUP[role]}
-                </span>
+            ) : (
+              <div className="flex flex-col gap-1.5">
+                <span className={labelClass}>Role Pengguna &amp; Hak Akses</span>
+                <div className="relative" ref={roleRef}>
+                  <User className={fieldIconClass} aria-hidden="true" />
+                  <button
+                    aria-expanded={roleOpen}
+                    aria-haspopup="listbox"
+                    className="flex h-12 w-full items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white py-2.5 pr-4 pl-10 text-left transition-colors hover:border-[#a5a9bf] focus:border-[#2563eb] focus:outline-none"
+                    onClick={() => setRoleOpen((prev) => !prev)}
+                    type="button"
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-sm font-semibold leading-5 text-[#121c2a]">{role}</span>
+                      <span className="rounded bg-[#dee9fc] px-2 text-[10px] leading-5 text-[#434655]">
+                        {ROLE_GROUP[role]}
+                      </span>
+                    </span>
+                    <ChevronDown
+                      aria-hidden="true"
+                      className={cn(
+                        'ml-auto h-[21px] w-[21px] text-[#121c2a] transition-transform',
+                        roleOpen && 'rotate-180',
+                      )}
+                    />
+                  </button>
+
+                  {roleOpen ? (
+                    <ul
+                      className="absolute top-[calc(100%+6px)] right-0 left-0 z-20 max-h-[220px] overflow-y-auto rounded-xl border border-[#c3c6d7] bg-white p-1.5 shadow-[0px_8px_24px_#0000001a]"
+                      role="listbox"
+                    >
+                      {USER_ROLE_OPTIONS.map((option) => (
+                        <li key={option}>
+                          <button
+                            aria-selected={option === role}
+                            className={cn(
+                              'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left transition-colors',
+                              option === role ? 'bg-[#eff4ff]' : 'hover:bg-[#f8f9ff]',
+                            )}
+                            onClick={() => {
+                              setRole(option)
+                              setRoleOpen(false)
+                            }}
+                            role="option"
+                            type="button"
+                          >
+                            <span className="text-sm font-semibold leading-5 text-[#121c2a]">
+                              {option}
+                            </span>
+                            <span className="rounded bg-[#dee9fc] px-2 text-[10px] leading-5 text-[#434655]">
+                              {ROLE_GROUP[option]}
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
 

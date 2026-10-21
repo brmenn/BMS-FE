@@ -13,7 +13,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173,
+    port: 5177,
     host: true,
     proxy: {
       // Keeps the browser on one origin in dev, so Sanctum stateful

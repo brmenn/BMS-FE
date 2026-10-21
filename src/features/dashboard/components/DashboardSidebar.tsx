@@ -2,7 +2,7 @@ import { type CSSProperties } from 'react'
 import { NavLink } from 'react-router-dom'
 import { cn } from '@/lib/utils'
 import { defaultItems, type SidebarIcon, type SidebarItem } from './sidebar-items'
-import logoTitle from '@/assets/logo/logoTitle.png'
+import logoKet from '@/assets/logo/logoKet.png'
 
 export type { SidebarItem } from './sidebar-items'
 
@@ -22,31 +22,28 @@ interface DashboardSidebarProps {
   items?: SidebarItem[]
   logo?: boolean
   logoSrc?: string
-logoClassName?: string
+  logoClassName?: string
   variant?: 'default' | 'admin'
 }
 
 export function DashboardSidebar({
   items = defaultItems,
   logo = false,
-  logoSrc = logoTitle,
+  logoSrc = logoKet,
   logoClassName,
-  variant = 'default',
+  variant: _variant = 'default',
 }: DashboardSidebarProps) {
   const itemBaseClass = 'flex items-center gap-3 rounded-xl px-4 py-3 transition-colors'
-  const itemActiveClass =
-    variant === 'admin' ? 'bg-[#eff4ff] font-semibold text-[#004ac6]' : 'bg-[#eff4ff] text-[#004ac6]'
-  const itemInactiveClass =
-    variant === 'admin'
-      ? 'font-medium text-[#737686] hover:bg-[#f8f9ff] hover:text-[#121c2a]'
-      : 'text-[#434655] hover:bg-[#f8f9ff] hover:text-[#121c2a]'
+  const itemActiveClass = 'bg-[#eff4ff] text-[#004ac6] font-medium'
+  const itemInactiveClass = 'text-[#434655] hover:bg-[#f8f9ff] hover:text-[#121c2a] font-medium'
+
   return (
     <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col gap-6 border-r border-solid border-[#c3c6d7] bg-white shadow-[0px_1px_2px_#0000000d] lg:flex">
       {logo ? (
         <div className="flex h-16 w-full items-center justify-center border-b border-solid border-[#c3c6d7]">
           <img
             alt="SMKS Muhammadiyah 1 Genteng"
-            className={logoClassName ?? 'h-14 w-auto'}
+            className={logoClassName ?? 'h-6 w-auto'}
             src={logoSrc}
           />
         </div>
@@ -58,13 +55,7 @@ export function DashboardSidebar({
           const content = (
             <>
               <SidebarIconView icon={icon} />
-              <span
-                className={
-                  variant === 'admin'
-                    ? 'whitespace-normal text-sm leading-5 tracking-[0]'
-                    : 'whitespace-nowrap text-base font-medium leading-6 tracking-[0]'
-                }
-              >
+              <span className="whitespace-nowrap text-sm leading-5 tracking-[0]">
                 {label}
               </span>
             </>

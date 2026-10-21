@@ -1,11 +1,13 @@
 import { useState, type FormEvent, type ReactNode } from 'react'
-import { BadgeCheck, Banknote, Check, Clock, Download, Landmark, Send, Wallet } from 'lucide-react'
+import { Banknote, Check, Clock, Download, Landmark, Send } from 'lucide-react'
 import { formatMoney } from '@/lib/format'
 import { cn } from '@/lib/utils'
+import { StudentBalanceCard } from '@/features/dashboard/components/StudentBalanceCard'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
 type WithdrawMethod = 'cash' | 'transfer'
 
-const SALDO = 1_250_000
 const MAX_AMOUNT = 1_250_000
 const QUICK_AMOUNTS = [100_000, 250_000, 500_000, 1_000_000]
 
@@ -36,6 +38,7 @@ const TRACKING_STEPS: Array<{
 export function PenarikanPage() {
   const [nominal, setNominal] = useState('1000000')
   const [method, setMethod] = useState<WithdrawMethod>('cash')
+  const loading = useSimulatedLoading()
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -43,6 +46,10 @@ export function PenarikanPage() {
 
   return (
     <div className="flex flex-col gap-6">
+      {loading ? (
+        <PageSkeleton variant="detail" />
+      ) : (
+        <>
       <section className="flex flex-col gap-1" aria-labelledby="page-title">
         <h1
           className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]"
@@ -55,38 +62,7 @@ export function PenarikanPage() {
         </p>
       </section>
 
-      <section
-        aria-labelledby="saldo-title"
-        className="relative w-full overflow-hidden rounded-2xl bg-[#1d4ed8] p-6 shadow-[0px_1px_2px_#0000000d]"
-      >
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -bottom-10 -right-8 h-48 w-48 rounded-full bg-white/5 blur-2xl"
-        />
-        <div className="relative flex flex-wrap items-center justify-between gap-4">
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center gap-2">
-              <Wallet className="h-[18px] w-[19px] shrink-0 text-white" aria-hidden="true" />
-              <p className="text-sm font-medium leading-5 text-[#eeefffcc]" id="saldo-title">
-                Saldo Tersedia untuk Penarikan
-              </p>
-            </div>
-            <p className="text-[32px] font-bold leading-10 tracking-[-0.8px] text-white">
-              {formatMoney(SALDO)}
-            </p>
-            <p className="text-xs leading-[18px] text-[#eeefffe6]">
-              Maksimal penarikan tunai per pengajuan sesuai saldo aktif
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-4 py-2.5">
-            <BadgeCheck className="h-5 w-4 shrink-0 text-white" aria-hidden="true" />
-            <span className="text-xs font-medium leading-4 tracking-[0.24px] text-white">
-              Buku Kas Siswa Terverifikasi
-            </span>
-          </div>
-        </div>
-      </section>
+      <StudentBalanceCard showActions={false} />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <form
@@ -312,6 +288,8 @@ export function PenarikanPage() {
           </div>
         </section>
       </div>
+        </>
+      )}
     </div>
   )
 }

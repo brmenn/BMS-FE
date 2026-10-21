@@ -23,6 +23,7 @@ import pembayaranPinjamanIcon from '@/assets/icon/pembayaran-pinjaman.svg'
 import avatar from '@/assets/logo/avatar.png'
 import { DashboardSidebar, type SidebarItem } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
+import { PageSkeleton } from '../components/PageSkeleton'
 
 const navItems: SidebarItem[] = [
   { to: '/guru/dashboard', label: 'Dashboard', icon: dashboardIcon },
@@ -39,9 +40,12 @@ const activityIcon: Record<string, { icon: typeof Wallet; box: string }> = {
 }
 
 export function StaffDashboardPage() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['dashboard-guru'],
-    queryFn: () => Promise.resolve(staffDashboardPlaceholder),
+    queryFn: async () => {
+      await new Promise((resolve) => window.setTimeout(resolve, 600))
+      return staffDashboardPlaceholder
+    },
   })
   const dash = data ?? staffDashboardPlaceholder
   const alert = dash.dueDateAlert
@@ -53,6 +57,10 @@ export function StaffDashboardPage() {
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Guru & Karyawan" />
         <main className="flex w-full flex-col gap-8 p-8">
+          {isLoading ? (
+            <PageSkeleton variant="dashboard" hasFilters />
+          ) : (
+            <>
           <section className="flex w-full flex-wrap items-center gap-4 rounded-2xl border border-solid border-[#f59e0b4c] bg-[#f59e0b1a] p-5 shadow-[0px_1px_3px_#d977060f]">
             <div className="flex min-w-0 flex-1 flex-wrap items-start gap-3.5">
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#f59e0b33] shadow-[0px_1px_2px_#0000000d]">
@@ -422,6 +430,8 @@ export function StaffDashboardPage() {
               </div>
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
     </div>

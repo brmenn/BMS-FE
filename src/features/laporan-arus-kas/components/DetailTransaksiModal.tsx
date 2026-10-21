@@ -30,7 +30,7 @@ interface DetailTransaksiModalProps {
 
 export function DetailTransaksiModal({ transaction, onClose }: DetailTransaksiModalProps) {
   const [copiedRef, setCopiedRef] = useState(false)
-  const [copiedLink, setCopiedLink] = useState(false)
+  // const [copiedLink, setCopiedLink] = useState(false)
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -51,11 +51,11 @@ export function DetailTransaksiModal({ transaction, onClose }: DetailTransaksiMo
     return () => window.clearTimeout(timeout)
   }, [copiedRef])
 
-  useEffect(() => {
-    if (!copiedLink) return
-    const timeout = window.setTimeout(() => setCopiedLink(false), 1500)
-    return () => window.clearTimeout(timeout)
-  }, [copiedLink])
+  // useEffect(() => {
+  //   if (!copiedLink) return
+  //   const timeout = window.setTimeout(() => setCopiedLink(false), 1500)
+  //   return () => window.clearTimeout(timeout)
+  // }, [copiedLink])
 
   const MethodIcon = transaction.method === 'transfer' ? Landmark : Banknote
   const nominalHeading =
@@ -70,14 +70,14 @@ export function DetailTransaksiModal({ transaction, onClose }: DetailTransaksiMo
     }
   }
 
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href)
-      setCopiedLink(true)
-    } catch {
-      setCopiedLink(false)
-    }
-  }
+  // const handleCopyLink = async () => {
+  //   try {
+  //     await navigator.clipboard.writeText(window.location.href)
+  //     setCopiedLink(true)
+  //   } catch {
+  //     setCopiedLink(false)
+  //   }
+  // }
 
   return (
     <div
@@ -288,37 +288,16 @@ export function DetailTransaksiModal({ transaction, onClose }: DetailTransaksiMo
               </span>
             </button>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 transition-colors hover:bg-[#f8f9ff]"
-                onClick={() => window.print()}
-                type="button"
-              >
-                <Download className="h-3.5 w-3.5 text-[#121c2a]" aria-hidden="true" />
-                <span className="text-sm leading-5 font-medium whitespace-nowrap text-[#121c2a]">
-                  Unduh PDF
-                </span>
-              </button>
-              <button
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 transition-colors hover:bg-[#f8f9ff]"
-                onClick={handleCopyLink}
-                type="button"
-              >
-                {copiedLink ? (
-                  <Check className="h-3.5 w-3.5 text-[#006329]" aria-hidden="true" />
-                ) : (
-                  <Copy className="h-3.5 w-3.5 text-[#121c2a]" aria-hidden="true" />
-                )}
-                <span
-                  className={cn(
-                    'text-sm leading-5 font-medium whitespace-nowrap',
-                    copiedLink ? 'text-[#006329]' : 'text-[#121c2a]',
-                  )}
-                >
-                  {copiedLink ? 'Tautan Tersalin' : 'Salin Tautan Resi'}
-                </span>
-              </button>
-            </div>
+            <button
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 transition-colors hover:bg-[#f8f9ff]"
+              onClick={() => window.print()}
+              type="button"
+            >
+              <Download className="h-3.5 w-3.5 text-[#121c2a]" aria-hidden="true" />
+              <span className="text-sm leading-5 font-medium whitespace-nowrap text-[#121c2a]">
+                Unduh PDF
+              </span>
+            </button>
           </footer>
         </article>
       </div>

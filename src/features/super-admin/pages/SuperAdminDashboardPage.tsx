@@ -1,6 +1,8 @@
 import { SlidersHorizontal, UserPlus, ArrowRight, TrendingUp } from 'lucide-react'
 import { SuperAdminSidebar } from '../components/SuperAdminSidebar'
 import { SuperAdminTopbar } from '../components/SuperAdminTopbar'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
 const roleData = [
   { label: 'Siswa', count: '980 Siswa', percent: 78.5, color: 'bg-[#2563eb]' },
@@ -82,6 +84,8 @@ const activities = [
 ]
 
 export function SuperAdminDashboardPage() {
+  const loading = useSimulatedLoading()
+
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
       <SuperAdminSidebar />
@@ -93,6 +97,10 @@ export function SuperAdminDashboardPage() {
           id="dashboard"
           className="mx-auto flex w-full max-w-[1360px] flex-col gap-7 p-8"
         >
+          {loading ? (
+            <PageSkeleton variant="dashboard" hasFilters />
+          ) : (
+            <>
           <section className="flex flex-col gap-4 border-b border-[#dee9fcb2] pb-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex flex-col gap-1">
               <h1 className="text-[30px] font-extrabold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
@@ -354,6 +362,8 @@ export function SuperAdminDashboardPage() {
               ))}
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
     </div>

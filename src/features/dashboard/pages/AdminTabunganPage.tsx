@@ -18,7 +18,9 @@ import {
 } from 'lucide-react'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
-import { adminItems } from '../components/sidebar-items'
+import { adminItems } from '../components/admin-sidebar-items'
+import { PageSkeleton } from '../components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import './AdminTabunganPage.css'
 
 const students = [
@@ -98,36 +100,41 @@ export function AdminTabunganPage() {
   const [showDownloadModal, setShowDownloadModal] = useState(false)
   const [format, setFormat] = useState<'pdf' | 'excel'>('pdf')
   const [modul, setModul] = useState('Tabungan Siswa')
+  const loading = useSimulatedLoading()
 
   return (
-    <div className="laporan-tabungan-page">
+    <div className="min-h-screen w-full bg-[#f8f9ff]">
       <DashboardSidebar items={adminItems} logo variant="admin" />
 
-      <div className="laporan-tabungan-main lg:pl-64">
+      <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Admin" />
 
-        <div className="laporan-tabungan-content">
-          <header className="laporan-header">
-            <div className="laporan-header-text">
-              <h1>Laporan Tabungan Siswa</h1>
-              <p>Lihat saldo, setoran, penarikan, dan histori tabungan setiap siswa.</p>
-            </div>
+        <div className="mx-auto flex w-full max-w-[1360px] flex-col gap-7 p-4 sm:p-8">
+          {loading ? (
+            <PageSkeleton variant="detail" hasFilters />
+          ) : (
+            <>
+      <header className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 flex-wrap">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-2xl font-semibold tracking-[-0.6px] text-[#121c2a]">Laporan Tabungan Siswa</h1>
+          <p className="text-sm text-[#737686]">Lihat saldo, setoran, penarikan, dan histori tabungan setiap siswa.</p>
+        </div>
 
-            <div className="laporan-header-actions">
-              <button type="button" className="btn-cetak">
-                <FileText size={20} />
-                Cetak Buku Besar
-              </button>
-              <button
-                type="button"
-                className="btn-unduh"
-                onClick={() => setShowDownloadModal(true)}
-              >
-                <Download size={16} />
-                Unduh Rekap Excel/PDF
-              </button>
-            </div>
-          </header>
+        <div className="flex items-center gap-3 flex-wrap">
+          <button type="button" className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 text-sm font-medium text-[#121c2a] hover:bg-[#f8f9ff]">
+            <FileText size={18} />
+            Cetak Buku Besar
+          </button>
+          <button
+            type="button"
+            className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#2563eb] px-4 text-sm font-medium text-white shadow-xs hover:bg-[#1d4ed8]"
+            onClick={() => setShowDownloadModal(true)}
+          >
+            <Download size={16} />
+            Unduh Rekap Excel/PDF
+          </button>
+        </div>
+      </header>
 
           <section className="w-full rounded-xl border border-[#c3c6d7]/80 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
             <div className="flex flex-wrap items-end gap-3">
@@ -195,191 +202,161 @@ export function AdminTabunganPage() {
             </div>
           </section>
 
-          <section className="section-summary">
-            <div className="summary-card">
-              <div className="summary-top">
-                <div className="summary-info">
-                  <span className="summary-label">TOTAL SALDO SISWA</span>
-                  <p className="summary-value">
-                    Rp
-                    <br />
-                    85.000.000
-                  </p>
-                </div>
-                <div className="summary-icon saldo">
-                  <Wallet size={19} />
+          {/* Section Summary Cards */}
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {/* TOTAL SALDO SISWA */}
+            <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white p-6 shadow-xs">
+              <div className="flex items-center justify-between z-10">
+                <span className="text-[11px] font-semibold tracking-[0.55px] text-[#004ac6]">TOTAL SALDO SISWA</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#2563eb]/10">
+                  <Wallet className="h-5 w-5 text-[#2563eb]" />
                 </div>
               </div>
-              <div className="summary-bottom">
-                <div className="summary-bottom-left">
-                  <ArrowDownToLine size={14} />
-                  <span>
-                    Akumulasi saldo simpanan
-                    <br />
-                    aktif 1.245 siswa
+              <div className="mt-4 flex flex-col gap-2 z-10">
+                <strong className="text-2xl font-bold tracking-[-0.6px] text-[#004ac6]">
+                  Rp 85.000.000
+                </strong>
+                <span className="text-xs text-[#737686]">Akumulasi saldo simpanan aktif 1.245 siswa</span>
+              </div>
+              <div className="absolute -right-14 -bottom-14 h-28 w-28 rounded-full bg-[#eff4ff] opacity-80 pointer-events-none" />
+            </div>
+
+            {/* TOTAL TRANSAKSI */}
+            <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white p-6 shadow-xs">
+              <div className="flex items-center justify-between z-10">
+                <span className="text-[11px] font-semibold tracking-[0.55px] text-[#737686]">TOTAL TRANSAKSI</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#737686]/10">
+                  <ArrowDownToLine className="h-5 w-5 text-[#737686]" />
+                </div>
+              </div>
+              <div className="mt-4 flex flex-col gap-2 z-10">
+                <div className="flex items-baseline gap-1.5">
+                  <strong className="text-2xl font-bold tracking-[-0.6px] text-[#121c2a]">1.245</strong>
+                  <span className="text-sm font-semibold text-[#737686]">transaksi</span>
+                </div>
+                <span className="text-xs text-[#737686]">Mutasi setoran & penarikan periode ini</span>
+              </div>
+              <div className="absolute -right-14 -bottom-14 h-28 w-28 rounded-full bg-[#f8f9ff] pointer-events-none" />
+            </div>
+
+            {/* TOTAL SETORAN */}
+            <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#00b01a] bg-white p-6 shadow-xs">
+              <div className="flex items-center justify-between z-10">
+                <span className="text-[11px] font-semibold tracking-[0.55px] text-[#00af1a]">TOTAL SETORAN</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#00b01a]/10">
+                  <ArrowDownToLine className="h-5 w-5 text-[#00af1a]" />
+                </div>
+              </div>
+              <div className="mt-4 flex flex-col gap-2 z-10">
+                <strong className="text-2xl font-bold tracking-[-0.6px] text-[#121c2a]">
+                  Rp 95.000.000
+                </strong>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-[#737686]">Arus Masuk Siswa</span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#006329]/10 px-2 py-0.5 text-[11px] font-semibold text-[#006329]">
+                    <TrendingUp className="h-3 w-3" />
+                    +14.2% bln ini
                   </span>
                 </div>
               </div>
+              <div className="absolute -right-14 -bottom-14 h-28 w-28 rounded-full bg-[#00b01a]/20 pointer-events-none" />
             </div>
 
-            <div className="summary-card">
-              <div className="summary-top">
-                <div className="summary-info">
-                  <span className="summary-label">TOTAL TRANSAKSI</span>
-                  <div className="summary-value-transaksi">
-                    <span className="angka">1.245</span>
-                    <span className="satuan">transaksi</span>
-                  </div>
-                </div>
-                <div className="summary-icon transaksi">
-                  <ArrowDownToLine size={20} />
+            {/* TOTAL PENARIKAN */}
+            <div className="relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#ba1a1a] bg-white p-6 shadow-xs">
+              <div className="flex items-center justify-between z-10">
+                <span className="text-[11px] font-semibold tracking-[0.55px] text-[#ba1a1a]">TOTAL PENARIKAN</span>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#ba1a1a]/10">
+                  <ArrowUpFromLine className="h-5 w-5 text-[#ba1a1a]" />
                 </div>
               </div>
-              <div className="summary-bottom">
-                <div className="summary-bottom-left">
-                  <ArrowDownToLine size={14} />
-                  <span>
-                    Mutasi setoran & penarikan
-                    <br />
-                    periode ini
+              <div className="mt-4 flex flex-col gap-2 z-10">
+                <strong className="text-2xl font-bold tracking-[-0.6px] text-[#121c2a]">
+                  Rp 10.000.000
+                </strong>
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-[#737686]">Pencairan Terverifikasi</span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-[#2563eb]/10 px-2 py-0.5 text-[11px] font-semibold text-[#004ac6]">
+                    <FileText className="h-3 w-3" />
+                    100% tervalidasi
                   </span>
                 </div>
               </div>
+              <div className="absolute -right-14 -bottom-14 h-28 w-28 rounded-full bg-[#ba1a1a]/20 pointer-events-none" />
             </div>
+          </div>
 
-            <div className="summary-card">
-              <div className="summary-top">
-                <div className="summary-info">
-                  <span className="summary-label">TOTAL SETORAN</span>
-                  <p className="summary-value setoran">
-                    Rp
-                    <br />
-                    95.000.000
-                  </p>
-                </div>
-                <div className="summary-icon setoran">
-                  <ArrowDownToLine size={16} />
-                </div>
-              </div>
-              <div className="summary-bottom">
-                <span className="summary-bottom-left">
-                  <span>
-                    Arus Masuk
-                    <br />
-                    Siswa
-                  </span>
-                </span>
-                <span className="summary-badge up">
-                  <TrendingUp size={10} />
-                  +14.2% bln ini
+          {/* Tabel Data Rekapitulasi Tabungan */}
+          <div className="flex flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-xs">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-[#c3c6d7] p-6">
+              <div className="flex items-center gap-3">
+                <h2 className="text-lg font-semibold text-[#121c2a]">Data Rekapitulasi Tabungan</h2>
+                <span className="inline-flex items-center rounded-full bg-[#eff4ff] px-2.5 py-0.5 text-[11px] font-semibold text-[#004ac6] border border-[#c3c6d7]">
+                  1.245 Terdaftar
                 </span>
               </div>
-            </div>
-
-            <div className="summary-card">
-              <div className="summary-top">
-                <div className="summary-info">
-                  <span className="summary-label">TOTAL PENARIKAN</span>
-                  <p className="summary-value penarikan">
-                    Rp
-                    <br />
-                    10.000.000
-                  </p>
-                </div>
-                <div className="summary-icon penarikan">
-                  <ArrowUpFromLine size={11} />
-                </div>
-              </div>
-              <div className="summary-bottom">
-                <span className="summary-bottom-left">
-                  <span>
-                    Pencairan
-                    <br />
-                    Terverifikasi
-                  </span>
-                </span>
-                <span className="summary-badge valid">
-                  <FileText size={11} />
-                  100% tervalidasi
-                </span>
-              </div>
-            </div>
-          </section>
-
-          <section className="section-tabel">
-            <div className="table-toolbar">
-              <div className="table-toolbar-left">
-                <h2>Data Rekapitulasi Tabungan</h2>
-                <span className="badge-terdaftar">1.245 Terdaftar</span>
-              </div>
-              <div className="table-toolbar-right">
-                <span className="toolbar-label">Tampilkan:</span>
-                <div className="select-baris">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-[#737686]">Tampilkan:</span>
+                <button
+                  type="button"
+                  className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-[#c3c6d7] bg-white px-3 text-xs font-semibold text-[#121c2a] hover:bg-[#f8f9ff]"
+                >
                   5 Baris
-                  <ChevronDown size={12} />
-                </div>
+                  <ChevronDown size={12} className="text-[#737686]" />
+                </button>
               </div>
             </div>
 
-            <div className="responsive-table">
-              <table className="laporan-table">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[900px] border-collapse text-left">
                 <thead>
-                  <tr>
-                    <th className="col-no">No</th>
-                    <th className="col-nama">Nama Siswa</th>
-                    <th className="col-nis">NIS</th>
-                    <th className="col-kelas">Kelas</th>
-                    <th className="col-saldo">Saldo Saat Ini</th>
-                    <th className="col-setoran">Total Setoran</th>
-                    <th className="col-penarikan">Total Penarikan</th>
-                    <th className="col-status">
-                      Status
-                      <br />
-                      Rekening
-                    </th>
-                    <th className="col-aksi">Aksi</th>
+                  <tr className="border-b border-[#c3c6d7] bg-[#eff4ff]">
+                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">NO</th>
+                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">NAMA SISWA</th>
+                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">NIS</th>
+                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">KELAS</th>
+                    <th className="px-6 py-4 text-right text-xs font-bold text-[#434655]">SALDO / SETORAN</th>
+                    <th className="px-6 py-4 text-right text-xs font-bold text-[#434655]">TOTAL PENARIKAN</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">STATUS REKENING</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">AKSI</th>
                   </tr>
                 </thead>
                 <tbody>
                   {students.map((student) => (
-                    <tr key={student.nis}>
-                      <td className="col-no">{student.no}</td>
-                      <td className="col-nama">
-                        <div className="nama-cell">
-                          <div>
-                            <div className="nama">{student.name}</div>
-                            <div className="tipe">{student.type}</div>
-                          </div>
+                    <tr key={student.nis} className="border-t border-[#c3c6d7] hover:bg-[#f8f9ff]">
+                      <td className="px-6 py-5 text-sm font-medium text-[#737686]">{student.no}</td>
+                      <td className="px-6 py-5">
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-sm font-semibold text-[#121c2a]">{student.name}</span>
+                          <span className="text-xs text-[#737686]">{student.type}</span>
                         </div>
                       </td>
-                      <td className="col-nis">{student.nis}</td>
-                      <td className="col-kelas">
-                        <span className="badge-kelas">{student.kelas}</span>
+                      <td className="px-6 py-5 font-mono text-sm font-bold text-[#004ac6]">{student.nis}</td>
+                      <td className="px-6 py-5">
+                        <span className="inline-flex rounded-full bg-[#eff4ff] px-3 py-1 text-xs font-semibold text-[#2563eb] border border-[#c3c6d7] whitespace-nowrap">
+                          {student.kelas}
+                        </span>
                       </td>
-                      <td className="col-saldo">{student.saldo}</td>
-                      <td className="col-setoran">{student.setoran}</td>
-                      <td className="col-penarikan">{student.penarikan}</td>
-                      <td className="col-status">
-                        <span
-                          className={`badge-status ${
-                            student.status === 'Aktif' ? 'aktif' : 'tertunda'
-                          }`}
-                        >
+                      <td className="px-6 py-5 text-right font-mono text-base whitespace-nowrap">
+                        <div className="flex flex-col items-end gap-0.5">
+                          <span className="font-bold text-[#004ac6]">{student.saldo}</span>
+                          <span className="text-[11px] text-[#006329]">Setoran: {student.setoran}</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-5 text-right font-mono text-base font-bold text-[#ba1a1a] whitespace-nowrap">{student.penarikan}</td>
+                      <td className="px-6 py-5 text-center whitespace-nowrap">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006329]/10 px-3 py-1 text-xs font-semibold text-[#006329]">
                           {student.status}
                         </span>
                       </td>
-                      <td className="col-aksi">
+                      <td className="px-6 py-5 text-center">
                         <button
                           type="button"
-                          className="btn-lihat-detail"
+                          className="inline-flex items-center gap-1.5 rounded-xl border border-[#c3c6d7] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#004ac6] hover:bg-[#eff4ff] shadow-xs"
                           onClick={() => setShowDownloadModal(true)}
                         >
-                          <span className="btn-lihat-detail-text">
-                            Lihat
-                            <br />
-                            Detail
-                          </span>
-                          <ArrowRight size={9} />
+                          Detail
+                          <ArrowRight size={12} />
                         </button>
                       </td>
                     </tr>
@@ -388,36 +365,37 @@ export function AdminTabunganPage() {
               </table>
             </div>
 
-            <div className="pagination-footer">
-              <p className="pagination-info">
-                Menampilkan <span className="angka">1-5</span> dari{' '}
-                <span className="angka">1.245</span> siswa
+            <div className="flex items-center justify-between border-t border-[#c3c6d7] px-6 py-4 bg-white">
+              <p className="text-xs text-[#737686]">
+                Menampilkan <span className="font-semibold text-[#121c2a]">1-5</span> dari <span className="font-semibold text-[#121c2a]">1.245</span> siswa
               </p>
-              <div className="pagination-controls">
-                <button type="button" className="btn-page-nav disabled">
-                  <ArrowLeft size={8} />
+              <div className="flex items-center gap-2">
+                <button type="button" className="inline-flex h-9 items-center gap-1 justify-center rounded-xl border border-[#c3c6d7] px-3 text-xs font-semibold text-[#737686] opacity-50" disabled>
+                  <ArrowLeft size={12} />
                   Sebelumnya
                 </button>
-                <button type="button" className="btn-page active">
+                <button type="button" className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#2563eb] text-xs font-semibold text-white">
                   1
                 </button>
-                <button type="button" className="btn-page">
+                <button type="button" className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#c3c6d7] text-xs font-semibold text-[#121c2a] hover:bg-[#f8f9ff]">
                   2
                 </button>
-                <button type="button" className="btn-page">
+                <button type="button" className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#c3c6d7] text-xs font-semibold text-[#121c2a] hover:bg-[#f8f9ff]">
                   3
                 </button>
-                <span className="page-ellipsis">...</span>
-                <button type="button" className="btn-page">
+                <span className="text-xs text-[#737686]">...</span>
+                <button type="button" className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#c3c6d7] text-xs font-semibold text-[#121c2a] hover:bg-[#f8f9ff]">
                   250
                 </button>
-                <button type="button" className="btn-page-nav">
+                <button type="button" className="inline-flex h-9 items-center gap-1 justify-center rounded-xl border border-[#c3c6d7] px-3 text-xs font-semibold text-[#121c2a] hover:bg-[#f8f9ff]">
                   Selanjutnya
-                  <ArrowRight size={8} />
+                  <ArrowRight size={12} />
                 </button>
               </div>
             </div>
-          </section>
+          </div>
+            </>
+          )}
         </div>
       </div>
 

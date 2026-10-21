@@ -14,6 +14,8 @@ import {
 import { cn } from '@/lib/utils'
 import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import logoAK from '@/assets/logo/logoAK.png'
 
 const NAV_ITEMS: SidebarItem[] = [
@@ -32,6 +34,7 @@ export function IsiJurnalPage() {
   const [nama, setNama] = useState('Adinda Nur Safitri')
   const [kelas, setKelas] = useState('XI AKL 1')
   const [description, setDescription] = useState(INITIAL_DESCRIPTION)
+  const loading = useSimulatedLoading()
   const [fileName, setFileName] = useState<string | null>('bukti_setoran_XI_AKL1_02okt.jpg')
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [dragging, setDragging] = useState(false)
@@ -64,11 +67,15 @@ export function IsiJurnalPage() {
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
-      <DashboardSidebar items={NAV_ITEMS} logo logoSrc={logoAK} />
+      <DashboardSidebar items={NAV_ITEMS} logo logoSrc={logoAK} logoClassName="h-16 w-16" />
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Akuntansi" />
 
-        <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6 sm:p-8">
+        <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 p-8">
+          {loading ? (
+            <PageSkeleton variant="detail" hasFilters />
+          ) : (
+            <>
           <header className="flex flex-col gap-4 border-b border-[#d9e3f6b2] pb-2 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-col gap-1">
               <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
@@ -293,6 +300,8 @@ export function IsiJurnalPage() {
               </p>
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
     </div>

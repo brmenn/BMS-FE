@@ -1,25 +1,21 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import {
-  ArrowDownToLine,
-  ArrowUpFromLine,
-  ChevronRight,
-  Clock,
-  Info,
-  RefreshCw,
-  TrendingUp,
-} from 'lucide-react'
+import { ArrowDownToLine, ArrowUpFromLine, ChevronRight, Clock, Info, TrendingUp } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import dashboardPlaceholder from '@/placeholders/dashboard.json'
-import screenshot from '@/assets/logo/screenshot.png'
 import { DashboardSidebar } from '../components/DashboardSidebar'
 import { DashboardTopbar } from '../components/DashboardTopbar'
+import { PageSkeleton } from '../components/PageSkeleton'
+import { StudentBalanceCard } from '../components/StudentBalanceCard'
 
 export function StudentDashboardPage() {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['dashboard'],
-    queryFn: () => Promise.resolve(dashboardPlaceholder),
+    queryFn: async () => {
+      await new Promise((resolve) => window.setTimeout(resolve, 600))
+      return dashboardPlaceholder
+    },
   })
   const dashboard = data ?? dashboardPlaceholder
   const statusLabel = (status: string) => (status === 'BERHASIL' ? 'Berhasil' : 'Selesai')
@@ -28,7 +24,11 @@ export function StudentDashboardPage() {
       <DashboardSidebar logo />
       <div className="flex min-h-screen flex-col lg:pl-64">
         <DashboardTopbar role="Siswa" />
-        <main className="flex w-full max-w-[1280px] flex-col gap-6 p-6">
+        <main className="mx-auto flex w-full max-w-[1280px] flex-col gap-6 p-8">
+          {isLoading ? (
+            <PageSkeleton variant="dashboard" />
+          ) : (
+            <>
           <section className="flex flex-col gap-1 pt-1">
             <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
               Selamat datang, {dashboard.student.name}
@@ -38,53 +38,7 @@ export function StudentDashboardPage() {
             </p>
           </section>
 
-          <section className="relative flex w-full flex-col items-start overflow-hidden rounded-2xl bg-[#2563eb] p-8 shadow-[0px_2px_4px_-2px_#0000001a,0px_4px_6px_-1px_#0000001a]">
-            <img
-              alt=""
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-10 -right-8 h-[180px] w-[190px] object-contain opacity-10"
-              src={screenshot}
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -top-16 right-32 h-64 w-64 rounded-full bg-white/5 blur-[20px]"
-            />
-            <div className="relative flex w-full flex-wrap items-center justify-between gap-6">
-              <div className="flex flex-col gap-1">
-                <span className="text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-white/80">
-                  No: {dashboard.student.accountNo}
-                </span>
-                <span className="pt-1 text-sm font-medium leading-5 text-white/80">
-                  Total Saldo Tabungan
-                </span>
-                <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold leading-[44px] tracking-[-0.9px] text-white">
-                    {formatMoney(dashboard.balance.amount)}
-                  </span>
-                  <span className="text-xs leading-[18px] text-white/70">
-                    {dashboard.balance.currency}
-                  </span>
-                </div>
-                <div className="flex items-center gap-1.5 pt-1">
-                  <RefreshCw className="h-3.5 w-3.5 shrink-0 text-white/80" aria-hidden="true" />
-                  <span className="text-xs leading-[18px] text-white/80">
-                    {dashboard.balance.syncNote}
-                  </span>
-                </div>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <Link
-                  className="flex items-center gap-2 rounded-xl border border-solid border-white/40 px-5 py-2.5 backdrop-blur-[2px] transition-colors hover:bg-white/10"
-                  to="/siswa/penarikan"
-                >
-                  <ArrowUpFromLine className="h-3.5 w-3.5 text-white" aria-hidden="true" />
-                  <span className="text-base font-medium leading-6 text-white">
-                    Ajukan Penarikan
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </section>
+          <StudentBalanceCard />
 
           <section className="flex w-full flex-col gap-6 sm:flex-row">
             <div className="flex flex-1 flex-col gap-4 rounded-2xl border border-solid border-[#c3c6d7] bg-white p-6 shadow-[0px_1px_2px_#0000000d]">
@@ -232,6 +186,8 @@ export function StudentDashboardPage() {
               <p className="text-xs leading-[18px] text-[#434655]">{dashboard.infoNote}</p>
             </div>
           </section>
+            </>
+          )}
         </main>
       </div>
     </div>

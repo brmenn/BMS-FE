@@ -1,12 +1,12 @@
-import { ClipboardList } from 'lucide-react'
 import dashboardIcon from '@/assets/icon/dashboard.svg'
-import tabunganIcon from '@/assets/icon/tabungan.svg'
-import arusKasIcon from '@/assets/icon/arus-kas.svg'
+import laporanArusKasIcon from '@/assets/icon/laporan-arus-kas.svg'
+import walletPlusIcon from '@/assets/icon/wallet-plus.svg'
+import laporanPiketIcon from '@/assets/icon/laporan-petugas-piket.svg'
 import type { SidebarItem } from './sidebar-items'
 
 export const adminItems: SidebarItem[] = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: dashboardIcon },
-  { to: '/admin/laporan-arus-kas', label: 'Laporan Arus Kas', icon: arusKasIcon },
-  { to: '/admin/tabungan', label: 'Laporan Tabungan Siswa', icon: tabunganIcon },
-  { to: '/admin/laporan-petugas-piket', label: 'Laporan Petugas Piket', icon: ClipboardList },
+  { to: '/admin/laporan-arus-kas', label: 'Laporan Arus Kas', icon: laporanArusKasIcon },
+  { to: '/admin/tabungan', label: 'Laporan Tabungan Siswa', icon: walletPlusIcon },
+  { to: '/admin/laporan-petugas-piket', label: 'Laporan Petugas Piket', icon: laporanPiketIcon },
 ]

@@ -4,14 +4,13 @@ import {
   ArrowUpFromLine,
   ChevronLeft,
   ChevronRight,
-  CreditCard,
-  PiggyBank,
   Receipt,
-  User,
-  Wallet,
 } from 'lucide-react'
 import { DashboardSidebar, type SidebarItem } from '@/features/dashboard/components/DashboardSidebar'
 import { DashboardTopbar } from '@/features/dashboard/components/DashboardTopbar'
+import { StudentBalanceCard } from '@/features/dashboard/components/StudentBalanceCard'
+import { PageSkeleton } from '@/features/dashboard/components/PageSkeleton'
+import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import dashboardIcon from '@/assets/icon/dashboard.svg'
 import tabunganIcon from '@/assets/icon/tabungan.svg'
 import penarikanIcon from '@/assets/icon/penarikan.svg'
@@ -157,6 +156,7 @@ type FilterKey = (typeof FILTERS)[number]['key']
 export function TabunganSiswaPage() {
   const [filter, setFilter] = useState<FilterKey>('semua')
   const [page, setPage] = useState(1)
+  const loading = useSimulatedLoading()
 
   const visible = TRANSACTIONS.filter(
     (tx) => filter === 'semua' || tx.jenis === filter,
@@ -177,6 +177,10 @@ export function TabunganSiswaPage() {
         {/* CONTENT */}
         <main className="siswa-content">
           <div className="siswa-content-inner">
+            {loading ? (
+              <PageSkeleton variant="detail" />
+            ) : (
+              <>
             {/* PAGE HEADER */}
             <header className="siswa-page-header">
               <h1 className="siswa-page-title">Tabungan</h1>
@@ -184,38 +188,7 @@ export function TabunganSiswaPage() {
             </header>
 
             {/* KARTU SALDO */}
-            <section className="siswa-saldo-card" aria-labelledby="saldo-title">
-              <span className="siswa-decor-blob siswa-decor-blob--med" aria-hidden="true" />
-              <span className="siswa-decor-blob siswa-decor-blob--huge" aria-hidden="true" />
-              <div className="siswa-saldo-watermark" aria-hidden="true">
-                <Wallet className="siswa-saldo-wallet" strokeWidth={1} />
-              </div>
-
-              <div className="siswa-saldo-inner">
-                <div className="siswa-saldo-left">
-                  <div className="siswa-saldo-label">
-                    <span className="siswa-saldo-label-icon" aria-hidden="true">
-                      <PiggyBank size={12} />
-                    </span>
-                    <span id="saldo-title">SALDO TABUNGAN</span>
-                  </div>
-
-                  <p className="siswa-saldo-amount">Rp 1.250.000</p>
-
-                  <div className="siswa-saldo-meta">
-                    <span className="siswa-pill">
-                      <CreditCard size={14} aria-hidden="true" />
-                      <span>No. Rekening:</span>
-                      <strong>8820-019-332</strong>
-                    </span>
-                    <span className="siswa-pill siswa-pill--plain">
-                      <User size={14} aria-hidden="true" />
-                      <span>a.n Adinda Putri</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </section>
+            <StudentBalanceCard showActions={false} />
 
             {/* RIWAYAT TABUNGAN */}
             <section className="siswa-riwayat" aria-labelledby="riwayat-title">
@@ -382,6 +355,8 @@ export function TabunganSiswaPage() {
                 </div>
               </div>
             </section>
+              </>
+            )}
           </div>
         </main>
       </div>
