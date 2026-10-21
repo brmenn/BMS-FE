@@ -50,7 +50,7 @@ export function LandingHeader() {
     <header className="sticky top-0 z-50 w-full border-b-2 border-[#e5e7eb] bg-white shadow-[0px_2px_4px_#00000017]">
       <div className="relative mx-auto flex h-[69px] w-full max-w-[1160px] items-center justify-between gap-6 px-4 sm:px-6">
         <a
-          className="-ml-3 flex shrink-0 items-center sm:-ml-5"
+          className="-ml-3 flex shrink-0 items-center sm:-ml-5 md:ml-0 md:-translate-x-[80px]"
           href="#beranda"
           onClick={() => setMenuOpen(false)}
         >
@@ -84,7 +84,7 @@ export function LandingHeader() {
 
         <div className="hidden items-center md:flex">
           <Link
-            className="flex h-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#2961ef] px-6 text-[15px] font-medium leading-[22px] text-white transition-colors hover:bg-[#1d4ed8]"
+            className="flex h-11 items-center justify-center rounded-xl border border-[#e5e7eb] bg-[#2961ef] px-6 text-[15px] font-medium leading-[22px] text-white transition-colors hover:bg-[#1d4ed8] md:translate-x-[80px]"
             to="/login"
           >
             Masuk
