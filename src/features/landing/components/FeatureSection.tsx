@@ -1,7 +1,6 @@
 import type { LucideIcon } from 'lucide-react'
 import {
   ArrowDownToLine,
-  ArrowRight,
   ArrowUpFromLine,
   Check,
   PiggyBank,
@@ -12,30 +11,26 @@ import {
 import { cn } from '@/lib/utils'
 import { Reveal } from './Reveal'
 
-const FEATURES: { badge: string; icon: LucideIcon; title: string; description: string; action: string }[] =
-  [
-    {
-      badge: 'SIMPANAN',
-      icon: PiggyBank,
-      title: 'Tabungan',
-      description: 'Lihat saldo dan riwayat transaksi tabungan secara mudah.',
-      action: 'Kelola Saldo',
-    },
-    {
-      badge: 'TARIK TUNAI',
-      icon: Wallet,
-      title: 'Penarikan',
-      description: 'Ajukan penarikan dan pantau proses persetujuannya.',
-      action: 'Proses Pengajuan',
-    },
-    {
-      badge: 'CATATAN',
-      icon: ReceiptText,
-      title: 'Riwayat Transaksi',
-      description: 'Periksa aktivitas tabungan dengan informasi yang jelas.',
-      action: 'Lihat Log Lengkap',
-    },
-  ]
+const FEATURES: { badge: string; icon: LucideIcon; title: string; description: string }[] = [
+  {
+    badge: 'SIMPANAN',
+    icon: PiggyBank,
+    title: 'Tabungan',
+    description: 'Lihat saldo dan riwayat transaksi tabungan secara mudah.',
+  },
+  {
+    badge: 'TARIK TUNAI',
+    icon: Wallet,
+    title: 'Penarikan',
+    description: 'Ajukan penarikan dan pantau proses persetujuannya.',
+  },
+  {
+    badge: 'CATATAN',
+    icon: ReceiptText,
+    title: 'Riwayat Transaksi',
+    description: 'Periksa aktivitas tabungan dengan informasi yang jelas.',
+  },
+]
 
 const WITHDRAWAL_STEPS: {
   state: 'done' | 'active' | 'pending'
@@ -143,16 +138,6 @@ export function FeatureSection() {
                   <div className="flex flex-1 flex-col justify-end">
                     <Visual />
                   </div>
-
-                  <button
-                    className="mt-4 flex w-full items-center justify-center gap-1 rounded-xl bg-[#003ea8] px-4 py-3 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#003285]"
-                    type="button"
-                  >
-                    <span className="font-jakarta text-sm leading-5 font-semibold text-white">
-                      {feature.action}
-                    </span>
-                    <ArrowRight className="h-3.5 w-3.5 text-white" aria-hidden="true" />
-                  </button>
                 </div>
                 </article>
               </Reveal>
