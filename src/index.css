@@ -13,14 +13,6 @@
   --color-brand-muted: #737686;
   --color-brand-canvas: #f8f9ff;
   --color-brand-field: #eff4ff;
-
-  --animate-marquee: marquee 80s linear infinite;
-
-  @keyframes marquee {
-    to {
-      transform: translateX(-50%);
-    }
-  }
 }
 
 

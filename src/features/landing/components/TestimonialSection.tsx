@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { CheckCircle2, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Reveal } from './Reveal'
@@ -62,6 +63,188 @@ const TESTIMONIALS = [
   },
 ]
 
+const AUTO_SCROLL_MS = 80_000 // satu putaran penuh ditempuh 80s, sama dengan pacing marquee lama
+
+interface Testimonial {
+  quote: string
+  initials: string
+  name: string
+  role: string
+  avatar: string
+  avatarClassName: string
+}
+
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  return (
+    <article className="flex w-[320px] shrink-0 flex-col justify-between gap-6 rounded-[18px] border-[1.1px] border-[#c3c6d766] bg-white p-7 shadow-[10px_16px_12px_#00000040] sm:w-[360px]">
+      <div className="flex w-full flex-col items-start gap-3">
+        <StarRating />
+        <p className="text-[15.3px] italic leading-[24.9px] text-[#121c2a]">
+          {testimonial.quote}
+        </p>
+      </div>
+
+      <div className="flex w-full items-center gap-3 border-t border-[#c3c6d74c] pt-4">
+        <StudentPhoto
+          src={testimonial.avatar}
+          alt={`Foto profil ${testimonial.name}`}
+          initials={testimonial.initials}
+          className="h-11 w-11 rounded-full"
+          fallbackClassName={cn('rounded-full text-[15.3px] font-bold', testimonial.avatarClassName)}
+        />
+        <span className="flex min-w-0 flex-col items-start">
+          <span className="text-[15.3px] leading-[21.9px] font-semibold text-[#121c2a]">
+            {testimonial.name}
+          </span>
+          <span className="text-[13px] leading-[19.7px] text-[#434655]">
+            {testimonial.role}
+          </span>
+        </span>
+      </div>
+    </article>
+  )
+}
+
+function TestimonialMarquee() {
+  const viewportRef = useRef<HTMLDivElement | null>(null)
+  const trackRef = useRef<HTMLDivElement | null>(null)
+  const copyRef = useRef<HTMLDivElement | null>(null)
+  const progressRef = useRef(0)
+  const dragRef = useRef({ grabbed: false, pointerId: -1, startX: 0, startPos: 0 })
+  const [copyWidth, setCopyWidth] = useState(0)
+  const [copyCount, setCopyCount] = useState(2)
+  const [dragging, setDragging] = useState(false)
+  const [hovering, setHovering] = useState(false)
+  const [autoPaused, setAutoPaused] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const update = () => setAutoPaused(media.matches)
+    update()
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
+
+  useEffect(() => {
+    const viewport = viewportRef.current
+    const copy = copyRef.current
+    if (!viewport || !copy) return
+
+    const measure = () => {
+      const width = copy.getBoundingClientRect().width
+      if (!width || width < 100) return
+      setCopyWidth(width)
+      setCopyCount(Math.max(2, Math.ceil(viewport.clientWidth / width) + 2))
+    }
+
+    measure()
+    const observer = new ResizeObserver(measure)
+    observer.observe(viewport)
+    observer.observe(copy)
+    window.addEventListener('resize', measure)
+
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('resize', measure)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!copyWidth) return
+
+    let raf = 0
+    let last = performance.now()
+
+    const step = (now: number) => {
+      const dt = Math.min(now - last, 100)
+      last = now
+      const drag = dragRef.current
+
+      if (!drag.grabbed && !hovering && !autoPaused) {
+        progressRef.current = ((progressRef.current + (copyWidth / AUTO_SCROLL_MS) * dt) % copyWidth)
+      }
+
+      const offset = ((progressRef.current % copyWidth) + copyWidth) % copyWidth
+      if (trackRef.current) {
+        trackRef.current.style.transform = `translate3d(${-offset}px, 0, 0)`
+      }
+
+      raf = requestAnimationFrame(step)
+    }
+
+    raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
+  }, [copyWidth, hovering, autoPaused])
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === 'mouse' && event.button !== 0) return
+    const drag = dragRef.current
+    drag.grabbed = true
+    drag.pointerId = event.pointerId
+    drag.startX = event.clientX
+    drag.startPos = progressRef.current
+    setDragging(true)
+    event.currentTarget.setPointerCapture(event.pointerId)
+  }
+
+  const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current
+    if (!drag.grabbed || drag.pointerId !== event.pointerId || !copyWidth) return
+    progressRef.current = drag.startPos - (event.clientX - drag.startX)
+  }
+
+  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current
+    if (!drag.grabbed || drag.pointerId !== event.pointerId) return
+    drag.grabbed = false
+    drag.pointerId = -1
+    setDragging(false)
+  }
+
+  return (
+    <div
+      className={
+        'group relative -my-8 w-full overflow-hidden py-8 ' +
+        (dragging ? 'cursor-grabbing select-none' : 'cursor-grab select-none')
+      }
+      aria-label="Carousel ulasan pengguna"
+      onDragStart={(event) => event.preventDefault()}
+      onPointerCancel={endDrag}
+      onPointerDown={handlePointerDown}
+      onPointerMove={handlePointerMove}
+      onPointerUp={endDrag}
+      onMouseEnter={() => setHovering(true)}
+      onMouseLeave={() => setHovering(false)}
+      ref={viewportRef}
+      style={{ touchAction: 'pan-y' }}
+    >
+      <div
+        className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent"
+        aria-hidden="true"
+      />
+
+      <div className="flex w-max will-change-transform" ref={trackRef}>
+        {Array.from({ length: copyCount }, (_, copy) => (
+          <div
+            aria-hidden={copy > 0 || undefined}
+            className="flex w-max gap-8 pr-8"
+            key={copy}
+            ref={copy === 0 ? copyRef : undefined}
+          >
+            {TESTIMONIALS.map((testimonial) => (
+              <TestimonialCard key={testimonial.name} testimonial={testimonial} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function TestimonialSection() {
   return (
     <section className="w-full bg-white pt-16 sm:pt-20" id="ulasan">
@@ -107,61 +290,8 @@ export function TestimonialSection() {
           </div>
         </Reveal>
 
-        <Reveal delay={250}>
-          <div
-            className="group relative -my-8 w-full overflow-hidden py-8"
-            aria-label="Carousel ulasan pengguna"
-          >
-          <div
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent"
-            aria-hidden="true"
-          />
-          <div
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent"
-            aria-hidden="true"
-          />
-
-          <div className="flex w-max animate-marquee group-hover:[animation-play-state:paused] motion-reduce:animate-none">
-            {[0, 1].map((copy) => (
-              <div key={copy} aria-hidden={copy === 1} className="flex w-max gap-8 pr-8">
-                {TESTIMONIALS.map((testimonial) => (
-                  <article
-                    key={testimonial.name}
-                    className="flex w-[320px] shrink-0 flex-col justify-between gap-6 rounded-[18px] border-[1.1px] border-[#c3c6d766] bg-white p-7 shadow-[10px_16px_12px_#00000040] sm:w-[360px]"
-                  >
-                    <div className="flex w-full flex-col items-start gap-3">
-                      <StarRating />
-                      <p className="text-[15.3px] italic leading-[24.9px] text-[#121c2a]">
-                        {testimonial.quote}
-                      </p>
-                    </div>
-
-                    <div className="flex w-full items-center gap-3 border-t border-[#c3c6d74c] pt-4">
-                      <StudentPhoto
-                        src={testimonial.avatar}
-                        alt={`Foto profil ${testimonial.name}`}
-                        initials={testimonial.initials}
-                        className="h-11 w-11 rounded-full"
-                        fallbackClassName={cn(
-                          'rounded-full text-[15.3px] font-bold',
-                          testimonial.avatarClassName,
-                        )}
-                      />
-                      <span className="flex min-w-0 flex-col items-start">
-                        <span className="text-[15.3px] leading-[21.9px] font-semibold text-[#121c2a]">
-                          {testimonial.name}
-                        </span>
-                        <span className="text-[13px] leading-[19.7px] text-[#434655]">
-                          {testimonial.role}
-                        </span>
-                      </span>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            ))}
-          </div>
-          </div>
+        <Reveal delay={250} className="self-stretch w-full">
+          <TestimonialMarquee />
         </Reveal>
       </div>
     </section>
