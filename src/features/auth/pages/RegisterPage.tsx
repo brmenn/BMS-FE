@@ -1,9 +1,18 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
-import { ArrowRight, BadgeCheck, CreditCard, GraduationCap, IdCard, Mail, Phone, User } from 'lucide-react'
+import {
+  ArrowRight,
+  BadgeCheck,
+  GraduationCap,
+  IdCard,
+  Mail,
+  Phone,
+  User,
+} from 'lucide-react'
 import { authApi, type RegisterPayload } from '@/lib/api/auth'
 import { ApiError } from '@/lib/api/errors'
+import { cn } from '@/lib/utils'
 import { BrandPanel } from '../components/BrandPanel'
 import {
   Field,
@@ -11,7 +20,6 @@ import {
   FieldLabel,
   HintText,
   Input,
-  MutedText,
   PasswordInput,
   Select,
 } from '../components/form-controls'
@@ -20,8 +28,6 @@ type UserType = 'SISWA' | 'GURU_KARYAWAN'
 
 const CLASS_OPTIONS = ['X-A', 'X-B', 'XI-A', 'XI-B', 'XII-A', 'XII-B']
 const ACADEMIC_YEAR = '2026/2027'
-
-const FOOTER_LINKS = ['Kebijakan Privasi', 'Ketentuan Layanan', 'Pusat Bantuan']
 
 type FieldErrors = Record<string, string>
 
@@ -35,7 +41,6 @@ export function RegisterPage() {
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
-  const [accountNumber, setAccountNumber] = useState('')
   const [password, setPassword] = useState('')
   const [passwordConfirmation, setPasswordConfirmation] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -93,255 +98,235 @@ export function RegisterPage() {
   }
 
   return (
-    <main className="flex min-h-screen w-full items-center justify-center bg-[#f8f9ff] p-4 sm:p-6">
-      <div className="flex w-full max-w-[1280px] flex-col overflow-hidden rounded-[20px] shadow-[4px_6px_4px_#00000040] lg:flex-row">
+    <main className="flex min-h-screen w-full items-center justify-center bg-[#f0f3f8] p-4 font-jakarta sm:p-8">
+      <div className="flex w-full max-w-[1020px] flex-col overflow-hidden rounded-3xl border border-[#f1f5f9] bg-white shadow-[0px_20px_50px_#0000000f] lg:min-h-[696px] lg:flex-row">
         <BrandPanel />
 
-        <section className="flex min-w-0 flex-1 flex-col bg-white px-5 pt-[30px] sm:px-8 lg:px-12">
-          <div className="flex w-full max-w-[672px] flex-1 flex-col gap-8 self-center">
-            <header className="flex flex-col gap-1">
-              <h1 className="text-2xl font-bold leading-8 tracking-[-0.6px] text-[#121c2a]">
-                Daftar Akun Baru
-              </h1>
-              <p className="text-sm leading-5 text-[#434655]">
-                Pilih jenis pengguna untuk menyesuaikan data identitas akun Anda.
-              </p>
-            </header>
+        <section className="flex min-w-0 flex-1 flex-col gap-5 bg-white p-5 sm:p-10">
+          <header className="flex flex-col gap-1">
+            <h1 className="text-[22px] font-bold leading-[33px] tracking-[-0.55px] text-[#1e293b]">
+              Daftar Akun Baru
+            </h1>
+            <p className="text-[13px] leading-4 text-[#64748b]">
+              Pilih jenis pengguna untuk menyesuaikan data identitas akun Anda.
+            </p>
+          </header>
 
-            <form className="flex w-full flex-col gap-6" noValidate onSubmit={handleSubmit}>
-              <fieldset className="flex w-full flex-col gap-2.5">
-                <legend className="mb-1 text-sm font-semibold leading-5">
-                  <span className="text-[#121c2a]">Jenis Pengguna </span>
-                  <span className="text-[#ba1a1a]"> *</span>
-                </legend>
+          <form className="flex w-full flex-col gap-[15px]" noValidate onSubmit={handleSubmit}>
+            <fieldset className="flex w-full flex-col gap-3">
+              <legend className="mb-2 text-[12px] font-bold leading-4 text-[#334155]">
+                Jenis Pengguna <span className="text-[#ef4444]">*</span>
+              </legend>
 
-                <div
-                  aria-label="Jenis pengguna"
-                  className="flex w-full flex-col gap-4 sm:flex-row"
-                  role="radiogroup"
-                >
-                  <UserTypeOption
-                    active={isStudent}
-                    description="NISN & Kelas"
-                    label="Siswa"
-                    onClick={() => setUserType('SISWA')}
-                  />
-                  <UserTypeOption
-                    active={!isStudent}
-                    description="NBM / ID Staf / TU"
-                    label="Guru & Karyawan"
-                    onClick={() => setUserType('GURU_KARYAWAN')}
-                  />
-                </div>
-              </fieldset>
-
-              <section className="flex flex-col gap-3.5 rounded-2xl border border-[#e2e8f0] bg-[#eff4ff]/80 p-5">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-2">
-                    {isStudent ? (
-                      <BadgeCheck className="h-4 w-[17px] text-[#004ac6]" aria-hidden="true" />
-                    ) : (
-                      <IdCard className="h-4 w-4 text-[#004ac6]" aria-hidden="true" />
-                    )}
-                    <h2 className="text-base font-semibold leading-6 text-[#121c2a]">
-                      {isStudent ? 'Data Identitas Siswa' : 'Data Identitas Guru / Pendidik'}
-                    </h2>
-                  </div>
-                  <span className="rounded-full bg-[#004ac6]/10 px-2 py-0.5 text-[11px] font-medium leading-[14px] tracking-[0.44px] text-[#004ac6]">
-                    {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi GTK'}
-                  </span>
-                </div>
-
-                {isStudent ? (
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    <Field
-                      error={errors.student_number}
-                      hint="10 digit Nomor Induk Siswa Nasional"
-                      label="NISN"
-                      required
-                    >
-                      <Input
-                        aria-label="NISN"
-                        icon={<BadgeCheck className="h-4 w-4" />}
-                        inputMode="numeric"
-                        maxLength={10}
-                        onChange={(event) => setNisn(event.target.value.replace(/\D/g, ''))}
-                        placeholder="Masukkan 10 digit NISN aktif siswa"
-                        required
-                        value={nisn}
-                      />
-                    </Field>
-
-                    <Field error={errors.class} hint="Tingkat kelas dan jurusan berjalan" label="Kelas" required>
-                      <Select
-                        aria-label="Kelas"
-                        icon={<GraduationCap className="h-4 w-4" />}
-                        onChange={(event) => setClassName(event.target.value)}
-                        options={CLASS_OPTIONS}
-                        placeholder="Pilih Kelas"
-                        required
-                        value={className}
-                      />
-                    </Field>
-                  </div>
-                ) : (
-                  <div className="flex w-full flex-col gap-1">
-                    <FieldLabel label="NBM" required />
-                    <Input
-                      aria-label="NBM"
-                      icon={<IdCard className="h-4 w-4" />}
-                      inputMode="numeric"
-                      onChange={(event) => setEmployeeNumber(event.target.value)}
-                      placeholder="Masukkan 18 digit NBM"
-                      required
-                      value={employeeNumber}
-                    />
-                    <HintText>Nomor Baku Muhammadiyah (NBM) aktif</HintText>
-                    <FieldError>{errors.employee_number}</FieldError>
-                  </div>
-                )}
-              </section>
-
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div className="flex flex-col gap-1.5 sm:col-span-2">
-                  <FieldLabel label="Nama Lengkap" required />
-                  <Input
-                    icon={<User className="h-4 w-4" />}
-                    onChange={(event) => setFullName(event.target.value)}
-                    placeholder="Masukkan nama lengkap sesuai identitas resmi"
-                    required
-                    value={fullName}
-                  />
-                  <FieldError>{errors.full_name}</FieldError>
-                </div>
-
-                <Field error={errors.email} label="Alamat Email" required>
-                  <Input
-                    icon={<Mail className="h-4 w-4" />}
-                    inputMode="email"
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder={isStudent ? 'Masukkan email aktif siswa' : 'Masukkan email aktif sekolah / pribadi'}
-                    required
-                    type="email"
-                    value={email}
-                  />
-                </Field>
-
-                <Field error={errors.phone} label="No. Telepon / WhatsApp" required>
-                  <Input
-                    icon={<Phone className="h-4 w-4" />}
-                    onChange={(event) => setPhone(event.target.value)}
-                    placeholder="Contoh: 081234567890"
-                    required
-                    type="tel"
-                    value={phone}
-                  />
-                </Field>
-
-                <div className="flex flex-col gap-1 sm:col-span-2">
-                  <FieldLabel label="No. Rekening" required={false} />
-                  <MutedText>(Opsional)</MutedText>
-                  <Input
-                    icon={<CreditCard className="h-4 w-4" />}
-                    inputMode="numeric"
-                    onChange={(event) => setAccountNumber(event.target.value)}
-                    placeholder="Masukkan nomor rekening buku tabungan lama jika ada"
-                    value={accountNumber}
-                  />
-                  <HintText>
-                    Kosongkan jika ingin sistem membuatkan nomor rekening baru secara otomatis.
-                  </HintText>
-                </div>
-
-                <Field error={errors.password} label="Kata Sandi" required>
-                  <PasswordInput
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Minimal 8 karakter"
-                    show={showPassword}
-                    toggle={() => setShowPassword((visible) => !visible)}
-                    value={password}
-                  />
-                </Field>
-
-                <Field error={errors.password_confirmation} label="Konfirmasi Kata Sandi" required>
-                  <PasswordInput
-                    onChange={(event) => setPasswordConfirmation(event.target.value)}
-                    placeholder="Ulangi password"
-                    show={showConfirmation}
-                    toggle={() => setShowConfirmation((visible) => !visible)}
-                    value={passwordConfirmation}
-                  />
-                </Field>
-              </div>
-
-              <div className="flex items-start gap-3 pt-2">
-                <input
-                  checked={agreed}
-                  className="mt-1 h-5 w-5 shrink-0 rounded-md border border-[#e2e8f0] bg-white accent-[#004ac6]"
-                  id="terms"
-                  name="terms"
-                  onChange={(event) => setAgreed(event.target.checked)}
-                  type="checkbox"
-                />
-                <p className="text-xs leading-[18px] text-[#434655]">
-                  Saya menyetujui{' '}
-                  <span className="font-medium text-[#004ac6]">syarat &amp; ketentuan layanan</span> BMS SMKS
-                  Muhammadiyah 1 Genteng serta kebijakan perlindungan data nasabah keuangan sekolah.
-                </p>
-              </div>
-
-              {errors.terms ? <FieldError>{errors.terms}</FieldError> : null}
-
-              {register.isError && !(register.error instanceof ApiError && register.error.isValidation) ? (
-                <p className="text-xs text-red-600" role="alert">
-                  {register.error instanceof ApiError ? register.error.message : 'Terjadi kesalahan.'}
-                </p>
-              ) : null}
-
-              <button
-                className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#2563eb] shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-70"
-                disabled={register.isPending}
-                type="submit"
+              <div
+                aria-label="Jenis pengguna"
+                className="flex w-full flex-col gap-3 sm:flex-row"
+                role="radiogroup"
               >
-                {!register.isPending ? (
-                  <ArrowRight className="h-[12.3px] w-[15px] text-white" aria-hidden="true" />
-                ) : null}
-                <span className="text-sm font-medium leading-5 text-white">
-                  {register.isPending ? 'Mendaftarkan...' : 'Daftar Akun Sekarang'}
+                <UserTypeOption
+                  active={isStudent}
+                  description="NISN & Kelas"
+                  label="Siswa"
+                  onClick={() => setUserType('SISWA')}
+                />
+                <UserTypeOption
+                  active={!isStudent}
+                  description="NBM / NUPTK / ID Staf / TU"
+                  label="Guru & Karyawan"
+                  onClick={() => setUserType('GURU_KARYAWAN')}
+                />
+              </div>
+            </fieldset>
+
+            <section className="flex w-full flex-col gap-[14px] rounded-2xl border border-[#dbeafe] bg-[#f5f8ff] p-[17px_16px_16px]">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-1.5">
+                  {isStudent ? (
+                    <BadgeCheck aria-hidden="true" className="h-4 w-4 text-[#2563eb]" />
+                  ) : (
+                    <IdCard aria-hidden="true" className="h-4 w-4 text-[#2563eb]" />
+                  )}
+                  <h2 className="text-[12px] font-bold leading-4 text-[#1e3a8a]">
+                    {isStudent ? 'Data Identitas Siswa' : 'Data Identitas Guru / Karyawan'}
+                  </h2>
+                </div>
+                <span className="rounded-full bg-[#dbeafe]/70 px-2.5 py-0.5 text-[11px] font-semibold leading-[16.5px] text-[#2563eb]">
+                  {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi NBM / NUPTK / ID Staf'}
                 </span>
-              </button>
+              </div>
 
-              <p className="pt-2 text-center text-sm leading-5">
-                <span className="text-[#434655]">Sudah memiliki akun terdaftar? </span>
-                <Link className="font-semibold text-[#004ac6] hover:underline" to="/login">
-                  Masuk di sini
-                </Link>
-              </p>
-            </form>
-          </div>
+              {isStudent ? (
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  <Field
+                    error={errors.student_number}
+                    hint="10 digit Nomor Induk Siswa Nasional"
+                    htmlFor="nisn"
+                    label="NISN"
+                    required
+                  >
+                    <Input
+                      aria-label="NISN"
+                      id="nisn"
+                      icon={<BadgeCheck className="h-4 w-4" />}
+                      inputMode="numeric"
+                      maxLength={10}
+                      onChange={(event) => setNisn(event.target.value.replace(/\D/g, ''))}
+                      placeholder="Masukkan 10 digit NISN aktif siswa"
+                      required
+                      value={nisn}
+                    />
+                  </Field>
 
-          <footer className="w-full max-w-[672px] self-center border-t border-[#e2e8f0] pb-6 pt-5">
-            <div className="flex w-full flex-col items-center gap-2.5">
-              <nav aria-label="Tautan bantuan" className="flex flex-wrap items-center justify-center gap-4">
-                {FOOTER_LINKS.map((link, index) => (
-                  <span className="flex items-center gap-4" key={link}>
-                    {index > 0 ? (
-                      <span aria-hidden="true" className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#434655]">
-                        •
-                      </span>
-                    ) : null}
-                    <span className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#434655]">
-                      {link}
-                    </span>
-                  </span>
-                ))}
-              </nav>
+                  <Field
+                    error={errors.class}
+                    hint="Tingkat kelas dan jurusan berjalan"
+                    htmlFor="kelas"
+                    label="Kelas"
+                    required
+                  >
+                    <Select
+                      aria-label="Kelas"
+                      icon={<GraduationCap className="h-[18px] w-[18px]" />}
+                      id="kelas"
+                      onChange={(event) => setClassName(event.target.value)}
+                      options={CLASS_OPTIONS}
+                      placeholder="Pilih Kelas"
+                      required
+                      value={className}
+                    />
+                  </Field>
+                </div>
+              ) : (
+                <div className="flex w-full flex-col gap-1">
+                  <FieldLabel htmlFor="nbm" label="NBM / NUPTK / ID Staf / TU" required />
+                  <Input
+                    aria-label="NBM"
+                    id="nbm"
+                    icon={<IdCard className="h-4 w-4" />}
+                    onChange={(event) => setEmployeeNumber(event.target.value)}
+                    placeholder="Masukkan nomor induk Anda"
+                    required
+                    value={employeeNumber}
+                  />
+                  <HintText>Nomor Baku Muhammadiyah (NBM) aktif</HintText>
+                  <FieldError>{errors.employee_number}</FieldError>
+                </div>
+              )}
+            </section>
 
-              <p className="text-center text-xs leading-[18px] text-[#737686]">
-                © 2026 BMS SMKS Muhammadiyah 1 Genteng. Hak cipta dilindungi.
+            <div className="flex flex-col gap-1">
+              <FieldLabel htmlFor="fullName" label="Nama Lengkap" required />
+              <Input
+                id="fullName"
+                icon={<User className="h-4 w-4" />}
+                onChange={(event) => setFullName(event.target.value)}
+                placeholder="Masukkan nama lengkap sesuai identitas resmi"
+                required
+                value={fullName}
+              />
+              <FieldError>{errors.full_name}</FieldError>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Field error={errors.email} htmlFor="email" label="Email" required>
+                <Input
+                  id="email"
+                  icon={<Mail className="h-4 w-4" />}
+                  inputMode="email"
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="Masukkan email aktif siswa"
+                  required
+                  type="email"
+                  value={email}
+                />
+              </Field>
+
+              <Field error={errors.phone} htmlFor="phone" label="No. Telepon / WhatsApp" required>
+                <Input
+                  id="phone"
+                  icon={<Phone className="h-4 w-4" />}
+                  onChange={(event) => setPhone(event.target.value)}
+                  placeholder="Contoh: 081234567890"
+                  required
+                  type="tel"
+                  value={phone}
+                />
+              </Field>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Field error={errors.password} htmlFor="password" label="Kata Sandi" required>
+                <PasswordInput
+                  id="password"
+                  onChange={(event) => setPassword(event.target.value)}
+                  placeholder="Minimal 8 karakter"
+                  show={showPassword}
+                  toggle={() => setShowPassword((visible) => !visible)}
+                  value={password}
+                />
+              </Field>
+
+              <Field
+                error={errors.password_confirmation}
+                htmlFor="passwordConfirmation"
+                label="Konfirmasi Kata Sandi"
+                required
+              >
+                <PasswordInput
+                  id="passwordConfirmation"
+                  onChange={(event) => setPasswordConfirmation(event.target.value)}
+                  placeholder="Ulangi password"
+                  show={showConfirmation}
+                  toggle={() => setShowConfirmation((visible) => !visible)}
+                  value={passwordConfirmation}
+                />
+              </Field>
+            </div>
+
+            <div className="flex items-start gap-2">
+              <input
+                checked={agreed}
+                className="mt-0.5 h-3.5 w-3.5 shrink-0 rounded border border-[#cbd5e1] bg-white accent-[#2563eb]"
+                id="terms"
+                name="terms"
+                onChange={(event) => setAgreed(event.target.checked)}
+                type="checkbox"
+              />
+              <p className="text-[11px] leading-[15.1px] text-[#64748b]">
+                Saya menyetujui{' '}
+                <span className="font-bold text-[#2563eb]">syarat &amp; ketentuan layanan</span>{' '}
+                BMS SMKS Muhammadiyah 1 Genteng serta kebijakan perlindungan data nasabah keuangan sekolah.
               </p>
             </div>
-          </footer>
+
+            {errors.terms ? <FieldError>{errors.terms}</FieldError> : null}
+
+            {register.isError && !(register.error instanceof ApiError && register.error.isValidation) ? (
+              <p className="text-[11px] leading-[15px] text-red-600" role="alert">
+                {register.error instanceof ApiError ? register.error.message : 'Terjadi kesalahan.'}
+              </p>
+            ) : null}
+
+            <button
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#2563eb] px-4 py-3 shadow-[0px_2px_4px_-2px_#3b82f633,0px_4px_6px_-1px_#3b82f633] transition-colors hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70"
+              disabled={register.isPending}
+              type="submit"
+            >
+              {!register.isPending ? (
+                <ArrowRight aria-hidden="true" className="h-4 w-4 text-white" />
+              ) : null}
+              <span className="text-[14px] font-bold leading-5 text-white">
+                {register.isPending ? 'Mendaftarkan...' : 'Daftar Akun Sekarang'}
+              </span>
+            </button>
+
+            <p className="text-center text-[12px] leading-4 text-[#64748b]">
+              Sudah memiliki akun terdaftar?{' '}
+              <Link className="font-bold text-[#2563eb] hover:underline" to="/login">
+                Masuk di sini
+              </Link>
+            </p>
+          </form>
         </section>
       </div>
     </main>
@@ -362,21 +347,28 @@ function UserTypeOption({
   return (
     <button
       aria-pressed={active}
-      className={`flex flex-1 flex-col items-center justify-center gap-0.5 rounded-xl border-2 px-4 py-3.5 transition-colors ${
+      className={cn(
+        'flex flex-1 flex-col items-center justify-center rounded-xl px-3 transition-colors',
         active
-          ? 'border-[#004ac6] bg-[#dbe1ff]/20 shadow-[0px_1px_2px_#0000000d,0px_0px_0px_2px_#004ac633]'
-          : 'border-[#e2e8f0] bg-white hover:border-slate-300'
-      }`}
+          ? 'border-2 border-[#2563eb] bg-[#eff6ff]/20 py-[9px]'
+          : 'border border-[#e2e8f0] bg-white py-[10px] hover:border-slate-300',
+      )}
       onClick={onClick}
       type="button"
     >
-      <span className={`text-base font-semibold leading-6 ${active ? 'text-[#004ac6]' : 'text-[#121c2a]'}`}>
+      <span
+        className={cn(
+          'text-[14px] leading-[17.5px]',
+          active ? 'font-bold text-[#2563eb]' : 'font-semibold text-[#334155]',
+        )}
+      >
         {label}
       </span>
       <span
-        className={`text-[11px] font-semibold leading-[14px] tracking-[0.44px] ${
-          active ? 'text-[#004ac6]/80' : 'text-[#121c2a]'
-        }`}
+        className={cn(
+          'mt-0.5 text-[10px] leading-[15px]',
+          active ? 'font-medium text-[#3b82f6]' : 'font-normal text-[#94a3b8]',
+        )}
       >
         {description}
       </span>
