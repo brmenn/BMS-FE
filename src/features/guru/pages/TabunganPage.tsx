@@ -14,7 +14,6 @@ import { TransactionTable } from '@/components/roles/guru/TransactionTable'
 import type { Transaction } from '@/components/roles/guru/TransactionTable'
 import { ReceiptModal } from '@/components/roles/guru/ReceiptModal'
 import type { ReceiptData } from '@/components/roles/guru/receipt-data'
-import { DEFAULT_RECEIPT } from '@/components/roles/guru/receipt-data'
 import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
@@ -26,18 +25,55 @@ const NAV_ITEMS: SidebarItem[] = [
   { to: '/guru/pembayaran-pinjaman', label: 'Pembayaran Pinjaman', icon: pembayaranPinjamanIcon },
 ]
 
-function buildReceipt(tx: Transaction): ReceiptData {
-  const bare = tx.amount.slice(1).trim()
-  const signed = `${tx.amount.startsWith('-') ? '-' : '+'} ${bare}`
+const MONTH_NAMES = [
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember',
+]
 
+const LATEST_DEPOSIT: Transaction = {
+  code: 'TRX-20261001-001',
+  date: '01 Okt 2026',
+  month: '2026-10',
+  type: 'Setoran',
+  method: 'Tunai',
+  amount: '+Rp 500.000',
+  status: 'Berhasil',
+  typeClass: 'deposit',
+}
+
+function monthLabel(month: string): string {
+  const [year, rawMonth] = month.split('-')
+  return `${MONTH_NAMES[Number(rawMonth) - 1]} ${year}`
+}
+
+/** Resi memakai desain resi pembayaran pinjaman; hanya status yang berbeda. */
+function buildReceipt(tx: Transaction): ReceiptData {
+  const status = tx.status.toUpperCase()
   return {
-    ...DEFAULT_RECEIPT,
-    reference: tx.code,
-    service: `${tx.type} Tabungan Reguler`,
-    datetime: `${tx.date} • 09:42:15 WIB`,
-    channel: `Teller Loket 01 (${tx.method})`,
-    amount: bare,
-    depositAmount: signed,
+    status,
+    watermark: status,
+    rows: [
+      { label: 'Kode', value: tx.code, mono: true },
+      { label: 'Nama', value: 'Drs. H. Ahmad Dahlan, M.Pd.' },
+      { label: 'Role', value: 'Guru Tetap' },
+      { label: 'Jenis', value: `${tx.type} Tabungan` },
+      { label: 'Rekening', value: 'SMK-M1-8890241', mono: true },
+      { label: 'Bulan', value: monthLabel(tx.month) },
+      { label: 'Nominal', value: tx.amount, accent: true },
+      { label: 'Metode', value: tx.method },
+      { label: 'Tanggal', value: tx.date },
+      { label: 'Petugas', value: 'Admin BMS (Kasir Ibu Siti)' },
+    ],
   }
 }
 
@@ -79,7 +115,7 @@ export function TabunganPage() {
           {/* BENTO GRID */}
           <div className="grid grid-cols-12 gap-6 lg:grid-rows-[338px]">
             <TabunganSummary />
-            <DepositStatus onReceiptClick={() => setReceiptData(DEFAULT_RECEIPT)} />
+            <DepositStatus onReceiptClick={() => setReceiptData(buildReceipt(LATEST_DEPOSIT))} />
           </div>
 
           {/* RIWAYAT */}

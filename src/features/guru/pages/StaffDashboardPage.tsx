@@ -17,10 +17,6 @@ import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import { ReceiptModal } from '@/components/roles/guru/ReceiptModal'
 import type { ReceiptData } from '@/components/roles/guru/receipt-data'
-import {
-  DEFAULT_RECEIPT,
-  terbilangRupiah,
-} from '@/components/roles/guru/receipt-data'
 import staffDashboardPlaceholder from '@/placeholders/dashboard-guru.json'
 import dashboardIcon from '@/assets/icon/nav/dashboard.svg'
 import tabunganIcon from '@/assets/icon/nav/tabungan.svg'
@@ -48,22 +44,31 @@ const activityIcon: Record<string, { icon: typeof Wallet; box: string }> = {
 
 type ActivityRow = (typeof staffDashboardPlaceholder)['recentActivities'][number]
 
+const ACCOUNT_NO = 'SMK-M1-8890241'
+
+/** Resi memakai desain resi pembayaran pinjaman; hanya status yang berbeda. */
 function buildReceipt(row: ActivityRow): ReceiptData {
-  const isCredit = row.type === 'SETORAN'
-  const amount = formatMoney(row.amount)
+  const status = row.status === 'BERHASIL' ? 'BERHASIL' : 'SELESAI'
   return {
-    ...DEFAULT_RECEIPT,
-    reference: row.id,
-    service: row.title,
-    datetime: `${row.date} • ${row.time}`,
-    amount,
-    spelled: terbilangRupiah(row.amount),
-    amountLabel: `NOMINAL ${row.title.toUpperCase()}`,
-    entryLabel: `${row.title} (${isCredit ? '+' : '-'})`,
-    entryKind: isCredit ? 'in' : 'out',
-    depositAmount: `${isCredit ? '+' : '-'} ${amount}`,
-    memo: `"${row.title} ${row.subtitle.toLowerCase()} via Loket Teller 1"`,
+    status,
+    watermark: status,
+    rows: [
+      { label: 'Kode', value: row.id, mono: true },
+      { label: 'Nama', value: 'Drs. H. Ahmad Dahlan, M.Pd.' },
+      { label: 'Role', value: 'Guru Tetap' },
+      { label: 'Jenis', value: row.title },
+      { label: 'Rekening', value: ACCOUNT_NO, mono: true },
+      { label: 'Kategori', value: row.type },
+      { label: 'Nominal', value: `${isCredit(row) ? '+' : '-'} ${formatMoney(row.amount)}`, accent: true },
+      { label: 'Metode', value: 'Teller Loket 01' },
+      { label: 'Tanggal', value: `${row.date} • ${row.time}` },
+      { label: 'Petugas', value: 'Admin BMS (Kasir Ibu Siti)' },
+    ],
   }
+}
+
+function isCredit(row: ActivityRow): boolean {
+  return row.type === 'SETORAN'
 }
 
 export function StaffDashboardPage() {
