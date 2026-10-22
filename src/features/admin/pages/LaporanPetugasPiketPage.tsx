@@ -21,12 +21,10 @@ const NAMA = ['Ahmad', 'Sinta', 'Budi', 'Dewi Susanti', 'Fajar Ramadhan']
 const NIS = ['23001', '23014', '23027', '23033', '23048']
 const AVATAR = ['AF', 'SR', 'BM', 'DS', 'FR']
 const KELAS = ['XI AKL 1', 'XI AKL 2', 'X AKL 1', 'X TKJ 1']
-const DETAIL_PAGI = [
+const DETAIL_PIKET = [
   'Pencatatan setoran tabungan & presensi siswa',
   'Verifikasi kartu tabungan kelas XI',
   'Sinkronisasi presensi mandiri dan input slip setoran',
-]
-const DETAIL_SIANG = [
   'Rekapitulasi kas loket piket Gedung A',
   'Pelayanan pencatatan penarikan saldo mini bank',
 ]
@@ -35,8 +33,7 @@ const LOKASI = [
   { nama: 'Gedung A - Lantai 1', detail: 'Dekat Ruang Tata Usaha' },
   { nama: 'Loket Mini Bank', detail: 'Depan Kantin Sekolah' },
 ]
-const KEGIATAN_PAGI = 'Kegiatan Piket Pagi Terpadu & Rekapitulasi Loket Kasir'
-const KEGIATAN_SIANG = 'Kegiatan Piket Siang & Pelayanan Loket Mini Bank'
+const KEGIATAN = 'Kegiatan Piket Terpadu & Rekapitulasi Loket Kasir'
 const KEGIATAN_DETAIL =
   'Melakukan pengecekan kebersihan dan kedisiplinan kelas, membantu rekapitulasi setoran tabungan siswa loket lantai 1, serta pencatatan presensi kehadiran siswa terlambat pada gerbang utama SMK Muhammadiyah 1 Genteng.'
 const VALIDATOR = 'Siti Rahmawati, S.E.'
@@ -44,10 +41,8 @@ const VALIDATOR_META =
   'Admin Keuangan & Kasir Pusat • Terhubung Buku Besar Bank Mini'
 
 const TOTAL_LAPORAN = 48
-const JUMLAH_PAGI = 28
 
 const LAPORAN: LaporanPiket[] = Array.from({ length: TOTAL_LAPORAN }, (_, i) => {
-  const pagi = i < JUMLAH_PAGI
   const day = (i % 28) + 1
   const idx = i % NAMA.length
   const lokasi = LOKASI[i % LOKASI.length]
@@ -56,21 +51,21 @@ const LAPORAN: LaporanPiket[] = Array.from({ length: TOTAL_LAPORAN }, (_, i) => 
     id: i + 1,
     docNo: `PKT-202610${String(day).padStart(2, '0')}-${String((i % 9) + 1).padStart(2, '0')}`,
     tanggal,
-    jam: pagi ? '07:00 - 11:30 WIB' : '12:30 - 15:45 WIB',
-    sesi: pagi ? 'Sesi Piket Pagi' : 'Sesi Piket Siang',
+    jam: '07:00 - 15:00 WIB',
+    sesi: 'Sesi Piket',
     nama: NAMA[idx],
     initials: AVATAR[idx],
     nis: NIS[idx],
     rol: 'Petugas Piket Harian',
     kelas: KELAS[i % KELAS.length],
-    aktivitas: pagi ? 'Piket pagi' : 'Piket siang',
-    kegiatan: pagi ? KEGIATAN_PAGI : KEGIATAN_SIANG,
-    detail: pagi ? DETAIL_PAGI[i % DETAIL_PAGI.length] : DETAIL_SIANG[i % DETAIL_SIANG.length],
+    aktivitas: 'Piket',
+    kegiatan: KEGIATAN,
+    detail: DETAIL_PIKET[i % DETAIL_PIKET.length],
     deskripsi: KEGIATAN_DETAIL,
     jumlahFoto: 1,
     fotoJudul: 'Pengecekan Disiplin Siswa',
     fotoLabel: 'Pengecekan Disiplin',
-    fotoWaktu: `Foto diambil pukul ${pagi ? '07:18' : '13:05'} WIB`,
+    fotoWaktu: `Foto diambil pukul ${String(7 + (i % 9)).padStart(2, '0')}:05 WIB`,
     lokasi: lokasi.nama,
     lokasiDetail: lokasi.detail,
     validator: VALIDATOR,
@@ -288,8 +283,7 @@ export function LaporanPetugasPiketPage() {
     setPage(1)
   }
 
-  const jumlahPagi = visible.filter((l) => l.aktivitas === 'Piket pagi').length
-  const jumlahSiang = visible.length - jumlahPagi
+  const jumlahTerlaksana = new Set(visible.map((l) => l.tanggal)).size
 
   const firstShown = visible.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1
   const lastShown = Math.min(safePage * PAGE_SIZE, visible.length)
@@ -352,31 +346,8 @@ export function LaporanPetugasPiketPage() {
         </svg>
       ),
       iconBg: 'bg-[#dee9fc]',
-      label: 'Piket Pagi Terlaksana',
-      value: `${jumlahPagi} Sesi`,
-      caption: '100% Tervalidasi',
-      captionClass: 'text-[#006329]',
-      captionIcon: checkIcon,
-    },
-    {
-      icon: (
-        <svg
-          width="20"
-          height="16"
-          viewBox="0 0 20 16"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
-        >
-          <path
-            d="M16.35 6.1L14.95 4.65L17.1 2.55L18.5 3.95L16.35 6.1ZM0 16V14H20V16H0ZM9 3V0H11V3H9ZM3.65 6.05L1.55 3.9L2.95 2.5L5.1 4.65L3.65 6.05ZM5.425 10H14.575C14.1917 9.1 13.5917 8.375 12.775 7.825C11.9583 7.275 11.0333 7 10 7C8.96667 7 8.04167 7.275 7.225 7.825C6.40833 8.375 5.80833 9.1 5.425 10ZM3 12C3 10.05 3.67917 8.39583 5.0375 7.0375C6.39583 5.67917 8.05 5 10 5C11.95 5 13.6042 5.67917 14.9625 7.0375C16.3208 8.39583 17 10.05 17 12H3Z"
-            fill="#4F5C8E"
-          />
-        </svg>
-      ),
-      iconBg: 'bg-[#b7c4fd66]',
-      label: 'Piket Siang\nTerlaksana',
-      value: `${jumlahSiang} Sesi`,
+      label: 'Piket Terlaksana',
+      value: `${jumlahTerlaksana} Hari`,
       caption: '100% Tervalidasi',
       captionClass: 'text-[#006329]',
       captionIcon: checkIcon,
@@ -440,7 +411,7 @@ export function LaporanPetugasPiketPage() {
           </header>
 
           {/* SUMMARY CARDS */}
-          <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4 stagger-children stagger-children">
+          <section className="grid w-full grid-cols-1 gap-4 md:grid-cols-3 stagger-children">
             {kpiCards.map((card) => (
               <div
                 key={card.label}
@@ -680,10 +651,7 @@ export function LaporanPetugasPiketPage() {
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-1.5">
                           <span
-                            className={cn(
-                              'h-1.5 w-1.5 shrink-0 rounded-full',
-                              l.aktivitas === 'Piket pagi' ? 'bg-[#004ac6]' : 'bg-[#4f5c8e]',
-                            )}
+                            className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#004ac6]"
                             aria-hidden="true"
                           />
                           <span className="whitespace-nowrap text-sm font-medium leading-5 text-[#121c2a]">

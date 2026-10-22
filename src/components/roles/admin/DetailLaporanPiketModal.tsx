@@ -21,7 +21,7 @@ export interface LaporanPiketDetail {
   nis: string
   rol: string
   kelas: string
-  aktivitas: 'Piket pagi' | 'Piket siang'
+  aktivitas: 'Piket'
   kegiatan: string
   detail: string
   deskripsi: string
