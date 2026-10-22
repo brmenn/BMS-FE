@@ -1,4 +1,5 @@
-import { Wallet } from 'lucide-react'
+import { Home } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import illustration from '@/assets/illustration/tablet-plant-margin.svg'
 
 export function BrandPanel() {
@@ -12,16 +13,21 @@ export function BrandPanel() {
       </div>
 
       <div className="relative flex w-full shrink-0 flex-col items-start pb-7">
-        <div className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/20 shadow-[0px_1px_2px_#0000000d] backdrop-blur-[6px]">
-          <Wallet aria-hidden="true" className="h-5 w-5 text-white" />
-        </div>
+        <Link
+          aria-label="Kembali ke halaman utama"
+          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/20 shadow-[0px_1px_2px_#0000000d] backdrop-blur-[6px] transition-colors hover:bg-white/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          title="Kembali ke halaman utama"
+          to="/"
+        >
+          <Home aria-hidden="true" className="h-5 w-5 text-white" />
+        </Link>
       </div>
 
       <div className="relative flex w-full flex-1 flex-col items-start">
-        <p className="max-w-[240px] text-[34px] font-extrabold leading-[42.5px] tracking-[-0.85px] text-white">
-          One click to go
+        <p className="max-w-[240px] text-[34px] font-extrabold leading-[42.5px] text-white">
+          Daftar untuk
           <br />
-          all digital.
+          login ke BMS
         </p>
       </div>
 
