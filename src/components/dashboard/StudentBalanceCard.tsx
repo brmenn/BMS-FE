@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { ArrowUpFromLine, RefreshCw } from 'lucide-react'
 import { formatMoney } from '@/lib/format'
 import screenshot from '@/assets/logo/screenshot.png'
@@ -12,6 +12,7 @@ interface StudentBalanceCardProps {
 }
 
 export function StudentBalanceCard({ showActions = true }: StudentBalanceCardProps) {
+  const isAkuntansi = useLocation().pathname.startsWith('/akuntansi')
   return (
     <section className="relative flex w-full flex-col items-start overflow-hidden rounded-2xl bg-[#2563eb] p-8 shadow-[0px_2px_4px_-2px_#0000001a,0px_4px_6px_-1px_#0000001a]">
       <img
@@ -48,7 +49,7 @@ export function StudentBalanceCard({ showActions = true }: StudentBalanceCardPro
           <div className="flex flex-wrap items-center gap-3">
             <Link
               className="flex items-center gap-2 rounded-xl border border-solid border-white/40 px-5 py-2.5 backdrop-blur-[2px] transition-colors hover:bg-white/10"
-              to="/siswa/penarikan"
+              to={isAkuntansi ? '/akuntansi/penarikan' : '/siswa/penarikan'}
             >
               <ArrowUpFromLine className="h-3.5 w-3.5 text-white" aria-hidden="true" />
               <span className="text-base font-medium leading-6 text-white">Ajukan Penarikan</span>
