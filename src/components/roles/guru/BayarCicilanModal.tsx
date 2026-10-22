@@ -14,6 +14,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
+import { CaraPembayaranModal } from '@/components/roles/guru/CaraPembayaranModal'
 
 type PaymentScope = 'full' | 'principal' | 'interest'
 type PaymentChannel = 'cash' | 'transfer'
@@ -81,6 +82,7 @@ const ADMIN_FEE_MULTIPLIER = Math.max(1, Math.ceil(TOTAL_TAGIHAN / ADMIN_FEE_STE
 export function BayarCicilanModal({ onClose }: { onClose: () => void }) {
   const [scope, setScope] = useState<PaymentScope>('full')
   const [channel, setChannel] = useState<PaymentChannel>('cash')
+  const [guideOpen, setGuideOpen] = useState(false)
 
   return (
     <div
@@ -272,6 +274,7 @@ export function BayarCicilanModal({ onClose }: { onClose: () => void }) {
           <div className="mt-5 flex flex-col gap-3 sm:flex-row">
             <button
               className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-[#eff4ff] px-5 text-sm font-semibold leading-5 text-[#2563eb] transition-colors hover:bg-[#e2eaff]"
+              onClick={() => setGuideOpen(true)}
               type="button"
             >
               <Info className="h-4 w-4" aria-hidden="true" />
@@ -287,6 +290,8 @@ export function BayarCicilanModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
       </div>
+
+      {guideOpen ? <CaraPembayaranModal onClose={() => setGuideOpen(false)} /> : null}
     </div>
   )
 }
