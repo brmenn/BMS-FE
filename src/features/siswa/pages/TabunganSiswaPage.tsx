@@ -12,11 +12,31 @@ import { AkuntansiSidebar } from '@/components/dashboard/AkuntansiSidebar'
 import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
 import { StudentBalanceCard } from '@/components/dashboard/StudentBalanceCard'
 import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
+import {
+  TransactionDetailModal,
+  type DashboardTransaction,
+} from '@/components/roles/siswa/TransactionDetailModal'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 import dashboardIcon from '@/assets/icon/nav/dashboard.svg'
 import tabunganIcon from '@/assets/icon/nav/tabungan.svg'
 import penarikanIcon from '@/assets/icon/nav/penarikan.svg'
 import './TabunganSiswaPage.css'
+
+const NAMA_SISWA = { fullName: 'Adinda Putri', classProgram: 'XII RPL 1' }
+const PETUGAS_TELLER = 'Ahmad Fauzi (BMS Loket 02)'
+
+function toDetailTransaction(tx: Transaction): DashboardTransaction {
+  return {
+    id: tx.code,
+    type: tx.jenis === 'setoran' ? 'SETORAN' : 'PENARIKAN',
+    title: tx.jenis === 'setoran' ? '+ Setoran Tabungan' : '- Penarikan Tabungan',
+    status: 'BERHASIL',
+    date: `${tx.date}, ${tx.time}`,
+    amount: Number(tx.amount.replace(/\D/g, '')),
+    source: `${tx.method} ${tx.methodSub}`,
+    teller: PETUGAS_TELLER,
+  }
+}
 
 const NAV_ITEMS: SidebarItem[] = [
   { to: '/siswa/dashboard', label: 'Dashboard', icon: dashboardIcon },
@@ -159,6 +179,7 @@ export function TabunganSiswaPage() {
   const isAkuntansi = useLocation().pathname.startsWith('/akuntansi')
   const [filter, setFilter] = useState<FilterKey>('semua')
   const [page, setPage] = useState(1)
+  const [detailTx, setDetailTx] = useState<Transaction | null>(null)
   const loading = useSimulatedLoading()
 
   const visible = TRANSACTIONS.filter(
@@ -302,7 +323,11 @@ export function TabunganSiswaPage() {
                               </span>
                             </td>
                             <td className="is-center">
-                              <button className="siswa-detail-btn" type="button">
+                              <button
+                                className="siswa-detail-btn"
+                                type="button"
+                                onClick={() => setDetailTx(tx)}
+                              >
                                 <Receipt size={12} aria-hidden="true" />
                                 <span>Detail Resi</span>
                               </button>
@@ -363,6 +388,13 @@ export function TabunganSiswaPage() {
           </div>
         </main>
       </div>
+      {detailTx && (
+        <TransactionDetailModal
+          transaction={toDetailTransaction(detailTx)}
+          student={NAMA_SISWA}
+          onClose={() => setDetailTx(null)}
+        />
+      )}
     </div>
   )
 }

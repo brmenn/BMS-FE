@@ -62,10 +62,11 @@ const ACTIVE_INDEX: Record<WithdrawalStatus, number> = {
 
 interface WithdrawalDetailModalProps {
   record: WithdrawalRecord
+  onViewResi?: () => void
   onClose: () => void
 }
 
-export function WithdrawalDetailModal({ record, onClose }: WithdrawalDetailModalProps) {
+export function WithdrawalDetailModal({ record, onViewResi, onClose }: WithdrawalDetailModalProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') onClose()
@@ -232,6 +233,7 @@ export function WithdrawalDetailModal({ record, onClose }: WithdrawalDetailModal
           </div>
           <button
             className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#c3c6d7] px-5 py-2.5 text-base font-medium leading-6 text-[#121c2a] transition-colors hover:bg-[#f7f9ff]"
+            onClick={onViewResi}
             type="button"
           >
             <ReceiptText className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />

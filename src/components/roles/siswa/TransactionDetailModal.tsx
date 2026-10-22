@@ -27,7 +27,12 @@ export function TransactionDetailModal({
   onClose,
 }: TransactionDetailModalProps) {
   const isDeposit = transaction.type === 'SETORAN'
-  const statusLabel = transaction.status === 'BERHASIL' ? 'Berhasil' : 'Selesai'
+  const statusLabel =
+    transaction.status === 'BERHASIL'
+      ? 'Berhasil'
+      : transaction.status === 'MENUNGGU'
+        ? 'Menunggu'
+        : 'Selesai'
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {

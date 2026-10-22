@@ -9,7 +9,27 @@ import { DashboardTopbar } from '@/components/dashboard/DashboardTopbar'
 import { StudentBalanceCard } from '@/components/dashboard/StudentBalanceCard'
 import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
+import {
+  TransactionDetailModal,
+  type DashboardTransaction,
+} from '@/components/roles/siswa/TransactionDetailModal'
 import { WithdrawalDetailModal, type WithdrawalRecord, type WithdrawalStatus } from '@/components/roles/siswa/WithdrawalDetailModal'
+
+const NAMA_SISWA = { fullName: 'Adinda Putri', classProgram: 'XII RPL 1' }
+const PETUGAS_TELLER = 'Ahmad Fauzi (BMS Loket 02)'
+
+function toDetailTransaction(record: WithdrawalRecord): DashboardTransaction {
+  return {
+    id: record.id,
+    type: 'PENARIKAN',
+    title: '- Penarikan Tabungan',
+    status: record.status === 'SELESAI' ? 'BERHASIL' : record.status,
+    date: record.dateLabel,
+    amount: record.amount,
+    source: 'Loket BMS',
+    teller: PETUGAS_TELLER,
+  }
+}
 
 const SALDO = 1_250_000
 const QUICK_AMOUNTS = [50_000, 100_000, 200_000, 500_000]
@@ -51,6 +71,7 @@ export function StudentPenarikanPage() {
   const isAkuntansi = useLocation().pathname.startsWith('/akuntansi')
   const [nominal, setNominal] = useState('100000')
   const [selectedRecord, setSelectedRecord] = useState<WithdrawalRecord | null>(null)
+  const [resiTrx, setResiTrx] = useState<DashboardTransaction | null>(null)
   const loading = useSimulatedLoading()
 
   const handleAmountChange = (value: string) => {
@@ -290,7 +311,19 @@ export function StudentPenarikanPage() {
       </div>
 
       {selectedRecord ? (
-        <WithdrawalDetailModal onClose={() => setSelectedRecord(null)} record={selectedRecord} />
+        <WithdrawalDetailModal
+          onViewResi={() => setResiTrx(toDetailTransaction(selectedRecord))}
+          onClose={() => setSelectedRecord(null)}
+          record={selectedRecord}
+        />
+      ) : null}
+
+      {resiTrx ? (
+        <TransactionDetailModal
+          transaction={resiTrx}
+          student={NAMA_SISWA}
+          onClose={() => setResiTrx(null)}
+        />
       ) : null}
     </div>
   )
