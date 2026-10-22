@@ -4,10 +4,12 @@ import {
   UserRound,
   WalletCards,
   ArrowDownToLine,
+  ArrowUpFromLine,
 } from 'lucide-react'
 import schoolLogo from '@/assets/logo/school-logo.png'
 import type { ReceiptData } from './receipt-data'
 import { DEFAULT_RECEIPT } from './receipt-data'
+import './ReceiptModal.css'
 
 interface ReceiptModalProps {
   onClose: () => void
@@ -15,6 +17,8 @@ interface ReceiptModalProps {
 }
 
 export function ReceiptModal({ onClose, data = DEFAULT_RECEIPT }: ReceiptModalProps) {
+  const isIn = data.entryKind !== 'out'
+
   return (
     <div
       className="receipt-modal-overlay"
@@ -66,7 +70,7 @@ export function ReceiptModal({ onClose, data = DEFAULT_RECEIPT }: ReceiptModalPr
           </div>
 
           <span className="receipt-amount-label">
-            NOMINAL SETORAN TABUNGAN
+            {data.amountLabel ?? 'NOMINAL SETORAN TABUNGAN'}
           </span>
 
           <strong className="receipt-amount">
@@ -142,10 +146,10 @@ export function ReceiptModal({ onClose, data = DEFAULT_RECEIPT }: ReceiptModalPr
               <strong>{data.openingBalance}</strong>
             </div>
 
-            <div className="receipt-green-row">
+            <div className={isIn ? 'receipt-green-row' : 'receipt-out-row'}>
               <span>
-                <ArrowDownToLine size={12} />
-                Setoran Masuk (+)
+                {isIn ? <ArrowDownToLine size={12} /> : <ArrowUpFromLine size={12} />}
+                {data.entryLabel ?? 'Setoran Masuk (+)'}
               </span>
 
               <strong>{data.depositAmount}</strong>

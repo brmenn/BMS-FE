@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   AlarmClock,
   ArrowDownToLine,
@@ -14,6 +15,12 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
+import { ReceiptModal } from '@/components/roles/guru/ReceiptModal'
+import type { ReceiptData } from '@/components/roles/guru/receipt-data'
+import {
+  DEFAULT_RECEIPT,
+  terbilangRupiah,
+} from '@/components/roles/guru/receipt-data'
 import staffDashboardPlaceholder from '@/placeholders/dashboard-guru.json'
 import dashboardIcon from '@/assets/icon/nav/dashboard.svg'
 import tabunganIcon from '@/assets/icon/nav/tabungan.svg'
@@ -39,7 +46,28 @@ const activityIcon: Record<string, { icon: typeof Wallet; box: string }> = {
   PENARIKAN: { icon: ArrowUpFromLine, box: 'bg-[#fee2e2] text-[#ba1a1a]' },
 }
 
+type ActivityRow = (typeof staffDashboardPlaceholder)['recentActivities'][number]
+
+function buildReceipt(row: ActivityRow): ReceiptData {
+  const isCredit = row.type === 'SETORAN'
+  const amount = formatMoney(row.amount)
+  return {
+    ...DEFAULT_RECEIPT,
+    reference: row.id,
+    service: row.title,
+    datetime: `${row.date} • ${row.time}`,
+    amount,
+    spelled: terbilangRupiah(row.amount),
+    amountLabel: `NOMINAL ${row.title.toUpperCase()}`,
+    entryLabel: `${row.title} (${isCredit ? '+' : '-'})`,
+    entryKind: isCredit ? 'in' : 'out',
+    depositAmount: `${isCredit ? '+' : '-'} ${amount}`,
+    memo: `"${row.title} ${row.subtitle.toLowerCase()} via Loket Teller 1"`,
+  }
+}
+
 export function StaffDashboardPage() {
+  const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-guru'],
     queryFn: async () => {
@@ -414,6 +442,7 @@ export function StaffDashboardPage() {
                             <button
                               className="whitespace-nowrap text-[11px] font-semibold tracking-[0.34px] text-[#004ac6] underline hover:no-underline"
                               type="button"
+                              onClick={() => setReceiptData(buildReceipt(row))}
                             >
                               [ Lihat Resi ]
                             </button>
@@ -434,6 +463,9 @@ export function StaffDashboardPage() {
           )}
         </main>
       </div>
+      {receiptData ? (
+        <ReceiptModal data={receiptData} onClose={() => setReceiptData(null)} />
+      ) : null}
     </div>
   )
 }
