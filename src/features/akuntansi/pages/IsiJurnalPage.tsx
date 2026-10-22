@@ -1,6 +1,5 @@
 import { useRef, useState, type DragEvent } from 'react'
 import {
-  CalendarClock,
   Eye,
   ImagePlus,
   Lock,
@@ -157,24 +156,6 @@ export function IsiJurnalPage() {
                     aria-hidden="true"
                     className="pointer-events-none absolute right-3.5 h-4 w-4 text-[#737686]"
                   />
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-1.5 sm:col-span-2">
-                <span className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#121c2a]">
-                  Shift &amp; Jadwal Loket
-                </span>
-                <div className="flex flex-wrap items-center gap-3 rounded-xl border border-[#d9e3f6] bg-[#eff4ff] p-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white">
-                    <CalendarClock className="h-4 w-4 text-[#004ac6]" aria-hidden="true" />
-                  </span>
-                  <span className="inline-flex items-center rounded-full bg-[#004ac61a] px-2.5 py-0.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#004ac6]">
-                    Shift Pagi
-                  </span>
-                  <span className="text-sm leading-5 text-[#121c2a]">07:30 - 12:00 WIB</span>
-                  <span className="text-xs leading-[18px] text-[#737686]">
-                    (Loket 01 - Gedung Lab Akuntansi Lt. 1)
-                  </span>
                 </div>
               </div>
             </div>
