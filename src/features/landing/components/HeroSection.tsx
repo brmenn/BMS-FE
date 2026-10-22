@@ -69,7 +69,10 @@ function CountUp({
 
 export function HeroSection() {
   return (
-    <section className="flex min-h-[115vh] w-full flex-col border-b border-[#e5e7eb] bg-white" id="beranda">
+    <section
+      className="flex min-h-[115vh] w-full flex-col overflow-x-clip border-b border-[#e5e7eb] bg-white"
+      id="beranda"
+    >
       <div className="mx-auto flex w-full max-w-[1403px] flex-1 flex-col px-4 pt-16 pb-12 sm:px-8 sm:pt-20 sm:pb-16 lg:px-[92px] lg:pt-24 lg:pb-24">
         <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,320px)_minmax(0,1fr)] lg:gap-10 xl:grid-cols-[minmax(0,480px)_minmax(0,1fr)] xl:gap-12">
           <Reveal className="flex justify-center lg:justify-start">

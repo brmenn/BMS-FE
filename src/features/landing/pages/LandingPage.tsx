@@ -9,7 +9,7 @@ import { TestimonialSection } from '../components/TestimonialSection'
 
 export function LandingPage() {
   return (
-    <div className="flex min-h-screen w-full flex-col bg-[#f8fafc]">
+    <div className="flex min-h-screen w-full flex-col overflow-x-clip bg-[#f8fafc]">
       <LandingHeader />
       <main className="flex w-full flex-1 flex-col">
         <HeroSection />
