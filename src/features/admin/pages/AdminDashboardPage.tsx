@@ -1,8 +1,6 @@
 import { useState, type CSSProperties } from 'react'
 import {
-  ArrowDownRight,
   ArrowRight,
-  ArrowUpRight,
   Bell,
   CalendarDays,
   ChevronDown,
@@ -116,21 +114,18 @@ const toChartTop = (value: number, max: number) => toPercent(toChartY(value, max
 const toTooltipTop = (value: number, max: number) =>
   'calc(' + toPercent(toChartY(value, max), 100) + ' - 10px)'
 
-const toSmoothPath = (values: number[], max: number) => {
-  const lastIndex = values.length - 1
-  const points = values.map((value, index) => ({
-    x: (index / lastIndex) * 100,
-    y: 100 - (value / max) * 100,
-  }))
+const toSharpPath = (values: number[], max: number) => {
+  const lastIndex = Math.max(values.length - 1, 1)
 
-  return points.reduce((path, point, index) => {
-    if (index === 0) return `M ${point.x.toFixed(2)},${point.y.toFixed(2)}`
+  return values
+    .map((value, index) => {
+      const x = (index / lastIndex) * 100
+      const y = 100 - (value / max) * 100
+      const command = index === 0 ? 'M' : 'L'
 
-    const prev = points[index - 1]
-    const midX = ((prev.x + point.x) / 2).toFixed(2)
-
-    return `${path} C ${midX},${prev.y.toFixed(2)} ${midX},${point.y.toFixed(2)} ${point.x.toFixed(2)},${point.y.toFixed(2)}`
-  }, '')
+      return `${command} ${x.toFixed(2)},${y.toFixed(2)}`
+    })
+    .join(' ')
 }
 
 export function AdminDashboardPage() {
@@ -138,12 +133,12 @@ export function AdminDashboardPage() {
   const [activePoint, setActivePoint] = useState<number | null>(null)
   const loading = useSimulatedLoading()
 
-  const masukLinePath = toSmoothPath(
+  const masukLinePath = toSharpPath(
     dashboard.cashflow.data.map((point) => point.masuk),
     dashboard.cashflow.max,
   )
   const masukAreaPath = `${masukLinePath} L100,100 L0,100 Z`
-  const keluarLinePath = toSmoothPath(
+  const keluarLinePath = toSharpPath(
     dashboard.cashflow.data.map((point) => point.keluar),
     dashboard.cashflow.max,
   )
@@ -394,9 +389,9 @@ export function AdminDashboardPage() {
               </div>
 
               <div className="relative mt-7 h-[176px]">
-                <div className="pointer-events-none absolute inset-0 flex flex-col justify-between opacity-20">
+                <div className="pointer-events-none absolute inset-0 flex flex-col justify-between">
                   {[0, 1, 2, 3].map((line) => (
-                    <span className="h-px w-full border-b border-[#c3c6d7]" key={line} />
+                    <span className="h-px w-full bg-[#e7ebf2]" key={line} />
                   ))}
                 </div>
 
@@ -408,30 +403,34 @@ export function AdminDashboardPage() {
                 >
                   <defs>
                     <linearGradient id="cashflow-masuk" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#43b800" stopOpacity="0.22" />
-                      <stop offset="100%" stopColor="#43b800" stopOpacity="0.02" />
+                      <stop offset="0%" stopColor="#43b800" stopOpacity="0.16" />
+                      <stop offset="55%" stopColor="#43b800" stopOpacity="0.05" />
+                      <stop offset="100%" stopColor="#43b800" stopOpacity="0" />
                     </linearGradient>
                     <linearGradient id="cashflow-keluar" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#f50b0b" stopOpacity="0.18" />
-                      <stop offset="100%" stopColor="#f50b0b" stopOpacity="0.02" />
+                      <stop offset="0%" stopColor="#f50b0b" stopOpacity="0.13" />
+                      <stop offset="55%" stopColor="#f50b0b" stopOpacity="0.04" />
+                      <stop offset="100%" stopColor="#f50b0b" stopOpacity="0" />
                     </linearGradient>
                   </defs>
                   <path d={masukAreaPath} fill="url(#cashflow-masuk)" />
+                  <path d={keluarAreaPath} fill="url(#cashflow-keluar)" />
                   <path
                     d={masukLinePath}
                     fill="none"
                     stroke="#43b800"
                     strokeLinecap="round"
-                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeWidth="2.75"
                     vectorEffect="non-scaling-stroke"
                   />
-                  <path d={keluarAreaPath} fill="url(#cashflow-keluar)" />
                   <path
                     d={keluarLinePath}
                     fill="none"
                     stroke="#f50b0b"
                     strokeLinecap="round"
-                    strokeWidth="2"
+                    strokeLinejoin="round"
+                    strokeWidth="2.75"
                     vectorEffect="non-scaling-stroke"
                   />
                 </svg>
@@ -446,8 +445,8 @@ export function AdminDashboardPage() {
                         className={cn(
                           'absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-[#43b800] transition-all duration-150',
                           isActive
-                            ? 'z-10 h-[18px] w-[18px] shadow-[0px_0px_0px_4px_#2563eb33]'
-                            : 'h-3 w-3 hover:h-4 hover:w-4',
+                            ? 'z-10 h-3 w-3 shadow-[0_0_0_4px_rgba(67,184,0,0.16)]'
+                            : 'h-2.5 w-2.5 hover:scale-110',
                         )}
                         key={'masuk-' + point.day}
                         onMouseEnter={() => setActivePoint(index)}
@@ -469,7 +468,9 @@ export function AdminDashboardPage() {
                         aria-label={toAmountTitle('Keluar', point.keluar)}
                         className={cn(
                           'absolute -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-[#f50b0b] transition-all duration-150',
-                          isActive ? 'z-10 h-4 w-4 shadow-[0px_0px_0px_4px_#f50b0b33]' : 'h-2.5 w-2.5 hover:h-3.5 hover:w-3.5',
+                          isActive
+                            ? 'z-10 h-3 w-3 shadow-[0_0_0_4px_rgba(245,11,11,0.14)]'
+                            : 'h-2.5 w-2.5 hover:scale-110',
                         )}
                         key={'keluar-' + point.day}
                         onMouseEnter={() => setActivePoint(index)}
@@ -485,7 +486,7 @@ export function AdminDashboardPage() {
 
                   {activePointData && activePoint !== null ? (
                     <div
-                      className="pointer-events-none absolute z-20 w-max -translate-x-1/2 -translate-y-full rounded-xl border border-[#c3c6d7] bg-white px-3 py-2 shadow-[0px_4px_12px_#00000014]"
+                      className="pointer-events-none absolute z-20 min-w-[128px] -translate-x-1/2 -translate-y-full rounded-xl border border-[#dbe3ef] bg-white/95 px-3 py-2 shadow-[0_10px_24px_-12px_rgba(15,23,42,0.28)] backdrop-blur-sm"
                       style={{
                         left: toChartLeft(activePoint, dashboard.cashflow.data.length),
                         top: toTooltipTop(
@@ -494,16 +495,26 @@ export function AdminDashboardPage() {
                         ),
                       }}
                     >
-                      <span className="block text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#737686]">
+                      <span className="block text-[10px] font-semibold leading-[14px] tracking-[0.4px] text-[#8b93a7]">
                         {activePointData.day}
                       </span>
-                      <span className="mt-1 flex items-center gap-1.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#006329]">
-                        <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
-                        {toAmountTitle('Masuk', activePointData.masuk)}
+                      <span className="mt-1.5 flex items-center justify-between gap-4">
+                        <span className="flex items-center gap-1.5 text-[10px] font-medium leading-[14px] text-[#737686]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#43b800]" aria-hidden="true" />
+                          Masuk
+                        </span>
+                        <span className="text-[11px] font-bold leading-[14px] tabular-nums text-[#006329]">
+                          {activePointData.masuk.toFixed(1)}M
+                        </span>
                       </span>
-                      <span className="mt-0.5 flex items-center gap-1.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px] text-[#b91c1c]">
-                        <ArrowDownRight className="h-3 w-3" aria-hidden="true" />
-                        {toAmountTitle('Keluar', activePointData.keluar)}
+                      <span className="mt-1 flex items-center justify-between gap-4">
+                        <span className="flex items-center gap-1.5 text-[10px] font-medium leading-[14px] text-[#737686]">
+                          <span className="h-1.5 w-1.5 rounded-full bg-[#f50b0b]" aria-hidden="true" />
+                          Keluar
+                        </span>
+                        <span className="text-[11px] font-bold leading-[14px] tabular-nums text-[#b91c1c]">
+                          {activePointData.keluar.toFixed(1)}M
+                        </span>
                       </span>
                     </div>
                   ) : null}

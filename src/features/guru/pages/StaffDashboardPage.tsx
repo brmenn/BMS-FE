@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   AlarmClock,
   ArrowDownToLine,
@@ -15,6 +16,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
+import { InstallmentListModal } from '@/components/roles/guru/InstallmentListModal'
 import { ReceiptModal } from '@/components/roles/guru/ReceiptModal'
 import type { ReceiptData } from '@/components/roles/guru/receipt-data'
 import staffDashboardPlaceholder from '@/placeholders/dashboard-guru.json'
@@ -72,7 +74,9 @@ function isCredit(row: ActivityRow): boolean {
 }
 
 export function StaffDashboardPage() {
+  const navigate = useNavigate()
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
+  const [installmentOpen, setInstallmentOpen] = useState(false)
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-guru'],
     queryFn: async () => {
@@ -83,6 +87,11 @@ export function StaffDashboardPage() {
   const dash = data ?? staffDashboardPlaceholder
   const alert = dash.dueDateAlert
   const installment = dash.nextInstallment
+
+  const goToPayment = () => {
+    setInstallmentOpen(false)
+    navigate('/guru/pembayaran-pinjaman')
+  }
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
@@ -121,6 +130,7 @@ export function StaffDashboardPage() {
             <div className="flex flex-wrap items-center gap-2.5">
               <button
                 className="flex h-10 items-center gap-1.5 rounded-xl bg-[#d97706] px-4 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#b45309]"
+                onClick={goToPayment}
                 type="button"
               >
                 <Wallet className="h-3 w-4 text-white" aria-hidden="true" />
@@ -275,6 +285,7 @@ export function StaffDashboardPage() {
                 </div>
                 <button
                   className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#004ac6] hover:underline"
+                  onClick={() => setInstallmentOpen(true)}
                   type="button"
                 >
                   Lihat semua &gt;
@@ -338,6 +349,7 @@ export function StaffDashboardPage() {
 
               <button
                 className="flex h-12 w-full items-center justify-center gap-2 rounded-xl bg-[#2563eb] transition-colors hover:bg-[#1d4ed8]"
+                onClick={goToPayment}
                 type="button"
               >
                 <CreditCard className="h-4 w-4 text-white" aria-hidden="true" />
@@ -468,6 +480,16 @@ export function StaffDashboardPage() {
           )}
         </main>
       </div>
+      {installmentOpen ? (
+        <InstallmentListModal
+          installments={dash.installments}
+          nextAmount={dash.remainingBills.nextInstallment}
+          onClose={() => setInstallmentOpen(false)}
+          onPay={goToPayment}
+          remainingAmount={dash.remainingBills.amount}
+        />
+      ) : null}
+
       {receiptData ? (
         <ReceiptModal data={receiptData} onClose={() => setReceiptData(null)} />
       ) : null}

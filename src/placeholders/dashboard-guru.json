@@ -36,6 +36,14 @@
     "total": 420000,
     "paymentNote": "Pembayaran dapat dilakukan melalui pemotongan gaji rutin atau transfer manual ke rekening Virtual BMS Muhi."
   },
+  "installments": [
+    { "number": 1, "date": "10 Mei 2026", "total": 420000, "status": "LUNAS" },
+    { "number": 2, "date": "10 Jun 2026", "total": 420000, "status": "LUNAS" },
+    { "number": 3, "date": "10 Jul 2026", "total": 420000, "status": "LUNAS" },
+    { "number": 4, "date": "22 Agu 2026", "total": 420000, "status": "LUNAS" },
+    { "number": 5, "date": "28 Sep 2026", "total": 420000, "status": "LUNAS" },
+    { "number": 6, "date": "10 Okt 2026", "total": 420000, "status": "BELUM JATUH TEMPO" }
+  ],
   "recentActivities": [
     {
       "id": "TRX-20261001-010",

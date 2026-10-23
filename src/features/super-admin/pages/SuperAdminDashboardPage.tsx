@@ -1,6 +1,12 @@
-import { UserPlus, ArrowRight, TrendingUp } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { UserPlus, ArrowRight, CircleCheck, TrendingUp } from 'lucide-react'
 import { SuperAdminSidebar } from '@/components/roles/super-admin/SuperAdminSidebar'
 import { SuperAdminTopbar } from '@/components/roles/super-admin/SuperAdminTopbar'
+import { ActivityLogModal } from '@/components/roles/super-admin/ActivityLogModal'
+import {
+  CreateUserModal,
+  type CreateUserValue,
+} from '@/components/roles/super-admin/CreateUserModal'
 import { PageSkeleton } from '@/components/dashboard/PageSkeleton'
 import { useSimulatedLoading } from '@/lib/use-simulated-loading'
 
@@ -85,6 +91,22 @@ const activities = [
 
 export function SuperAdminDashboardPage() {
   const loading = useSimulatedLoading()
+  const [createOpen, setCreateOpen] = useState(false)
+  const [activityOpen, setActivityOpen] = useState(false)
+  const [notice, setNotice] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!notice) return undefined
+    const timer = window.setTimeout(() => setNotice(null), 3500)
+    return () => window.clearTimeout(timer)
+  }, [notice])
+
+  const handleCreateUser = (value: CreateUserValue) => {
+    setCreateOpen(false)
+    setNotice(
+      `Akun ${value.name} (${value.role}) berhasil dibuat. Kredensial dikirim ke ${value.phone}.`,
+    )
+  }
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
@@ -111,6 +133,7 @@ export function SuperAdminDashboardPage() {
               <button
                 type="button"
                 className="flex h-11 items-center gap-2 rounded-xl bg-[#2563eb] px-5 shadow-[0px_2px_4px_-2px_#3b82f633,0px_4px_6px_-1px_#3b82f633] hover:brightness-[0.98]"
+                onClick={() => setCreateOpen(true)}
               >
                 <UserPlus className="h-4 w-4 shrink-0 text-white" aria-hidden="true" />
                 <span className="text-sm font-medium leading-5 text-white">Tambah Pengguna</span>
@@ -285,6 +308,7 @@ export function SuperAdminDashboardPage() {
               <button
                 type="button"
                 className="flex items-center gap-1.5 rounded-lg border border-[#c3c6d7] px-3 py-1.5 hover:brightness-[0.98]"
+                onClick={() => setActivityOpen(true)}
               >
                 <span className="text-xs font-semibold leading-4 tracking-[0.24px] text-[#004ac6]">
                   Lihat Semua
@@ -358,6 +382,24 @@ export function SuperAdminDashboardPage() {
           )}
         </main>
       </div>
+
+      {createOpen ? (
+        <CreateUserModal onClose={() => setCreateOpen(false)} onSubmit={handleCreateUser} />
+      ) : null}
+
+      {activityOpen ? (
+        <ActivityLogModal activities={activities} onClose={() => setActivityOpen(false)} />
+      ) : null}
+
+      {notice ? (
+        <div
+          className="fixed right-6 bottom-6 z-50 flex max-w-[360px] items-start gap-2 rounded-xl border border-[#a7f3d0] bg-[#ecfdf5] px-4 py-3 shadow-[0px_8px_16px_#0000001a]"
+          role="status"
+        >
+          <CircleCheck className="mt-0.5 h-4 w-4 shrink-0 text-[#047857]" aria-hidden="true" />
+          <span className="text-xs leading-[18px] text-[#047857]">{notice}</span>
+        </div>
+      ) : null}
     </div>
   )
 }
