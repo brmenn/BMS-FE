@@ -68,6 +68,23 @@ const MONTH_ABBR: Record<string, string> = {
   Des: '12',
 }
 
+const MONTH_NAMES = [
+  'Januari',
+  'Februari',
+  'Maret',
+  'April',
+  'Mei',
+  'Juni',
+  'Juli',
+  'Agustus',
+  'September',
+  'Oktober',
+  'November',
+  'Desember',
+]
+
+const CURRENT_YEAR = new Date().getFullYear()
+
 function activityMonth(date: string): string {
   const [, month, year] = date.split(' ')
   return `${year}-${MONTH_ABBR[month] ?? '01'}`
@@ -120,19 +137,19 @@ export function StaffDashboardPage() {
     navigate('/guru/pembayaran-pinjaman')
   }
 
-  const monthOptions = Array.from(
-    new Set(dash.recentActivities.map((row) => activityMonth(row.date))),
-  )
+  const latestMonth = dash.recentActivities
+    .map((row) => activityMonth(row.date))
     .sort()
-    .reverse()
-    .map((value) => ({
-      value,
-      label: new Date(
-        Number(value.slice(0, 4)),
-        Number(value.slice(5, 7)) - 1,
-        1,
-      ).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
-    }))
+    .pop()
+  const filterYear = Number(latestMonth?.slice(0, 4) ?? CURRENT_YEAR)
+
+  const monthOptions = Array.from({ length: 12 }, (_, index) => {
+    const month = 12 - index
+    return {
+      value: `${filterYear}-${String(month).padStart(2, '0')}`,
+      label: `${MONTH_NAMES[month - 1]} ${filterYear}`,
+    }
+  })
 
   const activeFilterCount =
     (mutationFilter.query.trim() ? 1 : 0) +
