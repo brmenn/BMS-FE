@@ -187,13 +187,13 @@ export function TransactionTable({ onReceiptClick }: TransactionTableProps) {
         <table className="table-stagger w-full min-w-[900px] border-collapse text-left">
           <thead>
             <tr className="border-y border-[#c3c6d7]/30 bg-[#f8f9ff]">
-              <th className="px-6 py-4 text-sm font-semibold leading-5 text-[#434655]">
+              <th className="px-6 py-4 text-center text-sm font-semibold leading-5 text-[#434655]">
                 KODE TRANSAKSI
               </th>
-              <th className="px-6 py-4 text-sm font-semibold leading-5 text-[#434655]">TANGGAL</th>
-              <th className="px-6 py-4 text-sm font-semibold leading-5 text-[#434655]">JENIS</th>
-              <th className="px-6 py-4 text-sm font-semibold leading-5 text-[#434655]">METODE</th>
-              <th className="px-6 py-4 text-right text-sm font-semibold leading-5 text-[#434655]">
+              <th className="px-6 py-4 text-center text-sm font-semibold leading-5 text-[#434655]">TANGGAL</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold leading-5 text-[#434655]">JENIS</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold leading-5 text-[#434655]">METODE</th>
+              <th className="px-6 py-4 text-center text-sm font-semibold leading-5 text-[#434655]">
                 NOMINAL
               </th>
               <th className="px-6 py-4 text-center text-sm font-semibold leading-5 text-[#434655]">
@@ -219,13 +219,13 @@ export function TransactionTable({ onReceiptClick }: TransactionTableProps) {
 
                 return (
                   <tr key={transaction.code} className="border-b border-[#c3c6d7]/20 last:border-b-0">
-                    <td className="px-6 py-5 font-mono text-sm leading-5 whitespace-nowrap text-[#004ac6]">
+                    <td className="px-6 py-5 text-center font-mono text-sm leading-5 whitespace-nowrap text-[#004ac6]">
                       {transaction.code}
                     </td>
-                    <td className="px-6 py-5 text-sm leading-5 whitespace-nowrap text-[#121c2a]">
+                    <td className="px-6 py-5 text-center text-sm leading-5 whitespace-nowrap text-[#121c2a]">
                       {transaction.date}
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-6 py-5 text-center">
                       <span
                         className={cn(
                           'inline-flex items-center gap-1.5 text-sm font-medium leading-5 whitespace-nowrap',
@@ -240,7 +240,7 @@ export function TransactionTable({ onReceiptClick }: TransactionTableProps) {
                         {transaction.type}
                       </span>
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-6 py-5 text-center">
                       <span className="inline-flex items-center gap-1.5 text-sm leading-5 whitespace-nowrap text-[#434655]">
                         <MethodIcon className="h-4 w-4 shrink-0" aria-hidden="true" />
                         {transaction.method}
@@ -248,7 +248,7 @@ export function TransactionTable({ onReceiptClick }: TransactionTableProps) {
                     </td>
                     <td
                       className={cn(
-                        'px-6 py-5 text-right font-mono text-sm font-bold leading-5 whitespace-nowrap',
+                        'px-6 py-5 text-center font-mono text-sm font-bold leading-5 whitespace-nowrap',
                         isDeposit ? 'text-[#006329]' : 'text-[#ba1a1a]',
                       )}
                     >

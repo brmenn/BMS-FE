@@ -298,20 +298,20 @@ export function TabunganSiswaPage() {
                             <td className="is-center">
                               <span className="siswa-cell-code">{tx.code}</span>
                             </td>
-                            <td>
+                            <td className="is-center">
                               <span
                                 className={`siswa-cell-amount ${isPenarikan ? 'siswa-cell-amount--penarikan' : ''}`}
                               >
                                 {tx.amount}
                               </span>
                             </td>
-                            <td>
+                            <td className="is-center">
                               <span className="siswa-cell-date">
                                 {tx.date},<br />
                                 {tx.time}
                               </span>
                             </td>
-                            <td>
+                            <td className="is-center">
                               <span className="siswa-cell-method">
                                 {tx.method} {tx.methodSub}
                               </span>

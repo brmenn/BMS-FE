@@ -580,25 +580,25 @@ export function AdminDashboardPage() {
               <table className="table-stagger w-full min-w-[840px] border-collapse text-left">
                 <thead className="bg-[#eff4ff]">
                   <tr className="border-b border-[#c3c6d7cc]">
-                    <th className="px-6 py-3 text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">KODE</th>
-                    <th className="px-6 py-3 text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">PENGGUNA</th>
-                    <th className="px-6 py-3 text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">JENIS</th>
-                    <th className="px-6 py-3 text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">KELOMPOK</th>
-                    <th className="px-6 py-3 text-right text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">NOMINAL</th>
+                    <th className="px-6 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">KODE</th>
+                    <th className="px-6 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">PENGGUNA</th>
+                    <th className="px-6 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">JENIS</th>
+                    <th className="px-6 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">KELOMPOK</th>
+                    <th className="px-6 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">NOMINAL</th>
                     <th className="px-6 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#737686]">STATUS / AKSI</th>
                   </tr>
                 </thead>
                 <tbody>
                   {dashboard.recentTransactions.rows.map((row) => (
                     <tr className="border-t border-[#c3c6d766]" key={row.id}>
-                      <td className="px-6 py-4 font-mono text-xs font-bold leading-4 tracking-[0.24px] text-[#004ac6]">
+                      <td className="px-6 py-4 text-center font-mono text-xs font-bold leading-4 tracking-[0.24px] text-[#004ac6]">
                         {row.id}
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-6 py-3 text-center">
                         <span className="block text-sm font-semibold leading-5 text-[#121c2a]">{row.user}</span>
                         <span className="block text-xs leading-[18px] text-[#737686]">{row.meta}</span>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-6 py-3 text-center">
                         <span
                           className={cn(
                             'inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[11px] font-semibold leading-[14px] tracking-[0.44px]',
@@ -608,14 +608,14 @@ export function AdminDashboardPage() {
                           {row.type}
                         </span>
                       </td>
-                      <td className="px-6 py-3">
+                      <td className="px-6 py-3 text-center">
                         <span className="inline-flex items-center rounded-md bg-[#e6eeff] px-2 py-0.5 text-[11px] font-medium leading-[14px] tracking-[0.44px] text-[#434655]">
                           {row.group}
                         </span>
                       </td>
                       <td
                         className={cn(
-                          'px-6 py-3 text-right text-sm font-semibold leading-5',
+                          'px-6 py-3 text-center text-sm font-semibold leading-5',
                           amountTone[row.amountTone as keyof typeof amountTone],
                         )}
                       >

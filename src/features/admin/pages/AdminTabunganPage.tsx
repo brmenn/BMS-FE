@@ -121,10 +121,6 @@ export function AdminTabunganPage() {
         </div>
 
         <div className="flex items-center gap-3 flex-wrap">
-          <button type="button" className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-4 text-sm font-medium text-[#121c2a] hover:bg-[#f8f9ff]">
-            <FileText size={18} />
-            Cetak Buku Besar
-          </button>
           <button
             type="button"
             className="inline-flex h-10 items-center gap-2 rounded-xl bg-[#2563eb] px-4 text-sm font-medium text-white shadow-xs hover:bg-[#1d4ed8]"
@@ -311,12 +307,12 @@ export function AdminTabunganPage() {
               <table className="table-stagger w-full min-w-[900px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-[#c3c6d7] bg-[#eff4ff]">
-                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">NO</th>
-                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">NAMA SISWA</th>
-                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">NIS</th>
-                    <th className="px-6 py-4 text-xs font-bold text-[#434655]">KELAS</th>
-                    <th className="px-6 py-4 text-right text-xs font-bold text-[#434655]">SALDO / SETORAN</th>
-                    <th className="px-6 py-4 text-right text-xs font-bold text-[#434655]">TOTAL PENARIKAN</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">NO</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">NAMA SISWA</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">NIS</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">KELAS</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">SALDO / SETORAN</th>
+                    <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">TOTAL PENARIKAN</th>
                     <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">STATUS REKENING</th>
                     <th className="px-6 py-4 text-center text-xs font-bold text-[#434655]">AKSI</th>
                   </tr>
@@ -324,26 +320,26 @@ export function AdminTabunganPage() {
                 <tbody>
                   {students.map((student) => (
                     <tr key={student.nis} className="border-t border-[#c3c6d7] hover:bg-[#f8f9ff]">
-                      <td className="px-6 py-5 text-sm font-medium text-[#737686]">{student.no}</td>
-                      <td className="px-6 py-5">
-                        <div className="flex flex-col gap-0.5">
+                      <td className="px-6 py-5 text-center text-sm font-medium text-[#737686]">{student.no}</td>
+                      <td className="px-6 py-5 text-center">
+                        <div className="flex flex-col items-center gap-0.5">
                           <span className="text-sm font-semibold text-[#121c2a]">{student.name}</span>
                           <span className="text-xs text-[#737686]">{student.type}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-5 font-mono text-sm font-bold text-[#004ac6]">{student.nis}</td>
-                      <td className="px-6 py-5">
+                      <td className="px-6 py-5 text-center font-mono text-sm font-bold text-[#004ac6]">{student.nis}</td>
+                      <td className="px-6 py-5 text-center">
                         <span className="inline-flex rounded-full bg-[#eff4ff] px-3 py-1 text-xs font-semibold text-[#2563eb] border border-[#c3c6d7] whitespace-nowrap">
                           {student.kelas}
                         </span>
                       </td>
-                      <td className="px-6 py-5 text-right font-mono text-base whitespace-nowrap">
-                        <div className="flex flex-col items-end gap-0.5">
+                      <td className="px-6 py-5 text-center font-mono text-base whitespace-nowrap">
+                        <div className="flex flex-col items-center gap-0.5">
                           <span className="font-bold text-[#004ac6]">{student.saldo}</span>
                           <span className="text-[11px] text-[#006329]">Setoran: {student.setoran}</span>
                         </div>
                       </td>
-                      <td className="px-6 py-5 text-right font-mono text-base font-bold text-[#ba1a1a] whitespace-nowrap">{student.penarikan}</td>
+                      <td className="px-6 py-5 text-center font-mono text-base font-bold text-[#ba1a1a] whitespace-nowrap">{student.penarikan}</td>
                       <td className="px-6 py-5 text-center whitespace-nowrap">
                         <span className="inline-flex items-center gap-1.5 rounded-full bg-[#006329]/10 px-3 py-1 text-xs font-semibold text-[#006329]">
                           {student.status}

@@ -107,7 +107,7 @@ const selectClass =
   'h-11 w-full appearance-none rounded-xl border border-[#c3c6d7] bg-white pl-3.5 pr-9 text-sm leading-5 text-[#121c2a] focus:border-[#2563eb] focus:outline-none'
 
 const tableHeaderClass =
-  'px-4 py-4 text-[11px] font-bold leading-[16.5px] tracking-[0.55px] text-[#434655]'
+  'px-4 py-4 text-center text-[11px] font-bold leading-[16.5px] tracking-[0.55px] text-[#434655]'
 
 function getPageItems(current: number, total: number): (number | '...')[] {
   if (total <= 7) return Array.from({ length: total }, (_, index) => index + 1)
@@ -542,7 +542,7 @@ export function SuperAdminUserManagementPage() {
 
           <section className="flex flex-col overflow-hidden rounded-2xl border border-[#c3c6d7] bg-white shadow-[0px_1px_2px_#0000000d]">
             <div className="overflow-x-auto">
-              <table className="table-stagger w-full min-w-[1000px] border-collapse text-left">
+              <table className="table-stagger w-full min-w-[1000px] border-collapse text-center">
                 <thead>
                   <tr className="border-b border-[#c3c6d7] bg-[#eff4ff]">
                     <th className="w-[52px] px-6 py-4" scope="col">
@@ -572,7 +572,7 @@ export function SuperAdminUserManagementPage() {
                     <th className={cn(tableHeaderClass, 'w-[132px]')} scope="col">
                       TERAKHIR LOGIN
                     </th>
-                    <th className={cn(tableHeaderClass, 'w-[88px] text-right')} scope="col">
+                    <th className={cn(tableHeaderClass, 'w-[88px] text-center')} scope="col">
                       ACTION
                     </th>
                   </tr>
@@ -611,7 +611,7 @@ export function SuperAdminUserManagementPage() {
                             {startIndex + index + 1}
                           </td>
                           <td className="px-4 py-4">
-                            <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-center gap-3">
                               <span
                                 className={cn(
                                   'flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#c3c6d7] text-xs font-semibold',
@@ -620,7 +620,7 @@ export function SuperAdminUserManagementPage() {
                               >
                                 {user.initials}
                               </span>
-                              <div className="flex min-w-0 flex-col">
+                              <div className="flex min-w-0 flex-col items-center text-center">
                                 <span className="text-sm leading-5 font-semibold text-[#121c2a]">
                                   {user.name}
                                 </span>
@@ -631,7 +631,7 @@ export function SuperAdminUserManagementPage() {
                             </div>
                           </td>
                           <td className="px-4 py-4">
-                            <div className="flex flex-col">
+                            <div className="flex flex-col items-center text-center">
                               <span className="text-sm leading-5 text-[#121c2a]">{user.email}</span>
                               <span className="text-xs leading-[18px] text-[#737686]">
                                 {user.username}
@@ -680,7 +680,7 @@ export function SuperAdminUserManagementPage() {
                               </span>
                             )}
                           </td>
-                          <td className="px-4 py-4 text-right">
+                          <td className="px-4 py-4 text-center">
                             <button
                               aria-haspopup="menu"
                               aria-expanded={menu?.id === user.id}

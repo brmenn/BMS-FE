@@ -65,7 +65,7 @@ export function IsiJurnalPage() {
             <PageSkeleton variant="detail" hasFilters />
           ) : (
             <>
-          <header className="flex flex-col gap-4 border-b border-[#d9e3f6b2] pb-2 lg:flex-row lg:items-center lg:justify-between">
+          <header className="flex flex-col gap-4 border-b border-[#d9e3f6b2] pb-2">
             <div className="flex flex-col gap-1">
               <h1 className="text-[30px] font-bold leading-[38px] tracking-[-0.75px] text-[#121c2a]">
                 Isi Jurnal &amp; Presensi Piket
@@ -74,24 +74,6 @@ export function IsiJurnalPage() {
                 Pencatatan presensi siswa/petugas piket lab mini bank sekaligus penginputan transaksi jurnal
                 umum berpasangan (double-entry) dengan lampiran bukti transaksi fisik yang sah.
               </p>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-3">
-              <button
-                className="inline-flex h-12 items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-5 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#f8f9ff]"
-                onClick={handleReset}
-                type="button"
-              >
-                <RotateCcw className="h-[15px] w-[15px] shrink-0 text-[#121c2a]" aria-hidden="true" />
-                <span className="text-sm font-medium leading-5 text-[#121c2a]">Reset Form</span>
-              </button>
-              <button
-                className="inline-flex h-12 items-center gap-2 rounded-xl bg-[#2563eb] px-6 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#1d4ed8]"
-                type="button"
-              >
-                <Save className="h-4 w-4 shrink-0 text-white" aria-hidden="true" />
-                <span className="text-sm font-medium leading-5 text-white">Simpan Jurnal &amp; Presensi</span>
-              </button>
             </div>
           </header>
 
@@ -265,6 +247,24 @@ export function IsiJurnalPage() {
               </p>
             </div>
           </section>
+
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <button
+              className="inline-flex h-12 items-center gap-2 rounded-xl border border-[#c3c6d7] bg-white px-5 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#f8f9ff]"
+              onClick={handleReset}
+              type="button"
+            >
+              <RotateCcw className="h-[15px] w-[15px] shrink-0 text-[#121c2a]" aria-hidden="true" />
+              <span className="text-sm font-medium leading-5 text-[#121c2a]">Reset Form</span>
+            </button>
+            <button
+              className="inline-flex h-12 items-center gap-2 rounded-xl bg-[#2563eb] px-6 shadow-[0px_1px_2px_#0000000d] transition-colors hover:bg-[#1d4ed8]"
+              type="button"
+            >
+              <Save className="h-4 w-4 shrink-0 text-white" aria-hidden="true" />
+              <span className="text-sm font-medium leading-5 text-white">Simpan Jurnal &amp; Presensi</span>
+            </button>
+          </div>
             </>
           )}
         </main>

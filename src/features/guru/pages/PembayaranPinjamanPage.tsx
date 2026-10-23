@@ -259,10 +259,10 @@ function PaymentTable({
         <table className="table-stagger w-full min-w-[760px] border-collapse text-left">
           <thead>
             <tr className="border-b border-[#c3c6d74c] bg-[#f8f9ff]">
-              <th scope="col" className="px-4 py-3 text-[10px] font-semibold tracking-[0.47px] text-[#434655]">
+              <th scope="col" className="px-4 py-3 text-center text-[10px] font-semibold tracking-[0.47px] text-[#434655]">
                 CICILAN
               </th>
-              <th scope="col" className="px-4 py-3 text-[10px] font-semibold tracking-[0.47px] text-[#434655]">
+              <th scope="col" className="px-4 py-3 text-center text-[10px] font-semibold tracking-[0.47px] text-[#434655]">
                 TANGGAL BAYAR
               </th>
               <th scope="col" className="px-4 py-3 text-center text-[10px] font-semibold tracking-[0.47px] text-[#434655]">
@@ -342,13 +342,13 @@ function InstallmentRowComponent({
         selected && 'border-l-[3px] border-l-[#2563eb] bg-[#dbe1ff33]',
       )}
     >
-      <td className="px-4 py-4">
-        <div className="flex items-center gap-2">
+      <td className="px-4 py-4 text-center">
+        <div className="flex items-center justify-center gap-2">
           <Coins
             className={cn('h-4 w-4 shrink-0', selected ? 'text-[#004ac6]' : 'text-[#737686]')}
             aria-hidden="true"
           />
-          <span className="flex flex-col items-start">
+          <span className="flex flex-col items-center">
             <span
               className={cn(
                 'text-sm leading-5',
@@ -363,7 +363,7 @@ function InstallmentRowComponent({
           </span>
         </div>
       </td>
-      <td className="px-4 py-4 text-sm leading-5 text-[#434655]">{row.date}</td>
+      <td className="px-4 py-4 text-center text-sm leading-5 text-[#434655]">{row.date}</td>
       <td className="px-4 py-4 text-center">
         <div className="flex flex-col items-center">
           <span className="text-sm font-semibold leading-5 text-[#121c2a]">{row.nominal}</span>

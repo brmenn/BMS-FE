@@ -598,13 +598,12 @@ export function LaporanPetugasPiketPage() {
                 <thead>
                   <tr className="border-b border-solid border-[#c3c6d7] bg-[#eff4ff]">
                     {['NO', 'TANGGAL', 'PETUGAS', 'KELAS', 'AKTIVITAS', 'STATUS', 'AKSI'].map(
-                      (h, i) => (
+                      (h) => (
                         <th
                           key={h}
-                          className={cn(
-                            'whitespace-nowrap px-4 py-3 text-xs font-semibold leading-4 tracking-[0.24px] text-[#434655]',
-                            (i === 0 || i === 5 || i === 6) && 'text-center',
-                          )}
+                        className={cn(
+                          'whitespace-nowrap px-4 py-3 text-center text-xs font-semibold leading-4 tracking-[0.24px] text-[#434655]',
+                        )}
                           scope="col"
                         >
                           {h}
@@ -631,25 +630,25 @@ export function LaporanPetugasPiketPage() {
                       <td className="px-4 py-6 text-center text-xs font-medium text-[#737686]">
                         {(safePage - 1) * PAGE_SIZE + index + 1}
                       </td>
-                      <td className="px-4 py-6">
+                      <td className="px-4 py-6 text-center">
                         <span className="block text-sm font-medium leading-5 text-[#121c2a]">
                           {l.tanggal}
                         </span>
                         <span className="block text-xs leading-[18px] text-[#737686]">{l.jam}</span>
                       </td>
-                      <td className="px-4 py-6">
+                      <td className="px-4 py-6 text-center">
                         <span className="block text-sm font-semibold leading-5 text-[#121c2a]">
                           {l.nama}
                         </span>
                         <span className="block text-xs leading-[18px] text-[#737686]">{l.rol}</span>
                       </td>
-                      <td className="px-4 py-6">
+                      <td className="px-4 py-6 text-center">
 <span className="inline-flex whitespace-nowrap rounded-md bg-[#dee9fc] px-2.5 py-1 text-xs font-medium leading-[18px] text-[#434655]">
                             {l.kelas}
                           </span>
                       </td>
-                      <td className="px-4 py-4">
-                        <div className="flex items-center gap-1.5">
+                      <td className="px-4 py-4 text-center">
+                        <div className="flex items-center justify-center gap-1.5">
                           <span
                             className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#004ac6]"
                             aria-hidden="true"
@@ -658,7 +657,7 @@ export function LaporanPetugasPiketPage() {
                             {l.aktivitas}
                           </span>
                         </div>
-                        <p className="mt-1 max-w-[300px] pl-3.5 text-xs leading-[18px] text-[#737686]">
+                        <p className="mt-1 max-w-[300px] text-center text-xs leading-[18px] text-[#737686]">
                           {l.detail}
                         </p>
                       </td>

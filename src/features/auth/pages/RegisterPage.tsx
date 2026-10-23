@@ -131,7 +131,7 @@ export function RegisterPage() {
                 />
                 <UserTypeOption
                   active={!isStudent}
-                  description="NBM / NUPTK / ID Staf / TU"
+                  description="NBM / ID Staf / TU"
                   label="Guru & Karyawan"
                   onClick={() => setUserType('GURU_KARYAWAN')}
                 />
@@ -151,7 +151,7 @@ export function RegisterPage() {
                   </h2>
                 </div>
                 <span className="rounded-full bg-[#dbeafe]/70 px-2.5 py-0.5 text-[11px] font-semibold leading-[16.5px] text-[#2563eb]">
-                  {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi NBM / NUPTK / ID Staf'}
+                  {isStudent ? 'Verifikasi Dapodik (10 Digit NISN)' : 'Verifikasi NBM / ID Staf'}
                 </span>
               </div>
 
@@ -198,7 +198,7 @@ export function RegisterPage() {
                 </div>
               ) : (
                 <div className="flex w-full flex-col gap-1">
-                  <FieldLabel htmlFor="nbm" label="NBM / NUPTK / ID Staf / TU" required />
+                  <FieldLabel htmlFor="nbm" label="NBM / ID Staf / TU" required />
                   <Input
                     aria-label="NBM"
                     id="nbm"

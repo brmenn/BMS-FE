@@ -785,14 +785,11 @@ export function LaporanArusKasPage() {
                       'NOMINAL',
                       'PETUGAS',
                       'AKSI',
-                    ].map((h, i) => (
+                    ].map((h) => (
                       <th
                         key={h}
                         className={cn(
-                          'whitespace-nowrap px-4 py-3 text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#434655]',
-                          i === 0 && 'text-center',
-                          (i === 6 || i === 7) && 'text-right',
-                          i === 8 && 'text-center',
+                          'whitespace-nowrap px-4 py-3 text-center text-[11px] font-semibold leading-[14px] tracking-[0.55px] text-[#434655]',
                         )}
                         scope="col"
                       >
@@ -826,13 +823,13 @@ export function LaporanArusKasPage() {
                         <td className="px-4 py-[18px] text-center text-sm font-medium text-[#737686]">
                           {no}
                         </td>
-                        <td className="px-4 py-[18px] font-mono text-sm font-bold text-[#004ac6]">
+<td className="px-4 py-[18px] text-center font-mono text-sm font-bold text-[#004ac6]">
                           {tx.code}
                         </td>
-                        <td className="px-4 py-[18px] text-sm text-[#121c2a]">
+                        <td className="px-4 py-[18px] text-center text-sm text-[#121c2a]">
                           {tx.date}
                         </td>
-                        <td className="px-4 py-[18px]">
+                        <td className="px-4 py-[18px] text-center">
                           <span
                             className={cn(
                               'inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium leading-[14px] tracking-[0.44px]',
@@ -842,7 +839,7 @@ export function LaporanArusKasPage() {
                             {tx.kategori}
                           </span>
                         </td>
-                        <td className="px-4 py-[18px]">
+                        <td className="px-4 py-[18px] text-center">
                           <span
                             className={cn(
                               'inline-flex rounded-full border border-solid border-[#c3c6d7] px-2.5 py-0.5 text-[11px] font-medium leading-[14px] tracking-[0.44px]',
@@ -852,7 +849,7 @@ export function LaporanArusKasPage() {
                             {tx.kelompok}
                           </span>
                         </td>
-                        <td className="px-4 py-[18px]">
+                        <td className="px-4 py-[18px] text-center">
                           <span className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm text-[#121c2a]">
                             <img src={MethodIcon} alt="" aria-hidden="true" className="h-3.5 w-auto" />
                             {tx.metode}
@@ -860,14 +857,14 @@ export function LaporanArusKasPage() {
                         </td>
                         <td
                           className={cn(
-                            'whitespace-nowrap px-4 py-[18px] text-right text-sm font-semibold',
+                            'whitespace-nowrap px-4 py-[18px] text-center text-sm font-semibold',
                             isNegative ? 'text-[#ba1a1a]' : 'text-[#006329]',
                           )}
                         >
                           {isNegative ? '-' : ''}
                           {formatMoney(Math.abs(tx.amount))}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-[18px] text-right text-sm text-[#121c2a]">
+                        <td className="whitespace-nowrap px-4 py-[18px] text-center text-sm text-[#121c2a]">
                           {tx.petugas}
                         </td>
                         <td className="px-4 py-[14px] text-center">
@@ -1000,21 +997,21 @@ export function LaporanArusKasPage() {
                     <th className="whitespace-nowrap px-5 py-5 text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
                       KOMPONEN POS / AKUN KAS
                     </th>
-                    <th className="whitespace-pre-line px-5 py-3 text-right text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
+                    <th className="whitespace-pre-line px-5 py-3 text-center text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
                       TOTAL{' '}
                       <br />
                       PEMASUKAN
                       <br />
                       (DEBIT)
                     </th>
-                    <th className="whitespace-pre-line px-5 py-3 text-right text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
+                    <th className="whitespace-pre-line px-5 py-3 text-center text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
                       TOTAL{' '}
                       <br />
                       PENGELUARAN
                       <br />
                       (KREDIT)
                     </th>
-                    <th className="whitespace-pre-line px-5 py-3 text-right text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
+                    <th className="whitespace-pre-line px-5 py-3 text-center text-[11px] font-bold leading-[14px] tracking-[0.55px] text-[#434655]" scope="col">
                       JUMLAH KAS SAAT INI
                       <br />
                       (SALDO AKHIR)
@@ -1033,8 +1030,8 @@ export function LaporanArusKasPage() {
                       <td className="px-5 py-8 text-center text-sm font-medium text-[#737686]">
                         {row.id}
                       </td>
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
+                      <td className="px-5 py-4 text-center">
+                        <div className="flex items-center justify-center gap-3">
                           <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-solid border-[#c3c6d7] bg-[#eff4ff]">
                             {row.id === 1 ? (
                               <img
@@ -1062,13 +1059,13 @@ export function LaporanArusKasPage() {
                           </div>
                         </div>
                       </td>
-                      <td className="whitespace-nowrap px-5 py-8 text-right font-mono text-sm font-bold text-[#006329]">
+                      <td className="whitespace-nowrap px-5 py-8 text-center font-mono text-sm font-bold text-[#006329]">
                         {formatMoney(row.debit)}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-8 text-right font-mono text-sm font-bold text-[#ba1a1a]">
+                      <td className="whitespace-nowrap px-5 py-8 text-center font-mono text-sm font-bold text-[#ba1a1a]">
                         {formatMoney(row.kredit)}
                       </td>
-                      <td className="whitespace-nowrap px-5 py-8 text-right font-mono text-base font-bold text-[#004ac6]">
+                      <td className="whitespace-nowrap px-5 py-8 text-center font-mono text-base font-bold text-[#004ac6]">
                         {formatMoney(row.saldo)}
                       </td>
                       <td className="px-5 py-8 text-center">
@@ -1083,8 +1080,8 @@ export function LaporanArusKasPage() {
 
                 <tfoot>
                   <tr className="border-t-2 border-solid border-[#004ac633] bg-[#eff4ffe6]">
-                    <td className="px-5 py-6" colSpan={2}>
-                      <div className="flex items-center justify-between">
+                      <td className="px-5 py-6 text-center" colSpan={2}>
+                      <div className="flex items-center justify-center gap-6">
                         <span className="flex items-center gap-3.5">
                           <img
                             src={iconGrandTotal}
@@ -1109,13 +1106,13 @@ export function LaporanArusKasPage() {
                         </span>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-5 py-6 text-right font-mono text-base font-bold text-[#006329]">
+                    <td className="whitespace-nowrap px-5 py-6 text-center font-mono text-base font-bold text-[#006329]">
                       {formatMoney(125000000)}
                     </td>
-                    <td className="whitespace-nowrap px-5 py-6 text-right font-mono text-base font-bold text-[#ba1a1a]">
+                    <td className="whitespace-nowrap px-5 py-6 text-center font-mono text-base font-bold text-[#ba1a1a]">
                       {formatMoney(38500000)}
                     </td>
-                    <td className="whitespace-nowrap px-5 py-6 text-right font-mono text-xl font-bold tracking-[-0.1px] text-[#004ac6]">
+                    <td className="whitespace-nowrap px-5 py-6 text-center font-mono text-xl font-bold tracking-[-0.1px] text-[#004ac6]">
                       {formatMoney(86500000)}
                     </td>
                     <td className="px-5 py-6 text-center">

@@ -466,19 +466,19 @@ export function StaffDashboardPage() {
                 <table className="table-stagger w-full border-collapse text-left">
                   <thead>
                     <tr className="border-b border-solid border-[#e2e8f0]">
-                      <th className="px-3 py-2.5 text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
+                      <th className="px-3 py-2.5 text-center text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
                         TANGGAL
                       </th>
-                      <th className="px-3 py-2.5 text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
+                      <th className="px-3 py-2.5 text-center text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
                         TRANSAKSI
                       </th>
-                      <th className="px-3 py-2.5 text-right text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
+                      <th className="px-3 py-2.5 text-center text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
                         NOMINAL
                       </th>
-                      <th className="px-3 py-2.5 text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
+                      <th className="px-3 py-2.5 text-center text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
                         STATUS
                       </th>
-                      <th className="px-3 py-2.5 text-right text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
+                      <th className="px-3 py-2.5 text-center text-[11px] font-semibold tracking-[0.34px] text-[#434655]">
                         AKSI
                       </th>
                     </tr>
@@ -500,7 +500,7 @@ export function StaffDashboardPage() {
                         const isCredit = row.type === 'SETORAN'
                         return (
                           <tr className="border-b border-solid border-[#e2e8f0]" key={row.id}>
-                            <td className="px-3 py-3 align-top">
+                            <td className="px-3 py-3 align-top text-center">
                               <div className="text-[13px] font-medium leading-[15.5px] text-[#121c2a]">
                                 {row.date}
                               </div>
@@ -509,7 +509,7 @@ export function StaffDashboardPage() {
                               </div>
                             </td>
                             <td className="px-3 py-3 align-middle">
-                              <div className="flex items-center gap-2.5">
+                              <div className="flex items-center justify-center gap-2.5">
                                 <span
                                   className={cn(
                                     'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg',
@@ -530,14 +530,14 @@ export function StaffDashboardPage() {
                             </td>
                             <td
                               className={cn(
-                                'whitespace-nowrap px-3 py-3 text-right text-[13px] font-semibold',
+                                'whitespace-nowrap px-3 py-3 text-center text-[13px] font-semibold',
                                 isCredit ? 'text-[#006329]' : 'text-[#ba1a1a]',
                               )}
                             >
                               {isCredit ? '+' : '-'}
                               {formatMoney(row.amount)}
                             </td>
-                            <td className="px-3 py-3">
+                            <td className="px-3 py-3 text-center">
                               <span
                                 className={cn(
                                   'inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-[0.34px]',
@@ -549,13 +549,14 @@ export function StaffDashboardPage() {
                                 {row.status === 'BERHASIL' ? 'Berhasil' : 'Selesai'}
                               </span>
                             </td>
-                            <td className="px-3 py-3 text-right">
+                            <td className="px-3 py-3 text-center">
                               <button
-                                className="whitespace-nowrap text-[11px] font-semibold tracking-[0.34px] text-[#004ac6] underline hover:no-underline"
+                                className="inline-flex items-center gap-1.5 rounded-lg border border-[#c3c6d7]/40 px-3.5 py-2 text-sm font-medium leading-5 text-[#004ac6] transition-colors hover:bg-[#f8f9ff]"
                                 type="button"
                                 onClick={() => setReceiptData(buildReceipt(row))}
                               >
-                                [ Lihat Resi ]
+                                <Receipt className="h-4 w-4 shrink-0" aria-hidden="true" />
+                                Resi
                               </button>
                             </td>
                           </tr>

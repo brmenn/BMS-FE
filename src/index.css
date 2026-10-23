@@ -278,6 +278,11 @@ main {
   animation: modal-enter 250ms cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
 }
 
+/* Center all table column headers across every role/page */
+table thead th {
+  text-align: center !important;
+}
+
 /* Table row stagger: rows slide in from left */
 .table-stagger tbody tr {
   animation: row-enter 300ms cubic-bezier(0.22, 1, 0.36, 1) backwards;

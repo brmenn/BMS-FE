@@ -424,7 +424,7 @@
   background: #eff4ff;
   border-bottom: 1px solid #c3c6d7;
   padding: 15px 16px;
-  text-align: left;
+  text-align: center;
 
   color: #434655;
   font-size: 12px;
@@ -462,6 +462,7 @@
 .siswa-cell-jenis {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   white-space: nowrap;
 }

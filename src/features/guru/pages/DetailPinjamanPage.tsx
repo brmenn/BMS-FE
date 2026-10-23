@@ -24,7 +24,7 @@ interface HistoryRow {
   amount: string
   status: HistoryStatus
   actionLabel: string
-  actionTone: 'primary' | 'success' | 'danger'
+  actionTone: 'warning' | 'success' | 'danger'
 }
 
 const HISTORY_ROWS: HistoryRow[] = [
@@ -34,7 +34,7 @@ const HISTORY_ROWS: HistoryRow[] = [
     amount: 'Rp 420.000',
     status: 'menunggu',
     actionLabel: 'Lihat Status',
-    actionTone: 'primary',
+    actionTone: 'warning',
   },
   {
     id: 'HST-2026-09',
@@ -111,7 +111,7 @@ const STATUS_META: Record<
 }
 
 const ACTION_TONE: Record<HistoryRow['actionTone'], string> = {
-  primary: 'bg-[#2563eb] text-white hover:bg-[#1d4ed8]',
+  warning: 'bg-[#d97706] text-white hover:bg-[#b45309]',
   success: 'bg-[#059669] text-white hover:bg-[#047857]',
   danger: 'bg-[#dc2626] text-white hover:bg-[#b91c1c]',
 }
@@ -145,11 +145,11 @@ function QuotaDonut() {
 
   return (
     <div
-      className="relative flex h-[120px] w-[120px] shrink-0 flex-col items-center justify-center"
+      className="relative flex h-[132px] w-[132px] shrink-0 flex-col items-center justify-center"
       role="img"
       aria-label={`${QUOTA_PERCENT}% kuota tersisa`}
     >
-      <svg className="absolute inset-0 h-[120px] w-[120px] -rotate-90" viewBox="0 0 120 120">
+      <svg className="absolute inset-0 h-[132px] w-[132px] -rotate-90" viewBox="0 0 120 120">
         <circle
           cx="60"
           cy="60"
@@ -169,8 +169,12 @@ function QuotaDonut() {
           strokeWidth="12"
         />
       </svg>
-      <span className="text-[24px] font-bold leading-7 text-[#0f172a]">{QUOTA_PERCENT}%</span>
-      <span className="text-xs font-medium leading-4 text-[#64748b]">tersisa</span>
+      <div className="absolute inset-0 grid place-items-center">
+        <div className="flex flex-col items-center justify-center text-center">
+          <span className="text-[36px] font-bold leading-10 text-[#0f172a]">{QUOTA_PERCENT}%</span>
+          <span className="text-sm font-medium leading-4 text-[#64748b]">tersisa</span>
+        </div>
+      </div>
     </div>
   )
 }
@@ -296,7 +300,7 @@ export function DetailPinjamanPage() {
               <tr className="border-b border-[#3737374c]">
                 <th
                   scope="col"
-                  className="px-4 py-3 text-sm font-bold leading-5 text-[#535353]"
+                  className="px-4 py-3 text-center text-sm font-bold leading-5 text-[#535353]"
                 >
                   Tanggal
                 </th>
@@ -323,7 +327,7 @@ export function DetailPinjamanPage() {
             <tbody>
               {HISTORY_ROWS.map((row) => (
                 <tr key={row.id} className="border-b border-[#f8fafc] last:border-b-0">
-                  <td className="px-4 py-4 text-sm font-medium leading-5 text-[#334155]">
+                  <td className="px-4 py-4 text-center text-sm font-medium leading-5 text-[#334155]">
                     {row.date}
                   </td>
                   <td className="px-4 py-4 text-center text-sm font-medium leading-5 text-[#334155]">
@@ -338,7 +342,7 @@ export function DetailPinjamanPage() {
                     <div className="flex justify-center">
                       <button
                         className={cn(
-                          'inline-flex h-[30px] items-center justify-center gap-1 rounded-[8px] px-3 text-[11px] font-extrabold leading-4 shadow-[0px_0.63px_1.26px_rgba(0,0,0,0.05)] transition-colors',
+                          'inline-flex h-[30px] items-center justify-center gap-1 rounded-full px-3 text-xs font-semibold leading-4 shadow-[0px_0.63px_1.26px_rgba(0,0,0,0.05)] transition-colors',
                           ACTION_TONE[row.actionTone],
                         )}
                         onClick={() => handleAction(row)}
