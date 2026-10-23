@@ -71,10 +71,9 @@ const fieldNoteClass = 'text-xs leading-[18px] text-[#737686]'
 interface RiwayatPinjamanModalProps {
   record: RiwayatPinjamanRecord
   onClose: () => void
-  onPay?: () => void
 }
 
-export function RiwayatPinjamanModal({ record, onClose, onPay }: RiwayatPinjamanModalProps) {
+export function RiwayatPinjamanModal({ record, onClose }: RiwayatPinjamanModalProps) {
   const status = STATUS_META[record.status]
   const StatusIcon = status.icon
   const method = METHOD_META[record.status]
@@ -204,15 +203,6 @@ export function RiwayatPinjamanModal({ record, onClose, onPay }: RiwayatPinjaman
           >
             Tutup
           </button>
-          {onPay ? (
-            <button
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#2563eb] px-6 text-sm font-semibold leading-5 text-white shadow-[0px_1px_2px_#0000000d] transition hover:bg-[#1d4ed8]"
-              onClick={onPay}
-              type="button"
-            >
-              Bayar Sekarang
-            </button>
-          ) : null}
         </div>
       </div>
     </div>

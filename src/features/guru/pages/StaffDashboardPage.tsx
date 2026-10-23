@@ -18,6 +18,11 @@ import { cn } from '@/lib/utils'
 import { formatMoney } from '@/lib/format'
 import { InstallmentListModal } from '@/components/roles/guru/InstallmentListModal'
 import { ReceiptModal } from '@/components/roles/guru/ReceiptModal'
+import { FilterMutasiModal } from '@/components/roles/guru/FilterMutasiModal'
+import {
+  DEFAULT_MUTATION_FILTER,
+  type MutationFilter,
+} from '@/components/roles/guru/filter-mutasi-data'
 import type { ReceiptData } from '@/components/roles/guru/receipt-data'
 import staffDashboardPlaceholder from '@/placeholders/dashboard-guru.json'
 import dashboardIcon from '@/assets/icon/nav/dashboard.svg'
@@ -48,6 +53,26 @@ type ActivityRow = (typeof staffDashboardPlaceholder)['recentActivities'][number
 
 const ACCOUNT_NO = 'SMK-M1-8890241'
 
+const MONTH_ABBR: Record<string, string> = {
+  Jan: '01',
+  Feb: '02',
+  Mar: '03',
+  Apr: '04',
+  Mei: '05',
+  Jun: '06',
+  Jul: '07',
+  Agu: '08',
+  Sep: '09',
+  Okt: '10',
+  Nov: '11',
+  Des: '12',
+}
+
+function activityMonth(date: string): string {
+  const [, month, year] = date.split(' ')
+  return `${year}-${MONTH_ABBR[month] ?? '01'}`
+}
+
 /** Resi memakai desain resi pembayaran pinjaman; hanya status yang berbeda. */
 function buildReceipt(row: ActivityRow): ReceiptData {
   const status = row.status === 'BERHASIL' ? 'BERHASIL' : 'SELESAI'
@@ -77,6 +102,8 @@ export function StaffDashboardPage() {
   const navigate = useNavigate()
   const [receiptData, setReceiptData] = useState<ReceiptData | null>(null)
   const [installmentOpen, setInstallmentOpen] = useState(false)
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [mutationFilter, setMutationFilter] = useState<MutationFilter>(DEFAULT_MUTATION_FILTER)
   const { data, isLoading } = useQuery({
     queryKey: ['dashboard-guru'],
     queryFn: async () => {
@@ -92,6 +119,39 @@ export function StaffDashboardPage() {
     setInstallmentOpen(false)
     navigate('/guru/pembayaran-pinjaman')
   }
+
+  const monthOptions = Array.from(
+    new Set(dash.recentActivities.map((row) => activityMonth(row.date))),
+  )
+    .sort()
+    .reverse()
+    .map((value) => ({
+      value,
+      label: new Date(
+        Number(value.slice(0, 4)),
+        Number(value.slice(5, 7)) - 1,
+        1,
+      ).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' }),
+    }))
+
+  const activeFilterCount =
+    (mutationFilter.query.trim() ? 1 : 0) +
+    (mutationFilter.type === 'SEMUA' ? 0 : 1) +
+    (mutationFilter.month === 'semua' ? 0 : 1)
+
+  const filteredActivities = dash.recentActivities.filter((row) => {
+    const query = mutationFilter.query.trim().toLowerCase()
+    const matchesQuery =
+      query === '' ||
+      row.id.toLowerCase().includes(query) ||
+      row.title.toLowerCase().includes(query) ||
+      row.subtitle.toLowerCase().includes(query)
+    const matchesType =
+      mutationFilter.type === 'SEMUA' || row.type === mutationFilter.type
+    const matchesMonth =
+      mutationFilter.month === 'semua' || activityMonth(row.date) === mutationFilter.month
+    return matchesQuery && matchesType && matchesMonth
+  })
 
   return (
     <div className="min-h-screen w-full bg-[#f8f9ff]">
@@ -368,13 +428,20 @@ export function StaffDashboardPage() {
                   </p>
                 </div>
                 <button
+                  aria-haspopup="dialog"
                   className="flex items-center gap-1.5 rounded-lg border border-solid border-[#e2e8f0] px-3.5 py-1.5 transition-colors hover:bg-[#f8f9ff]"
+                  onClick={() => setFilterOpen(true)}
                   type="button"
                 >
                   <SlidersHorizontal className="h-3 w-3 text-[#434655]" aria-hidden="true" />
                   <span className="text-xs font-semibold leading-4 tracking-[0.5px] text-[#434655]">
                     Filter Mutasi
                   </span>
+                  {activeFilterCount > 0 ? (
+                    <span className="inline-flex h-4 min-w-4 items-center justify-center rounded-full bg-[#2563eb] px-1 text-[10px] font-bold leading-none text-white">
+                      {activeFilterCount}
+                    </span>
+                  ) : null}
                 </button>
               </div>
 
@@ -400,79 +467,94 @@ export function StaffDashboardPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {dash.recentActivities.map((row) => {
-                      const meta = activityIcon[row.type] ?? activityIcon.SETORAN
-                      const RowIcon = meta.icon
-                      const isCredit = row.type === 'SETORAN'
-                      return (
-                        <tr className="border-b border-solid border-[#e2e8f0]" key={row.id}>
-                          <td className="px-3 py-3 align-top">
-                            <div className="text-[13px] font-medium leading-[15.5px] text-[#121c2a]">
-                              {row.date}
-                            </div>
-                            <div className="text-[11px] leading-[13.9px] text-[#434655]">
-                              {row.time}
-                            </div>
-                          </td>
-                          <td className="px-3 py-3 align-middle">
-                            <div className="flex items-center gap-2.5">
-                              <span
-                                className={cn(
-                                  'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg',
-                                  meta.box,
-                                )}
-                              >
-                                <RowIcon className="h-4 w-4" aria-hidden="true" />
-                              </span>
-                              <div>
-                                <div className="text-[13px] font-medium leading-[15.5px] text-[#121c2a]">
-                                  {row.title}
-                                </div>
-                                <div className="whitespace-nowrap text-[11px] leading-[13.9px] text-[#434655]">
-                                  {row.subtitle}
+                    {filteredActivities.length === 0 ? (
+                      <tr>
+                        <td
+                          className="px-3 py-10 text-center text-xs leading-[18px] text-[#737686]"
+                          colSpan={5}
+                        >
+                          Tidak ada mutasi yang sesuai filter.
+                        </td>
+                      </tr>
+                    ) : (
+                      filteredActivities.map((row) => {
+                        const meta = activityIcon[row.type] ?? activityIcon.SETORAN
+                        const RowIcon = meta.icon
+                        const isCredit = row.type === 'SETORAN'
+                        return (
+                          <tr className="border-b border-solid border-[#e2e8f0]" key={row.id}>
+                            <td className="px-3 py-3 align-top">
+                              <div className="text-[13px] font-medium leading-[15.5px] text-[#121c2a]">
+                                {row.date}
+                              </div>
+                              <div className="text-[11px] leading-[13.9px] text-[#434655]">
+                                {row.time}
+                              </div>
+                            </td>
+                            <td className="px-3 py-3 align-middle">
+                              <div className="flex items-center gap-2.5">
+                                <span
+                                  className={cn(
+                                    'flex h-9 w-9 shrink-0 items-center justify-center rounded-lg',
+                                    meta.box,
+                                  )}
+                                >
+                                  <RowIcon className="h-4 w-4" aria-hidden="true" />
+                                </span>
+                                <div>
+                                  <div className="text-[13px] font-medium leading-[15.5px] text-[#121c2a]">
+                                    {row.title}
+                                  </div>
+                                  <div className="whitespace-nowrap text-[11px] leading-[13.9px] text-[#434655]">
+                                    {row.subtitle}
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          </td>
-                          <td
-                            className={cn(
-                              'whitespace-nowrap px-3 py-3 text-right text-[13px] font-semibold',
-                              isCredit ? 'text-[#006329]' : 'text-[#ba1a1a]',
-                            )}
-                          >
-                            {isCredit ? '+' : '-'}
-                            {formatMoney(row.amount)}
-                          </td>
-                          <td className="px-3 py-3">
-                            <span
+                            </td>
+                            <td
                               className={cn(
-                                'inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-[0.34px]',
-                                row.status === 'BERHASIL'
-                                  ? 'bg-[#dcfce7] text-[#15803d]'
-                                  : 'bg-[#dce1ff] text-[#071747]',
+                                'whitespace-nowrap px-3 py-3 text-right text-[13px] font-semibold',
+                                isCredit ? 'text-[#006329]' : 'text-[#ba1a1a]',
                               )}
                             >
-                              {row.status === 'BERHASIL' ? 'Berhasil' : 'Selesai'}
-                            </span>
-                          </td>
-                          <td className="px-3 py-3 text-right">
-                            <button
-                              className="whitespace-nowrap text-[11px] font-semibold tracking-[0.34px] text-[#004ac6] underline hover:no-underline"
-                              type="button"
-                              onClick={() => setReceiptData(buildReceipt(row))}
-                            >
-                              [ Lihat Resi ]
-                            </button>
-                          </td>
-                        </tr>
-                      )
-                    })}
+                              {isCredit ? '+' : '-'}
+                              {formatMoney(row.amount)}
+                            </td>
+                            <td className="px-3 py-3">
+                              <span
+                                className={cn(
+                                  'inline-flex whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-semibold tracking-[0.34px]',
+                                  row.status === 'BERHASIL'
+                                    ? 'bg-[#dcfce7] text-[#15803d]'
+                                    : 'bg-[#dce1ff] text-[#071747]',
+                                )}
+                              >
+                                {row.status === 'BERHASIL' ? 'Berhasil' : 'Selesai'}
+                              </span>
+                            </td>
+                            <td className="px-3 py-3 text-right">
+                              <button
+                                className="whitespace-nowrap text-[11px] font-semibold tracking-[0.34px] text-[#004ac6] underline hover:no-underline"
+                                type="button"
+                                onClick={() => setReceiptData(buildReceipt(row))}
+                              >
+                                [ Lihat Resi ]
+                              </button>
+                            </td>
+                          </tr>
+                        )
+                      })
+                    )}
                   </tbody>
                 </table>
               </div>
 
               <div className="flex items-center justify-between gap-4 pt-1">
-                <span className="text-sm leading-5 text-[#434655]">{dash.activityFooter}</span>
+                <span className="text-sm leading-5 text-[#434655]">
+                  {activeFilterCount > 0
+                    ? `Menampilkan ${filteredActivities.length} dari ${dash.recentActivities.length} transaksi`
+                    : dash.activityFooter}
+                </span>
               </div>
             </div>
           </section>
@@ -492,6 +574,14 @@ export function StaffDashboardPage() {
 
       {receiptData ? (
         <ReceiptModal data={receiptData} onClose={() => setReceiptData(null)} />
+      ) : null}
+      {filterOpen ? (
+        <FilterMutasiModal
+          initialFilter={mutationFilter}
+          monthOptions={monthOptions}
+          onApply={setMutationFilter}
+          onClose={() => setFilterOpen(false)}
+        />
       ) : null}
     </div>
   )

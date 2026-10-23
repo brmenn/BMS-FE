@@ -1,4 +1,5 @@
 import { useState, type CSSProperties } from 'react'
+import { Link } from 'react-router-dom'
 import {
   ArrowRight,
   Bell,
@@ -566,13 +567,13 @@ export function AdminDashboardPage() {
                   {dashboard.recentTransactions.subtitle}
                 </p>
               </div>
-              <button
+              <Link
                 className="inline-flex items-center gap-1.5 text-sm font-semibold leading-5 text-[#2563eb] transition-colors hover:underline"
-                type="button"
+                to="/admin/laporan-arus-kas"
               >
                 {dashboard.recentTransactions.linkLabel}
                 <ArrowRight className="h-3 w-3" aria-hidden="true" />
-              </button>
+              </Link>
             </div>
 
             <div className="w-full overflow-x-auto">

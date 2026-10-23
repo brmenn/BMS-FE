@@ -316,7 +316,7 @@ export function DetailPinjamanPage() {
                   scope="col"
                   className="px-4 py-3 text-center text-sm font-bold leading-5 text-[#535353]"
                 >
-                  Action
+                  Aksi
                 </th>
               </tr>
             </thead>
@@ -359,10 +359,6 @@ export function DetailPinjamanPage() {
       {selectedRecord ? (
         <RiwayatPinjamanModal
           onClose={() => setSelectedRecord(null)}
-          onPay={() => {
-            setSelectedRecord(null)
-            navigate('/guru/pembayaran-pinjaman')
-          }}
           record={selectedRecord}
         />
       ) : null}
